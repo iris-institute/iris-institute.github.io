@@ -242,7 +242,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {{
 '''
         page_title = f'すべての書籍 (Page {p}/{num_pages}) | {SITE_NAME}' if num_pages > 1 else f'すべての書籍 | {SITE_NAME}'
         page_desc = f'{SITE_NAME}が刊行する全{total}冊の書籍一覧。国・地域・企業・産業を多角的に分析。'
-        canonical = f'{SITE_URL}/books/{"index.html" if p == 1 else f"page-{p}.html"}'
+        canonical = f'{SITE_URL}/books/' if p == 1 else f'{SITE_URL}/books/page-{p}.html'
         page = head(page_title, page_desc, canonical) + body + footer()
         fname = 'index.html' if p == 1 else f'page-{p}.html'
         (ROOT / 'books' / fname).write_text(render(page, 1), encoding='utf-8')
