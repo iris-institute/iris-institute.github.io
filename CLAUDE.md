@@ -200,7 +200,7 @@ git push origin main
 4. **`guide` セクションの `html`** は他書籍への内部リンクを積極的に貼る
 5. **`related_series`** で少なくとも2つの他シリーズへ回遊させる
 
-### 既存シリーズ一覧（16本）
+### 既存シリーズ一覧（18本）
 
 **地域軸**
 | slug | 内容 | 冊数 |
@@ -222,6 +222,7 @@ git push origin main
 | `immigration-nations` | 移民国家 | 4 |
 | `failed-states` | 崩れた国家 | 3 |
 | `pro-japan` | 親日国 | 8 |
+| `financial-hubs` | 世界の金融ハブ都市 | 3 |
 
 **目的軸（読者ペルソナ）**
 | slug | 内容 | 冊数 |
@@ -294,6 +295,21 @@ FEATURED_SLUGS = ['pacific-war', 'asean-history', 'asean-culture', 'asean-econom
 - 新刊：週1〜2冊（→ 詳細ページ・カテゴリー自動反映）
 - シリーズページ：月1本追加（3冊以上そろったテーマから）
 - トップページ「注目書籍」：月1回入れ替え
+
+---
+
+## Amazonアソシエイト・アフィリエイト
+
+- **トラッキングID**：`leonjornal-22`
+- **設定場所**：`generate.py` 冒頭の `AFFILIATE_TAG` 定数
+- **反映方式**：
+  - 全書籍のAmazonリンク（`/dp/{ASIN}`）に自動で `?tag=leonjornal-22` が付く
+  - Kindle Unlimited登録リンクも同タグ付きで生成（`KU_SIGNUP_URL`）
+- **配置場所**：
+  - 各書籍詳細ページの「Kindleで読む」直下にKU登録CTA
+  - `/books/` ページ末尾に大きめのKU登録セクション
+- **開示**：privacy.htmlに「Amazonアソシエイト・プログラム参加」を明記済み
+- **タグ変更する場合**：`generate.py` の `AFFILIATE_TAG = 'leonjornal-22'` を書き換えて `python3 generate.py` すれば全リンクに一括反映
 
 ---
 
