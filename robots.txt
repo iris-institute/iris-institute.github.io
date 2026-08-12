@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://iris-institute.github.io/sitemap.xml
