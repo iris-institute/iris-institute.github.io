@@ -39,6 +39,7 @@ def head(title, description, canonical, og_image=None, extra_head='', lang='ja',
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="uqFJXxp03hN8A0h1ZLQQzcdm6wi5rEI5cBX0iU28K8U" />
 <title>{html.escape(title)}</title>
 {meta_desc}<link rel="canonical" href="{canonical}">
 <meta property="og:title" content="{html.escape(title)}">
