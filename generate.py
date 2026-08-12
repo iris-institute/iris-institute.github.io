@@ -278,7 +278,7 @@ def build_all_books_pages():
 </main>
 '''
     page_title = f'すべての書籍 | {SITE_NAME}'
-    page_desc = f'{SITE_NAME}が刊行する全{total}冊の書籍を地域別に整理。東南アジア・東アジア・南アジア・ヨーロッパ・北米・中南米・オセアニアと、テーマ書・英語版のカテゴリーで分類。'
+    page_desc = f'{SITE_NAME}が刊行する全{total}冊の書籍を地域・テーマ別に整理。東南アジア・東アジア・南アジア・ヨーロッパ・北米・中南米・オセアニア、そしてテーマ書のカテゴリーで分類。'
     canonical = f'{SITE_URL}/books/'
     page = head(page_title, page_desc, canonical) + body + footer()
     (ROOT / 'books' / 'index.html').write_text(render(page, 1), encoding='utf-8')
