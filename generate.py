@@ -115,7 +115,7 @@ def render_card(b, detail_prefix='books/'):
 
 def build_index():
     # 注目書籍（手動指定）
-    FEATURED_SLUGS = ['pacific-war', 'asean-history', 'asean-culture']
+    FEATURED_SLUGS = ['pacific-war', 'asean-history', 'asean-culture', 'asean-economy']
     featured = [next(b for b in DATA if b['slug'] == s) for s in FEATURED_SLUGS]
     featured_cards = ''.join(render_card(b, 'books/') for b in featured)
 
@@ -164,7 +164,7 @@ def build_index():
 <div class="container">
 <div class="section-heading">
 <h2>注目の書籍</h2>
-<p>編集部が特にお勧めする3冊。</p>
+<p>編集部が特にお勧めする4冊。</p>
 </div>
 <div class="books-grid">
 {featured_cards}
