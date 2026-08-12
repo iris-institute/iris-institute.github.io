@@ -438,6 +438,40 @@ img { max-width: 100%; display: block; }
   border-left: 3px solid var(--accent);
 }
 
+/* Series page */
+.series-page .hero-large { padding: 4rem 0 3rem; }
+.series-crumb {
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+.series-crumb a { color: var(--text-muted); }
+.series-crumb a:hover { color: var(--accent); }
+
+.books-grid.grid-4 { grid-template-columns: repeat(4, 1fr); gap: 2.5rem 1.5rem; }
+@media (max-width: 1024px) {
+  .books-grid.grid-4 { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .books-grid.grid-4 { grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1rem; }
+}
+
+.cat-card.static {
+  cursor: default;
+}
+.cat-card.static:hover {
+  border-color: var(--border);
+  transform: none;
+  box-shadow: var(--shadow);
+}
+.cat-card.static:hover .cat-card-count { color: var(--text-muted); }
+.cat-card.static .cat-card-desc a {
+  color: var(--accent);
+  border-bottom: 1px dotted var(--accent);
+}
+.cat-card.static .cat-card-desc a:hover {
+  border-bottom-style: solid;
+}
+
 /* View all link */
 .view-all-wrap {
   text-align: center;
