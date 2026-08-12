@@ -545,16 +545,12 @@ def build_detail(book):
     else:
         meta_line = f"{book['category']} ／ {book['region']}"
 
-    # 関連書籍：タグ重複数でスコアリング（同言語を優先、同一冊は除外）
+    # 関連書籍：同言語のみをハードフィルタし、タグ重複数でスコアリング
+    same_lang = [b for b in DATA if b['lang'] == book['lang'] and b['slug'] != slug]
     def score(other):
-        if other['slug'] == slug:
-            return -1
-        overlap = len(set(book.get('tags', [])) & set(other.get('tags', [])))
-        # 同言語ボーナス
-        lang_bonus = 1 if other['lang'] == book['lang'] else 0
-        return overlap * 10 + lang_bonus
-    ranked = sorted(DATA, key=lambda x: (score(x), x['date']), reverse=True)
-    related = [r for r in ranked if r['slug'] != slug][:4]
+        return len(set(book.get('tags', [])) & set(other.get('tags', [])))
+    ranked = sorted(same_lang, key=lambda x: (score(x), x['date']), reverse=True)
+    related = ranked[:4]
     related_cards = []
     for r in related:
         related_cards.append(f'''<article class="book-card">
@@ -568,6 +564,18 @@ def build_detail(book):
 <a href="{r['slug']}.html" class="link-detail">{L['book_details']}</a>
 </div>
 </article>''')
+
+    # 関連本が0冊ならセクション自体を非表示
+    if related_cards:
+        related_html = f'''
+<section class="related-books">
+<h2>{L['related']}</h2>
+<div class="related-grid">
+{''.join(related_cards)}
+</div>
+</section>'''
+    else:
+        related_html = ''
 
     body = f'''
 <main class="book-detail">
@@ -600,12 +608,7 @@ def build_detail(book):
 </article>
 </div>
 
-<section class="related-books">
-<h2>{L['related']}</h2>
-<div class="related-grid">
-{''.join(related_cards)}
-</div>
-</section>
+{related_html}
 </div>
 </main>
 <div class="sticky-buy">
