@@ -115,7 +115,7 @@ def render_card(b, detail_prefix='books/'):
 
 def build_index():
     # 注目書籍（手動指定）
-    FEATURED_SLUGS = ['philippines', 'asean-history', 'google']
+    FEATURED_SLUGS = ['pacific-war', 'asean-history', 'asean-culture']
     featured = [next(b for b in DATA if b['slug'] == s) for s in FEATURED_SLUGS]
     featured_cards = ''.join(render_card(b, 'books/') for b in featured)
 
