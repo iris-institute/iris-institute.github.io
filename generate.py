@@ -680,304 +680,284 @@ def render_series_card(b, path_prefix='../../books/'):
 </div>
 </article>'''
 
-def build_series_southeast_asia():
-    """東南アジア9カ国シリーズのテーマページ"""
-    # 大陸部（インドシナ半島） → 半島部・島嶼部 の順
-    order = ['thailand', 'vietnam', 'laos', 'cambodia', 'myanmar',
-             'malaysia', 'singapore', 'indonesia', 'philippines']
-    books_by_slug = {b['slug']: b for b in DATA}
-    ordered = [books_by_slug[s] for s in order if s in books_by_slug]
-    cards = ''.join(render_series_card(b) for b in ordered)
+# -----------------------------------------------------------
+# シリーズページ定義（データ駆動）
+# 新規追加は SERIES リストに1エントリ追加するだけで OK
+# -----------------------------------------------------------
+SERIES = [
+    {
+        'slug': 'southeast-asia',
+        'seo_title': '東南アジア9カ国を国別に読み解く | 9冊シリーズ',
+        'meta_desc': 'タイ・ベトナム・ラオス・カンボジア・ミャンマー・マレーシア・シンガポール・インドネシア・フィリピンの9カ国を、それぞれ1冊で。歴史・地理・文化・政治・経済の5つの視点で東南アジア各国を体系的に読み解くシリーズ。',
+        'h1': '東南アジア9カ国を国別に読み解く',
+        'hero_sub': 'タイ・ベトナム・インドネシアを一括りにしない。9つの国を、9冊で。',
+        'hero_desc': '東南アジアは「ASEAN」というひとつの経済圏として語られがちですが、その内側には歴史も宗教も政治体制もまったく異なる9つの国が並んでいます。仏教国のタイ・ラオス・カンボジア・ミャンマー、イスラム圏のインドネシア・マレーシア、キリスト教中心のフィリピン、社会主義のベトナム、そして都市国家シンガポール。一冊で「東南アジア」を片付けようとすると、この違いが見えなくなります。Iris Instituteは、9つの国を1冊ずつ、歴史・地理・文化・政治・経済の5つの視点で書き下ろしました。',
+        'sections': [
+            {'kind': 'books', 'title': '大陸部（インドシナ半島）', 'desc': 'メコン川流域を中心とする5カ国。仏教文化圏でありながら、政治体制と経済発展のフェーズは大きく異なる。',
+             'slugs': ['thailand', 'vietnam', 'laos', 'cambodia', 'myanmar']},
+            {'kind': 'books', 'title': '海洋部・島嶼部', 'desc': 'マレー半島とその南の島々。多民族・多宗教が交わり、貿易と製造業のハブとして機能する4カ国。',
+             'slugs': ['malaysia', 'singapore', 'indonesia', 'philippines']},
+            {'kind': 'guide', 'title': '目的別の読み方', 'cards': [
+                {'title': '進出・出張前に', 'html': '赴任・出張の前に対象国の1冊を読めば、現地の商習慣や政治的な機微を掴んだ状態で入国できます。特に<a href="../../books/thailand.html">タイ</a>・<a href="../../books/vietnam.html">ベトナム</a>・<a href="../../books/indonesia.html">インドネシア</a>は日系企業の進出先として重要。'},
+                {'title': '投資判断に', 'html': '株式・不動産・直接投資のいずれでも、対象国の政治リスク・為替・産業構造を理解することが第一歩。<a href="../../books/indonesia.html">インドネシア</a>（人口2.7億）と<a href="../../books/vietnam.html">ベトナム</a>（若年層豊富）は成長市場として注目。'},
+                {'title': '大学のレポートに', 'html': '政治体制の比較・宗教と経済発展の関係・植民地時代の遺産など、東南アジア研究の出発点として。参考文献・出典を明示しているのでレポート作成にも使えます。'},
+                {'title': '旅行前の教養として', 'html': '観光ガイドが扱わない「その国の内側」を知って旅すると、見えるものが変わります。<a href="../../books/cambodia.html">カンボジア</a>のアンコール、<a href="../../books/myanmar.html">ミャンマー</a>の民主化前後、<a href="../../books/laos.html">ラオス</a>の静けさの理由。'},
+            ]},
+            {'kind': 'related_books', 'title': '9カ国を横串で理解したい方へ', 'desc': '個別国ではなくASEAN全体の視点でまとめて理解したい方は、下記の横串シリーズをおすすめします。',
+             'slugs': ['asean-history', 'asean-economy', 'asean-culture', 'asean-manufacturing']},
+        ]
+    },
+    {
+        'slug': 'asean',
+        'seo_title': 'ASEANを学べる本 4選——歴史・経済・文化・製造業を横串で',
+        'meta_desc': 'ASEAN10カ国・人口6.7億人・GDP4兆ドルの経済圏を体系的に学べる4冊。歴史・経済・文化・製造業DXという4つの視点で9カ国を貫く、ASEAN全体像の入り口。ビジネス・投資・研究の出発点として。',
+        'h1': 'ASEANを学べる4冊——歴史・経済・文化・製造業DX',
+        'hero_sub': 'ひとつのテーマで9カ国を貫く、ASEAN全体像の入り口。',
+        'hero_desc': 'ASEANは加盟10カ国、人口6.7億人、GDP約4兆ドルという巨大な経済圏です。この規模を扱うとき、「国ごとに9冊読む」のとは別に、「ひとつのテーマで9カ国を貫いて見る」というアプローチが必要になります。歴史なら植民地支配と冷戦の影響を横並びで、経済なら産業構造とサプライチェーンを比較して、文化なら宗教・言語・食を対比しながら理解する。Iris Instituteは、そのための横串4冊を書き下ろしました。',
+        'sections': [
+            {'kind': 'books', 'title': 'ASEAN横串シリーズ', 'desc': 'ひとつのテーマで9カ国を貫く4冊。ビジネス・研究・進出準備のいずれにも使える構成。',
+             'slugs': ['asean-history', 'asean-economy', 'asean-culture', 'asean-manufacturing']},
+            {'kind': 'guide', 'title': '4冊の使い分け', 'cards': [
+                {'title': 'まず全体像から', 'html': '<a href="../../books/asean-history.html">ASEANの歴史</a>から入ると、9カ国が今の姿になった背景がわかります。植民地支配・独立戦争・冷戦・ASEAN設立という共通の骨格を掴んでから、他のテーマ書に進むと理解が深まります。'},
+                {'title': 'ビジネス・投資には', 'html': '<a href="../../books/asean-economy.html">ASEANの経済</a>と<a href="../../books/asean-manufacturing.html">ASEANの製造業</a>のセット。産業構造・サプライチェーン・EV/半導体シフト・スマートファクトリー化まで、投資判断や進出戦略に直結する情報が集約されています。'},
+                {'title': '現地に赴任する前に', 'html': '<a href="../../books/asean-culture.html">ASEANの文化</a>で宗教・言語・食・慣習の違いを掴むと、赴任先での摩擦や誤解を減らせます。仏教国・イスラム圏・キリスト教中心国が混在する地域の商習慣を理解する助けになります。'},
+                {'title': '大学の研究に', 'html': '地域研究・国際関係・開発経済の授業やレポートで、9カ国を横並びで比較する視点は評価されやすい切り口です。4冊の参考文献・データ出典もそのまま利用できます。'},
+            ]},
+            {'kind': 'related_books', 'title': '特定の国を深掘りしたい方へ', 'desc': '横串で全体像を掴んだあとは、対象国の1冊で深く読み込むと理解が立体化します。',
+             'slugs': ['thailand', 'vietnam', 'laos', 'cambodia']},
+            {'kind': 'related_series', 'links': [('southeast-asia', '9カ国シリーズ一覧を見る')]},
+        ]
+    },
+    {
+        'slug': 'east-asia',
+        'seo_title': '東アジアを国別に読み解く 5冊——中国・台湾・韓国・北朝鮮・香港',
+        'meta_desc': '中国・台湾・韓国・北朝鮮・香港の5カ国・地域を、それぞれ1冊で。歴史・地理・文化・政治・経済の5つの視点で東アジアを体系的に理解できる書籍シリーズ。米中対立・台湾有事・南北関係の構造も。',
+        'h1': '東アジアを国別に読み解く 5冊',
+        'hero_sub': '中国・台湾・韓国・北朝鮮・香港——ひとつずつ、構造から理解する。',
+        'hero_desc': '日本にとって東アジアは、最も近くて最も重要で、しかし最も語られ方に偏りがある地域です。中国は「脅威」として、韓国は「反日」として、北朝鮮は「独裁」として、台湾は「有事」として、香港は「自由の喪失」として——ニュースで消費される見出しは強く、そこで理解が止まりがちです。Iris Instituteは、5つの国・地域それぞれを1冊で、歴史・地理・文化・政治・経済の5つの視点から書き下ろしました。ステレオタイプの手前にある構造を、まずは1冊で掴んでください。',
+        'sections': [
+            {'kind': 'books', 'title': '5冊のラインナップ', 'desc': '大陸中国と、その周辺で異なる道を歩む4つの国・地域。',
+             'slugs': ['china', 'taiwan', 'hongkong', 'korea', 'north-korea']},
+            {'kind': 'guide', 'title': '目的別の読み方', 'cards': [
+                {'title': '米中対立を理解したい', 'html': '<a href="../../books/china.html">中国</a>から入り、<a href="../../books/taiwan.html">台湾</a>で対岸の視点を、<a href="../../books/hongkong.html">香港</a>で「一国二制度」の実験の結末を確認する順が理解しやすい。'},
+                {'title': '朝鮮半島情勢を掴む', 'html': '<a href="../../books/korea.html">韓国</a>と<a href="../../books/north-korea.html">北朝鮮</a>のセット。同じ民族・言語でここまで違う社会が並立している構造は、外から見ると見えにくい。両方読むと理解が立体化します。'},
+                {'title': 'ビジネスで関わる方に', 'html': '<a href="../../books/china.html">中国</a>と<a href="../../books/taiwan.html">台湾</a>は半導体・EV・製造業で日本企業と深く絡む地域。政治リスクと経済リスクを構造から理解しておくと、駐在や取引の判断精度が上がります。'},
+                {'title': '「なぜ違う道を歩んだか」を知る', 'html': '中国・台湾・香港・韓国・北朝鮮は、20世紀に共通の危機（帝国主義・冷戦）を経験しながら、まったく異なる政治体制と経済発展の道を選びました。5冊を並べて読むと、その分岐点が見えてきます。'},
+            ]},
+            {'kind': 'related_series', 'links': [
+                ('southeast-asia', '東南アジア9カ国シリーズを見る'),
+                ('international-affairs', '地政学・国際情勢の書籍リストを見る'),
+            ]},
+        ]
+    },
+    {
+        'slug': 'international-affairs',
+        'seo_title': '国際情勢・地政学を学ぶ本 6冊——世界の"今"を体系的に理解する',
+        'meta_desc': '中国・台湾・北朝鮮・ロシア・ウクライナ・ジョージアなど、現代国際情勢のホットスポットを1冊ずつ体系的に読み解く書籍シリーズ。地政学の入門から、米中対立・ウクライナ戦争・台湾有事の背景まで。',
+        'h1': '国際情勢・地政学を学ぶ本 6冊',
+        'hero_sub': '見出しでしか語られない国を、構造で理解する。',
+        'hero_desc': 'ウクライナ戦争、台湾有事の懸念、北朝鮮のミサイル、米中対立、コーカサスの緊張——国際ニュースは日々流れてきますが、その背景にある地理・歴史・体制のパターンを掴まないままだと、状況が変わるたびに理解を組み直すことになります。Iris Instituteの国別シリーズは、「今この国で何が起きているか」ではなく、「なぜ起きているか」を、歴史・地理・文化・政治・経済の5つの視点で構造化しています。以下の6冊は、現代の国際情勢を理解するうえで特に重要な国・地域を扱っています。',
+        'sections': [
+            {'kind': 'books', 'title': '地政学ホットスポット 6冊', 'desc': '現在の国際情勢を語るうえで避けて通れない国・地域。',
+             'slugs': ['china', 'taiwan', 'north-korea', 'russia', 'ukraine', 'georgia']},
+            {'kind': 'guide', 'title': '目的別の読み方', 'cards': [
+                {'title': 'ウクライナ戦争の背景を掴む', 'html': '<a href="../../books/russia.html">ロシア</a>と<a href="../../books/ukraine.html">ウクライナ</a>の両方を読むと、この戦争が突発的なものではなく、千年以上の関係史と、旧ソ連圏の政治構造から生じたことがわかります。'},
+                {'title': '米中対立と台湾有事', 'html': '<a href="../../books/china.html">中国</a>の内部構造と、<a href="../../books/taiwan.html">台湾</a>という「もうひとつの中国」の歴史。<a href="../../books/north-korea.html">北朝鮮</a>を加えると、東アジアの安全保障パズルの主要ピースが揃います。'},
+                {'title': 'コーカサス・旧ソ連圏', 'html': '<a href="../../books/georgia.html">ジョージア</a>は、ロシアとNATO加盟国トルコの狭間にあり、コーカサス地政学を理解する鍵となる国。ウクライナと並行して読むと、旧ソ連圏の地政学が立体的に見えてきます。'},
+                {'title': '地政学"入門"として', 'html': '個別国を5〜6冊読むだけで、地政学の教科書1冊よりも実感を伴った理解ができます。抽象的な理論より、具体的な国から入るほうが記憶に残ります。'},
+            ]},
+            {'kind': 'related_series', 'links': [
+                ('east-asia', '東アジア5カ国シリーズを見る'),
+                ('overseas-life', '海外移住・ワーホリ向け書籍を見る'),
+            ]},
+        ]
+    },
+    {
+        'slug': 'latin-america',
+        'seo_title': '中南米を読み解く 3冊——メキシコ・ベネズエラ・Decoding Mexico',
+        'meta_desc': 'メキシコ・ベネズエラをそれぞれ1冊で。歴史・地理・文化・政治・経済の5つの視点でラテンアメリカ主要国を体系的に理解できる書籍シリーズ。ニアショアリング・資源国家崩壊・麻薬カルテルなど現代の中南米論点を網羅。',
+        'h1': '中南米を読み解く 3冊',
+        'hero_sub': 'ニアショアリングで注目のメキシコ、崩壊した産油国ベネズエラ——ラテンアメリカを構造から。',
+        'hero_desc': 'ラテンアメリカは日本から見て地理的に最も遠く、情報も入りにくい地域です。しかしメキシコはUSMCA体制下でアジアの製造業移転先として急浮上し、ベネズエラは世界最大の原油埋蔵量を持ちながら崩壊した国家として現代政治学の重要ケースになっています。Iris Instituteのラテンアメリカ書籍は、こうした国々を歴史・地理・文化・政治・経済の5つの視点で構造から解説しています。今後アルゼンチン・ブラジル・チリなどの主要国も順次追加予定です。',
+        'sections': [
+            {'kind': 'books', 'title': '現在の刊行タイトル', 'desc': 'まずはこの3冊から。今後アルゼンチン・ブラジル・チリ・パラグアイなどを追加予定。',
+             'slugs': ['mexico', 'venezuela', 'decoding-mexico']},
+            {'kind': 'guide', 'title': '目的別の読み方', 'cards': [
+                {'title': 'ニアショアリング・製造業移転', 'html': '<a href="../../books/mexico.html">メキシコ</a>はUSMCA体制と中国からの製造業移転で急成長中。日系メーカーの新規進出先としても最有力候補。政治・治安リスクと経済ポテンシャルの両面を1冊で掴めます。'},
+                {'title': '資源国家の崩壊事例', 'html': '<a href="../../books/venezuela.html">ベネズエラ</a>は、豊富な石油資源を持ちながら経済崩壊と大量難民を生んだ現代の失敗事例。政治学・開発経済学の観点でも参照される国です。'},
+                {'title': '海外文献で調べる', 'html': '<a href="../../books/decoding-mexico.html">Decoding Mexico</a>は英語版。海外の研究者・ビジネスパーソンとメキシコについて議論する際に共通の参照書として使えます。'},
+                {'title': 'これから追加予定', 'html': 'アルゼンチン（ミレイ政権の急進経済改革）、ブラジル（BRICS＋主要国）、チリ（リチウム大国）、パラグアイなど、南米主要国は順次刊行予定です。'},
+            ]},
+            {'kind': 'related_series', 'links': [
+                ('overseas-life', '海外移住・ワーホリ向け書籍を見る'),
+                ('international-affairs', '地政学・国際情勢の書籍リストを見る'),
+            ]},
+        ]
+    },
+    {
+        'slug': 'english-speaking',
+        'seo_title': '英語圏4カ国を読み解く——アメリカ・イギリス・オーストラリア・カナダ',
+        'meta_desc': 'アメリカ・イギリス・オーストラリア・カナダ、英語を公用語とする主要4カ国を、それぞれ1冊で。歴史・地理・文化・政治・経済の5つの視点で英語圏を体系的に理解できる書籍シリーズ。移住・留学・ワーホリ・駐在の判断材料に。',
+        'h1': '英語圏4カ国を読み解く——アメリカ・イギリス・オーストラリア・カナダ',
+        'hero_sub': '同じ英語でも、住みやすさも文化も、まったく違う4カ国。',
+        'hero_desc': '日本人が「英語圏に行きたい」と考えるとき、真っ先に候補に上がるのがアメリカ・イギリス・オーストラリア・カナダの4カ国です。ただし、この4カ国は「英語が通じる」という一点を除けば、政治体制・移民政策・物価・気候・階級意識・多民族との距離感がまったく異なります。イギリスは階級社会と旧帝国の遺産を今も引きずり、アメリカは分断された超大国、カナダは多文化主義を国是に掲げ、オーストラリアはアジア太平洋の要として中国依存を再調整中。留学・ワーホリ・移住・駐在のいずれを検討するにせよ、この4カ国の"違い"を構造から理解しておくと、行き先選びの判断精度がまったく違ってきます。',
+        'sections': [
+            {'kind': 'books', 'title': '英語圏4カ国のラインナップ', 'desc': '英語を公用語とする主要4カ国。それぞれの成り立ちと現在地を1冊で。',
+             'slugs': ['america', 'uk', 'australia', 'canada']},
+            {'kind': 'guide', 'title': '目的別の読み方', 'cards': [
+                {'title': 'キャリア形成・グローバル就労', 'html': '<a href="../../books/america.html">アメリカ</a>は世界最高峰の給与水準とテック覇権。<a href="../../books/uk.html">イギリス</a>はシティ・オブ・ロンドンの金融ハブ機能が今も強力。ビザ取得の難易度も含めて、産業構造と労働市場を1冊で掴んでおくべき国。'},
+                {'title': '移住・永住を目指す', 'html': '<a href="../../books/canada.html">カナダ</a>と<a href="../../books/australia.html">オーストラリア</a>は移民受け入れが制度化されており、日本人の永住先として現実的な選択肢。ただし近年は移民政策が厳格化傾向にあるので、最新の政治動向を1冊で確認を。'},
+                {'title': 'ワーホリで挑戦する', 'html': '4カ国すべてが日本とワーキング・ホリデー協定を締結（アメリカを除く3カ国）。<a href="../../books/uk.html">イギリス</a>・<a href="../../books/canada.html">カナダ</a>・<a href="../../books/australia.html">オーストラリア</a>は若年層の英語習得先として長年人気。生活コスト・仕事の見つけやすさは各国の経済状況で毎年変わります。'},
+                {'title': '文化・階級・多民族社会を知る', 'html': 'イギリスの階級意識、アメリカの人種問題、カナダの多文化主義、オーストラリアのアジア人口比率。同じ英語圏でも社会の内側はまったく違います。「英語が通じる=同じ」と思わずに、それぞれの1冊で構造を掴んでください。'},
+            ]},
+            {'kind': 'related_series', 'links': [
+                ('overseas-life', '海外移住・ワーホリ向け書籍を見る'),
+                ('international-affairs', '地政学・国際情勢の書籍リストを見る'),
+            ]},
+        ]
+    },
+    {
+        'slug': 'buddhism',
+        'seo_title': '仏教を学ぶ本と仏教国を知る 6冊',
+        'meta_desc': '『仏教を読み解く』と、上座部仏教国5カ国（タイ・ラオス・カンボジア・ミャンマー・ネパール）を扱った書籍シリーズ。ブッダの教えの歴史・哲学・実践から、現代の仏教国の政治・経済・社会構造まで、仏教文化を立体的に理解できる6冊。',
+        'h1': '仏教を学ぶ本と仏教国を知る 6冊',
+        'hero_sub': '教えとしての仏教、社会としての仏教国——両方から仏教を理解する。',
+        'hero_desc': '仏教は2500年前にインドで生まれ、東南アジア・チベット・中国・日本へと広がりました。教義として学ぶ仏教と、社会制度として機能する仏教国は、実はまったく違う姿をしています。タイでは僧侶が国家的な権威を持ち、ミャンマーでは仏教徒とロヒンギャ・ムスリムの対立が続き、ラオスでは社会主義体制と仏教が併存し、カンボジアではポル・ポト政権が破壊した僧院文化が再建されつつある。ネパールはブッダ生誕の地でありながら、ヒンドゥー教が主流。Iris Instituteは、仏教そのものを扱う1冊と、上座部仏教（南伝仏教）が根付く5カ国の書籍を用意しました。教えと社会、両方から仏教を立体的に理解できます。',
+        'sections': [
+            {'kind': 'books', 'title': '仏教を体系的に学ぶ', 'desc': 'ブッダの教えの歴史・哲学・実践・儀式・現代社会での意味を5つの視点で整理した1冊。',
+             'slugs': ['buddhism']},
+            {'kind': 'books', 'title': '上座部仏教国 5カ国', 'desc': '仏教が国教または多数派宗教として機能している国々。政治・経済・社会構造と仏教の関係を1冊ずつ。',
+             'slugs': ['thailand', 'myanmar', 'cambodia', 'laos', 'nepal']},
+            {'kind': 'guide', 'title': '目的別の読み方', 'cards': [
+                {'title': '仏教の入門として', 'html': '<a href="../../books/buddhism.html">仏教を読み解く</a>から入ると、ブッダの教えの本質・大乗と上座部の違い・日本仏教との違いが体系的に整理できます。座禅や瞑想を実践している方も、教えの背景理解が深まります。'},
+                {'title': '仏教国の政治を理解する', 'html': '<a href="../../books/thailand.html">タイ</a>の王室と僧伽（サンガ）の関係、<a href="../../books/myanmar.html">ミャンマー</a>の軍事政権と仏教徒ナショナリズム、<a href="../../books/cambodia.html">カンボジア</a>のポル・ポト後の宗教復興——政教関係が独特の形で残る国々の内実を知る。'},
+                {'title': '仏教巡礼・仏教遺跡を訪ねる前に', 'html': '<a href="../../books/nepal.html">ネパール</a>のルンビニ（ブッダ生誕地）、<a href="../../books/cambodia.html">カンボジア</a>のアンコール、<a href="../../books/myanmar.html">ミャンマー</a>のバガン。訪ねる前に対象国と仏教の関係を1冊読んでおくと、遺跡の見え方が変わります。'},
+                {'title': '瞑想・マインドフルネスの背景を知る', 'html': '瞑想やマインドフルネス実践者にとって、その源流である上座部仏教国の社会文化を知ることは、実践への理解を深めます。<a href="../../books/thailand.html">タイ</a>・<a href="../../books/myanmar.html">ミャンマー</a>は瞑想リトリートの本場でもあります。'},
+            ]},
+            {'kind': 'related_series', 'links': [
+                ('southeast-asia', '東南アジア9カ国シリーズを見る'),
+                ('asean', 'ASEAN横串4冊シリーズを見る'),
+            ]},
+        ]
+    },
+    {
+        'slug': 'overseas-life',
+        'seo_title': '海外移住・ワーホリ・長期滞在の前に読む国別書籍 12選',
+        'meta_desc': 'ワーホリ協定国7カ国（オーストラリア・カナダ・イギリス・ドイツ・韓国・台湾・香港）と、移住人気国5カ国（アメリカ・シンガポール・タイ・マレーシア・フィリピン）を、それぞれ1冊で。政治・経済・社会の構造を理解して渡航するための書籍リスト。',
+        'h1': '海外移住・ワーホリ・長期滞在の前に読む国別書籍',
+        'hero_sub': 'ビザや保険の情報だけでは足りない。「その国が今どうなっているか」を、赴く前に。',
+        'hero_desc': 'ワーホリで1年間住むにせよ、駐在や移住で5年10年暮らすにせよ、行き先の国が今どんな政治体制で、どんな経済状況で、どんな社会問題を抱えているかを知らずに飛び込むのは、思っている以上にストレスがかかります。労働ビザの条件・物価・治安・気候といった実務情報はガイドブックや在留邦人ブログで足りますが、「なぜオーストラリアは移民に厳しくなってきているのか」「なぜドイツでは家が借りにくいのか」「シンガポールの生活コストが上がり続けている理由は何か」といった構造的な話は、体系的な本でないと掴めません。Iris Instituteの国別書籍は、そうした「行く前に理解しておきたい構造」を、歴史・地理・文化・政治・経済の5つの視点で1冊にまとめています。',
+        'sections': [
+            {'kind': 'books', 'title': 'ワーホリ協定国を読む（7カ国）', 'desc': '日本と<strong>ワーキング・ホリデー協定</strong>を結んでいる国のうち、Iris Instituteが刊行済みの7カ国。ビザ申請の前に、行き先の国のニュース背景を1冊で押さえておくと、現地での判断力がまったく違います。',
+             'slugs': ['australia', 'canada', 'uk', 'germany', 'korea', 'taiwan', 'hongkong']},
+            {'kind': 'guide', 'title': 'ワーホリ協定国 別・行き先選びの視点', 'cards': [
+                {'title': '英語圏に行きたい', 'html': '<a href="../../books/australia.html">オーストラリア</a>・<a href="../../books/canada.html">カナダ</a>・<a href="../../books/uk.html">イギリス</a>の3択。物価・気候・移民政策・仕事の見つけやすさが大きく違います。'},
+                {'title': 'ヨーロッパで暮らしたい', 'html': '<a href="../../books/germany.html">ドイツ</a>は英語だけでも仕事は見つかるが、生活は独語が必須。Zeitenwende以降の政策変化と住宅難の背景を知っておくと動きやすい。'},
+                {'title': 'アジアで挑戦したい', 'html': '<a href="../../books/korea.html">韓国</a>・<a href="../../books/taiwan.html">台湾</a>・<a href="../../books/hongkong.html">香港</a>。日本から近く、生活文化のギャップも比較的小さい。ただし政治・経済状況は毎年変わるので、最新の1冊で確認を。'},
+                {'title': '"ワーホリで何をするか"を先に考える', 'html': '語学習得・キャリア形成・費用回収・純粋な体験——目的別に最適な国は違います。行き先を決める前に、候補国の経済構造と仕事事情を1冊読むだけで判断精度が上がります。'},
+            ]},
+            {'kind': 'books', 'title': 'ワーホリ非対象・移住や長期滞在で人気の国（5カ国）', 'desc': 'ワーキングホリデー協定はないものの、駐在・起業・リタイアメント移住・留学で日本人に人気の国。ビザの取り方が難しい分、腰を据えて長く住む前提で読む1冊。',
+             'slugs': ['america', 'singapore', 'thailand', 'malaysia', 'philippines']},
+            {'kind': 'guide', 'title': '移住・長期滞在 目的別の読み方', 'cards': [
+                {'title': 'キャリア形成・グローバル就労', 'html': '<a href="../../books/america.html">アメリカ</a>と<a href="../../books/singapore.html">シンガポール</a>。給与水準は世界最高峰だが、ビザ取得のハードルと生活コストも相応。産業構造と労働市場を理解して行くべき国。'},
+                {'title': '物価が安く暮らしやすい', 'html': '<a href="../../books/thailand.html">タイ</a>・<a href="../../books/malaysia.html">マレーシア</a>・<a href="../../books/philippines.html">フィリピン</a>。リタイアメント移住の定番。ただし政治情勢と為替リスクは毎年変わるので、赴任・移住前に必ず最新の1冊を。'},
+                {'title': 'MM2H・ロングステイビザ', 'html': '<a href="../../books/malaysia.html">マレーシア</a>のMM2Hプログラムや、<a href="../../books/thailand.html">タイ</a>のリタイアメントビザは日本人の長期滞在の主要な選択肢。政策変更が頻繁なので、制度と国の構造を両輪で理解する。'},
+                {'title': '教育移住・子育て', 'html': '<a href="../../books/singapore.html">シンガポール</a>・<a href="../../books/malaysia.html">マレーシア</a>は英語教育・国際校の選択肢が豊富で、日本人ファミリーの教育移住先として定着。教育制度と多民族社会の背景を掴んでおくと、学校選びで迷いにくい。'},
+            ]},
+            {'kind': 'related_series', 'links': [
+                ('southeast-asia', '東南アジア9カ国シリーズを見る'),
+                ('asean', 'ASEAN横串4冊シリーズを見る'),
+            ]},
+        ]
+    },
+]
 
-    # ASEAN横串シリーズ（関連リンク用）
-    asean = [b for b in DATA if 'ASEAN総合' in b.get('tags', [])]
+def build_series_page(sdef):
+    """データ駆動でシリーズページ1本を生成"""
+    slug = sdef['slug']
+    books_by_slug = {b['slug']: b for b in DATA}
+
+    sections_html = []
+    for sec in sdef['sections']:
+        if sec['kind'] == 'books':
+            cards = ''.join(render_series_card(books_by_slug[s]) for s in sec['slugs'] if s in books_by_slug)
+            sections_html.append(f'''
+<section class="section-featured">
+<div class="container">
+<div class="section-heading">
+<h2>{sec['title']}</h2>
+<p>{sec.get('desc', '')}</p>
+</div>
+<div class="books-grid grid-4">
+{cards}
+</div>
+</div>
+</section>''')
+        elif sec['kind'] == 'related_books':
+            cards = ''.join(render_series_card(books_by_slug[s]) for s in sec['slugs'] if s in books_by_slug)
+            sections_html.append(f'''
+<section class="section-featured">
+<div class="container">
+<div class="section-heading">
+<h2>{sec['title']}</h2>
+<p>{sec.get('desc', '')}</p>
+</div>
+<div class="books-grid grid-4">
+{cards}
+</div>
+</div>
+</section>''')
+        elif sec['kind'] == 'guide':
+            cards = ''.join(
+                f'''<div class="cat-card static">
+<div class="cat-card-header"><span class="cat-card-title">{c["title"]}</span></div>
+<p class="cat-card-desc">{c["html"]}</p>
+</div>''' for c in sec['cards']
+            )
+            sections_html.append(f'''
+<section class="section-categories">
+<div class="container">
+<div class="section-heading"><h2>{sec['title']}</h2></div>
+<div class="cat-grid">
+{cards}
+</div>
+</div>
+</section>''')
+        elif sec['kind'] == 'related_series':
+            links = ' '.join(
+                f'<a href="../{s}/" class="view-all-link" style="margin-right:1rem">{label} →</a>'
+                for s, label in sec['links']
+            )
+            sections_html.append(f'''
+<section class="section-featured">
+<div class="container">
+<div class="view-all-wrap">{links}</div>
+</div>
+</section>''')
 
     body = f'''
 <main class="series-page">
 <section class="hero hero-large">
 <div class="container">
 <div class="series-crumb"><a href="../../books/">← すべての書籍</a></div>
-<h1>東南アジア9カ国を国別に読み解く</h1>
-<p class="hero-sub">タイ・ベトナム・インドネシアを一括りにしない。9つの国を、9冊で。</p>
-<p class="hero-desc">東南アジアは「ASEAN」というひとつの経済圏として語られがちですが、その内側には歴史も宗教も政治体制もまったく異なる9つの国が並んでいます。仏教国のタイ・ラオス・カンボジア・ミャンマー、イスラム圏のインドネシア・マレーシア、キリスト教中心のフィリピン、社会主義のベトナム、そして都市国家シンガポール。一冊で「東南アジア」を片付けようとすると、この違いが見えなくなります。Iris Instituteは、9つの国を1冊ずつ、歴史・地理・文化・政治・経済の5つの視点で書き下ろしました。</p>
+<h1>{sdef['h1']}</h1>
+<p class="hero-sub">{sdef['hero_sub']}</p>
+<p class="hero-desc">{sdef['hero_desc']}</p>
 </div>
 </section>
-
-<section class="section-featured">
-<div class="container">
-<div class="section-heading">
-<h2>大陸部（インドシナ半島）</h2>
-<p>メコン川流域を中心とする5カ国。仏教文化圏でありながら、政治体制と経済発展のフェーズは大きく異なる。</p>
-</div>
-<div class="books-grid grid-4">
-{"".join(render_series_card(books_by_slug[s]) for s in ['thailand', 'vietnam', 'laos', 'cambodia', 'myanmar'] if s in books_by_slug)}
-</div>
-</div>
-</section>
-
-<section class="section-featured">
-<div class="container">
-<div class="section-heading">
-<h2>海洋部・島嶼部</h2>
-<p>マレー半島とその南の島々。多民族・多宗教が交わり、貿易と製造業のハブとして機能する4カ国。</p>
-</div>
-<div class="books-grid grid-4">
-{"".join(render_series_card(books_by_slug[s]) for s in ['malaysia', 'singapore', 'indonesia', 'philippines'] if s in books_by_slug)}
-</div>
-</div>
-</section>
-
-<section class="section-categories">
-<div class="container">
-<div class="section-heading">
-<h2>目的別の読み方</h2>
-</div>
-<div class="cat-grid">
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">進出・出張前に</span></div>
-<p class="cat-card-desc">赴任・出張の前に対象国の1冊を読めば、現地の商習慣や政治的な機微を掴んだ状態で入国できます。特に<a href="../../books/thailand.html">タイ</a>・<a href="../../books/vietnam.html">ベトナム</a>・<a href="../../books/indonesia.html">インドネシア</a>は日系企業の進出先として重要。</p>
-</div>
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">投資判断に</span></div>
-<p class="cat-card-desc">株式・不動産・直接投資のいずれでも、対象国の政治リスク・為替・産業構造を理解することが第一歩。<a href="../../books/indonesia.html">インドネシア</a>（人口2.7億）と<a href="../../books/vietnam.html">ベトナム</a>（若年層豊富）は成長市場として注目。</p>
-</div>
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">大学のレポートに</span></div>
-<p class="cat-card-desc">政治体制の比較・宗教と経済発展の関係・植民地時代の遺産など、東南アジア研究の出発点として。参考文献・出典を明示しているのでレポート作成にも使えます。</p>
-</div>
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">旅行前の教養として</span></div>
-<p class="cat-card-desc">観光ガイドが扱わない「その国の内側」を知って旅すると、見えるものが変わります。<a href="../../books/cambodia.html">カンボジア</a>のアンコール、<a href="../../books/myanmar.html">ミャンマー</a>の民主化前後、<a href="../../books/laos.html">ラオス</a>の静けさの理由。</p>
-</div>
-</div>
-</div>
-</section>
-
-<section class="section-featured">
-<div class="container">
-<div class="section-heading">
-<h2>9カ国を横串で理解したい方へ</h2>
-<p>個別国ではなくASEAN全体の視点でまとめて理解したい方は、下記の横串シリーズをおすすめします。</p>
-</div>
-<div class="books-grid grid-4">
-{"".join(render_series_card(b) for b in asean)}
-</div>
-</div>
-</section>
+{''.join(sections_html)}
 </main>
 '''
-    title = f'東南アジア9カ国を国別に読み解く | {SITE_NAME}'
-    desc = 'タイ・ベトナム・ラオス・カンボジア・ミャンマー・マレーシア・シンガポール・インドネシア・フィリピンの9カ国を、それぞれ1冊で。歴史・地理・文化・政治・経済の5つの視点で東南アジア各国を体系的に読み解くシリーズ。'
-    canonical = f'{SITE_URL}/series/southeast-asia/'
-    page = head(title, desc, canonical) + body + footer()
-    (ROOT / 'series' / 'southeast-asia').mkdir(parents=True, exist_ok=True)
-    (ROOT / 'series' / 'southeast-asia' / 'index.html').write_text(render(page, 2), encoding='utf-8')
-    print('✓ /series/southeast-asia/')
+    canonical = f'{SITE_URL}/series/{slug}/'
+    page = head(f'{sdef["seo_title"]} | {SITE_NAME}', sdef['meta_desc'], canonical) + body + footer()
+    (ROOT / 'series' / slug).mkdir(parents=True, exist_ok=True)
+    (ROOT / 'series' / slug / 'index.html').write_text(render(page, 2), encoding='utf-8')
 
-def build_series_asean():
-    """ASEAN横串4冊シリーズのテーマページ"""
-    order = ['asean-history', 'asean-economy', 'asean-culture', 'asean-manufacturing']
-    books_by_slug = {b['slug']: b for b in DATA}
-    asean_books = [books_by_slug[s] for s in order if s in books_by_slug]
+def build_all_series():
+    for sdef in SERIES:
+        build_series_page(sdef)
+    print(f'✓ /series/ {len(SERIES)}ページ')
 
-    # 9カ国リスト（関連リンク用）
-    country_order = ['thailand', 'vietnam', 'laos', 'cambodia', 'myanmar',
-                     'malaysia', 'singapore', 'indonesia', 'philippines']
-    countries = [books_by_slug[s] for s in country_order if s in books_by_slug]
-
-    body = f'''
-<main class="series-page">
-<section class="hero hero-large">
-<div class="container">
-<div class="series-crumb"><a href="../../books/">← すべての書籍</a></div>
-<h1>ASEANを学べる4冊——歴史・経済・文化・製造業DX</h1>
-<p class="hero-sub">ひとつのテーマで9カ国を貫く、ASEAN全体像の入り口。</p>
-<p class="hero-desc">ASEANは加盟10カ国、人口6.7億人、GDP約4兆ドルという巨大な経済圏です。この規模を扱うとき、「国ごとに9冊読む」のとは別に、「ひとつのテーマで9カ国を貫いて見る」というアプローチが必要になります。歴史なら植民地支配と冷戦の影響を横並びで、経済なら産業構造とサプライチェーンを比較して、文化なら宗教・言語・食を対比しながら理解する。Iris Instituteは、そのための横串4冊を書き下ろしました。</p>
-</div>
-</section>
-
-<section class="section-featured">
-<div class="container">
-<div class="section-heading">
-<h2>ASEAN横串シリーズ</h2>
-<p>ひとつのテーマで9カ国を貫く4冊。ビジネス・研究・進出準備のいずれにも使える構成。</p>
-</div>
-<div class="books-grid grid-4">
-{"".join(render_series_card(b) for b in asean_books)}
-</div>
-</div>
-</section>
-
-<section class="section-categories">
-<div class="container">
-<div class="section-heading">
-<h2>4冊の使い分け</h2>
-</div>
-<div class="cat-grid">
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">まず全体像から</span></div>
-<p class="cat-card-desc"><a href="../../books/asean-history.html">ASEANの歴史</a>から入ると、9カ国が今の姿になった背景がわかります。植民地支配・独立戦争・冷戦・ASEAN設立という共通の骨格を掴んでから、他のテーマ書に進むと理解が深まります。</p>
-</div>
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">ビジネス・投資には</span></div>
-<p class="cat-card-desc"><a href="../../books/asean-economy.html">ASEANの経済</a>と<a href="../../books/asean-manufacturing.html">ASEANの製造業</a>のセット。産業構造・サプライチェーン・EV/半導体シフト・スマートファクトリー化まで、投資判断や進出戦略に直結する情報が集約されています。</p>
-</div>
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">現地に赴任する前に</span></div>
-<p class="cat-card-desc"><a href="../../books/asean-culture.html">ASEANの文化</a>で宗教・言語・食・慣習の違いを掴むと、赴任先での摩擦や誤解を減らせます。仏教国・イスラム圏・キリスト教中心国が混在する地域の商習慣を理解する助けになります。</p>
-</div>
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">大学の研究に</span></div>
-<p class="cat-card-desc">地域研究・国際関係・開発経済の授業やレポートで、9カ国を横並びで比較する視点は評価されやすい切り口です。4冊の参考文献・データ出典もそのまま利用できます。</p>
-</div>
-</div>
-</div>
-</section>
-
-<section class="section-featured">
-<div class="container">
-<div class="section-heading">
-<h2>特定の国を深掘りしたい方へ</h2>
-<p>横串で全体像を掴んだあとは、対象国の1冊で深く読み込むと理解が立体化します。</p>
-</div>
-<div class="books-grid grid-4">
-{"".join(render_series_card(b) for b in countries[:4])}
-</div>
-<div class="view-all-wrap">
-<a href="../southeast-asia/" class="view-all-link">9カ国シリーズ一覧を見る →</a>
-</div>
-</div>
-</section>
-</main>
-'''
-    title = f'ASEANを学べる本 4選——歴史・経済・文化・製造業を横串で | {SITE_NAME}'
-    desc = 'ASEAN10カ国・人口6.7億人・GDP4兆ドルの経済圏を体系的に学べる4冊。歴史・経済・文化・製造業DXという4つの視点で9カ国を貫く、ASEAN全体像の入り口。ビジネス・投資・研究の出発点として。'
-    canonical = f'{SITE_URL}/series/asean/'
-    page = head(title, desc, canonical) + body + footer()
-    (ROOT / 'series' / 'asean').mkdir(parents=True, exist_ok=True)
-    (ROOT / 'series' / 'asean' / 'index.html').write_text(render(page, 2), encoding='utf-8')
-    print('✓ /series/asean/')
-
-def build_series_overseas_life():
-    """海外移住・ワーホリ・長期滞在の前に読む国別書籍"""
-    books_by_slug = {b['slug']: b for b in DATA}
-
-    # ワーホリ協定国（日本と協定あり、Iris刊行済み）
-    wh_slugs = ['australia', 'canada', 'uk', 'germany', 'korea', 'taiwan', 'hongkong']
-    # 移住・長期滞在人気国（ワーホリ非対象）
-    migration_slugs = ['america', 'singapore', 'thailand', 'malaysia', 'philippines']
-
-    wh_cards = ''.join(render_series_card(books_by_slug[s]) for s in wh_slugs if s in books_by_slug)
-    mig_cards = ''.join(render_series_card(books_by_slug[s]) for s in migration_slugs if s in books_by_slug)
-
-    body = f'''
-<main class="series-page">
-<section class="hero hero-large">
-<div class="container">
-<div class="series-crumb"><a href="../../books/">← すべての書籍</a></div>
-<h1>海外移住・ワーホリ・長期滞在の前に読む国別書籍</h1>
-<p class="hero-sub">ビザや保険の情報だけでは足りない。「その国が今どうなっているか」を、赴く前に。</p>
-<p class="hero-desc">ワーホリで1年間住むにせよ、駐在や移住で5年10年暮らすにせよ、行き先の国が今どんな政治体制で、どんな経済状況で、どんな社会問題を抱えているかを知らずに飛び込むのは、思っている以上にストレスがかかります。労働ビザの条件・物価・治安・気候といった実務情報はガイドブックや在留邦人ブログで足りますが、「なぜオーストラリアは移民に厳しくなってきているのか」「なぜドイツでは家が借りにくいのか」「シンガポールの生活コストが上がり続けている理由は何か」といった構造的な話は、体系的な本でないと掴めません。Iris Instituteの国別書籍は、そうした「行く前に理解しておきたい構造」を、歴史・地理・文化・政治・経済の5つの視点で1冊にまとめています。</p>
-</div>
-</section>
-
-<section class="section-featured">
-<div class="container">
-<div class="section-heading">
-<h2>ワーホリ協定国を読む（7カ国）</h2>
-<p>日本と<strong>ワーキング・ホリデー協定</strong>を結んでいる国のうち、Iris Instituteが刊行済みの7カ国。ビザ申請の前に、行き先の国のニュース背景を1冊で押さえておくと、現地での判断力がまったく違います。</p>
-</div>
-<div class="books-grid grid-4">
-{wh_cards}
-</div>
-</div>
-</section>
-
-<section class="section-categories">
-<div class="container">
-<div class="section-heading">
-<h2>ワーホリ協定国 別・行き先選びの視点</h2>
-</div>
-<div class="cat-grid">
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">英語圏に行きたい</span></div>
-<p class="cat-card-desc"><a href="../../books/australia.html">オーストラリア</a>・<a href="../../books/canada.html">カナダ</a>・<a href="../../books/uk.html">イギリス</a>の3択。物価・気候・移民政策・仕事の見つけやすさが大きく違います。</p>
-</div>
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">ヨーロッパで暮らしたい</span></div>
-<p class="cat-card-desc"><a href="../../books/germany.html">ドイツ</a>は英語だけでも仕事は見つかるが、生活は独語が必須。Zeitenwende以降の政策変化と住宅難の背景を知っておくと動きやすい。</p>
-</div>
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">アジアで挑戦したい</span></div>
-<p class="cat-card-desc"><a href="../../books/korea.html">韓国</a>・<a href="../../books/taiwan.html">台湾</a>・<a href="../../books/hongkong.html">香港</a>。日本から近く、生活文化のギャップも比較的小さい。ただし政治・経済状況は毎年変わるので、最新の1冊で確認を。</p>
-</div>
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">"ワーホリで何をするか"を先に考える</span></div>
-<p class="cat-card-desc">語学習得・キャリア形成・費用回収・純粋な体験——目的別に最適な国は違います。行き先を決める前に、候補国の経済構造と仕事事情を1冊読むだけで判断精度が上がります。</p>
-</div>
-</div>
-</div>
-</section>
-
-<section class="section-featured">
-<div class="container">
-<div class="section-heading">
-<h2>ワーホリ非対象・移住や長期滞在で人気の国（5カ国）</h2>
-<p>ワーキングホリデー協定はないものの、駐在・起業・リタイアメント移住・留学で日本人に人気の国。ビザの取り方が難しい分、腰を据えて長く住む前提で読む1冊。</p>
-</div>
-<div class="books-grid grid-4">
-{mig_cards}
-</div>
-</div>
-</section>
-
-<section class="section-categories">
-<div class="container">
-<div class="section-heading">
-<h2>移住・長期滞在 目的別の読み方</h2>
-</div>
-<div class="cat-grid">
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">キャリア形成・グローバル就労</span></div>
-<p class="cat-card-desc"><a href="../../books/america.html">アメリカ</a>と<a href="../../books/singapore.html">シンガポール</a>。給与水準は世界最高峰だが、ビザ取得のハードルと生活コストも相応。産業構造と労働市場を理解して行くべき国。</p>
-</div>
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">物価が安く暮らしやすい</span></div>
-<p class="cat-card-desc"><a href="../../books/thailand.html">タイ</a>・<a href="../../books/malaysia.html">マレーシア</a>・<a href="../../books/philippines.html">フィリピン</a>。リタイアメント移住の定番。ただし政治情勢と為替リスクは毎年変わるので、赴任・移住前に必ず最新の1冊を。</p>
-</div>
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">MM2H・ロングステイビザ</span></div>
-<p class="cat-card-desc"><a href="../../books/malaysia.html">マレーシア</a>のMM2Hプログラムや、<a href="../../books/thailand.html">タイ</a>のリタイアメントビザは日本人の長期滞在の主要な選択肢。政策変更が頻繁なので、制度と国の構造を両輪で理解する。</p>
-</div>
-<div class="cat-card static">
-<div class="cat-card-header"><span class="cat-card-title">教育移住・子育て</span></div>
-<p class="cat-card-desc"><a href="../../books/singapore.html">シンガポール</a>・<a href="../../books/malaysia.html">マレーシア</a>は英語教育・国際校の選択肢が豊富で、日本人ファミリーの教育移住先として定着。教育制度と多民族社会の背景を掴んでおくと、学校選びで迷いにくい。</p>
-</div>
-</div>
-</div>
-</section>
-
-<section class="section-featured">
-<div class="container">
-<div class="section-heading">
-<h2>他の地域も読む</h2>
-<p>移住・ワーホリ以外の視点でも読める国別書籍を用意しています。</p>
-</div>
-<div class="view-all-wrap">
-<a href="../southeast-asia/" class="view-all-link">東南アジア9カ国シリーズを見る →</a>
-<a href="../asean/" class="view-all-link" style="margin-left:1rem">ASEAN横串4冊シリーズを見る →</a>
-</div>
-</div>
-</section>
-</main>
-'''
-    title = f'海外移住・ワーホリ・長期滞在の前に読む国別書籍 12選 | {SITE_NAME}'
-    desc = 'ワーホリ協定国7カ国（オーストラリア・カナダ・イギリス・ドイツ・韓国・台湾・香港）と、移住人気国5カ国（アメリカ・シンガポール・タイ・マレーシア・フィリピン）を、それぞれ1冊で。政治・経済・社会の構造を理解して渡航するための書籍リスト。'
-    canonical = f'{SITE_URL}/series/overseas-life/'
-    page = head(title, desc, canonical) + body + footer()
-    (ROOT / 'series' / 'overseas-life').mkdir(parents=True, exist_ok=True)
-    (ROOT / 'series' / 'overseas-life' / 'index.html').write_text(render(page, 2), encoding='utf-8')
-    print('✓ /series/overseas-life/')
 
 # -----------------------------------------------------------
 # About ページ
@@ -1055,9 +1035,11 @@ def build_sitemap():
     urls = [
         (SITE_URL + '/', '1.0'),
         (SITE_URL + '/books/', '1.0'),
-        (SITE_URL + '/series/southeast-asia/', '0.9'),
-        (SITE_URL + '/series/asean/', '0.9'),
-        (SITE_URL + '/series/overseas-life/', '0.9'),
+    ]
+    # シリーズページ自動生成
+    for sdef in SERIES:
+        urls.append((f'{SITE_URL}/series/{sdef["slug"]}/', '0.9'))
+    urls += [
         (SITE_URL + '/about.html', '0.7'),
         (SITE_URL + '/en/', '0.9'),
         (SITE_URL + '/en/about.html', '0.5'),
@@ -1087,9 +1069,7 @@ Sitemap: {SITE_URL}/sitemap.xml
 if __name__ == '__main__':
     build_index()
     build_all_books_pages()
-    build_series_southeast_asia()
-    build_series_asean()
-    build_series_overseas_life()
+    build_all_series()
     build_en_index()
     build_en_about()
     build_all_details()
