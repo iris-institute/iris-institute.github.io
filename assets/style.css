@@ -631,6 +631,42 @@ img { max-width: 100%; display: block; }
 .book-detail ul { margin: 0 0 1.5rem 1.5rem; }
 .book-detail ul li { margin-bottom: 0.4rem; font-size: 0.95rem; }
 
+/* Kindle Unlimited CTA */
+.ku-hint {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-alt);
+  border-left: 3px solid var(--amazon);
+  border-radius: 3px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+.ku-hint a {
+  color: var(--accent);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.ku-cta {
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border);
+  padding: 3rem 0 3.5rem;
+  margin-top: 3rem;
+  text-align: center;
+}
+.ku-cta h2 {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+.ku-cta p {
+  color: var(--text-muted);
+  margin: 0 auto 1.5rem;
+  max-width: 560px;
+  font-size: 0.95rem;
+}
+
 .related-books {
   margin-top: 4rem;
   padding-top: 3rem;

@@ -15,11 +15,14 @@ SITE_SUB = '国・企業・産業を、公開情報と一次資料から多角�
 # -----------------------------------------------------------
 # 共通テンプレート
 # -----------------------------------------------------------
+AFFILIATE_TAG = 'leonjornal-22'
+KU_SIGNUP_URL = f'https://www.amazon.co.jp/kindle-dbs/hz/signup?tag={AFFILIATE_TAG}'
+
 def cover_url(asin):
     return f'https://m.media-amazon.com/images/P/{asin}._SL500_.jpg'
 
 def amazon_url(asin):
-    return f'https://www.amazon.co.jp/dp/{asin}'
+    return f'https://www.amazon.co.jp/dp/{asin}?tag={AFFILIATE_TAG}'
 
 def head(title, description, canonical, og_image=None, extra_head='', lang='ja', omit_meta_description=False):
     og_image = og_image or f'{SITE_URL}/assets/og-default.png'
@@ -322,6 +325,14 @@ def build_all_books_pages():
 <div class="container books-container">
 {''.join(sections_html)}
 </div>
+
+<section class="ku-cta">
+<div class="container">
+<h2>Kindle Unlimited で全書籍を読み放題</h2>
+<p>Iris Instituteの書籍のほとんどは <strong>Kindle Unlimited 対象</strong>。月額980円で200万冊以上が読み放題、初回30日間は無料でお試しできます。</p>
+<a href="{KU_SIGNUP_URL}" class="btn-amazon-large" target="_blank" rel="sponsored noopener">Kindle Unlimitedを試す</a>
+</div>
+</section>
 </main>
 '''
     page_title = f'すべての書籍 | {SITE_NAME}'
@@ -548,6 +559,7 @@ def build_detail(book):
 
 <h2>Kindleで読む</h2>
 <p><a href="{amazon}" class="btn-amazon-large" target="_blank" rel="noopener">Amazonで見る</a></p>
+<p class="ku-hint">Kindle Unlimited に登録すると、Iris Instituteの書籍を含む200万冊以上が読み放題。月額980円・初回30日間無料。<a href="{KU_SIGNUP_URL}" target="_blank" rel="sponsored noopener">Kindle Unlimitedを試す →</a></p>
 </article>
 </div>
 
@@ -1069,6 +1081,29 @@ SERIES = [
                 ('southeast-asia', '東南アジア9カ国シリーズを見る'),
                 ('east-asia', '東アジア5カ国シリーズを見る'),
                 ('overseas-life', '海外移住・ワーホリ向け書籍を見る'),
+            ]},
+        ]
+    },
+    {
+        'slug': 'financial-hubs',
+        'seo_title': '世界の金融ハブ都市を読む 3冊——香港・シンガポール・イギリス',
+        'meta_desc': '香港・シンガポール・イギリス——世界の金融ハブとして機能する3つの都市/国家を、それぞれ1冊で。シティ・オブ・ロンドン、アジアのハブ争い、国家安全維持法後の香港変質など、金融ハブの成立条件と現在地を歴史・政治・経済の視点から体系的に理解する書籍シリーズ。',
+        'h1': '世界の金融ハブ都市を読む 3冊——香港・シンガポール・イギリス',
+        'hero_sub': 'なぜそこに世界のお金が集まるのか。金融ハブの成立条件を、3都市の構造から。',
+        'hero_desc': '世界の金融取引は、少数の「ハブ」に集中しています。イギリス（シティ・オブ・ロンドン）、香港、シンガポール——この3つが、時差・法制度・英語・税制・専門人材の集積という金融ハブの必要条件を歴史的に満たしてきました。ただし、この3都市の立ち位置は近年大きく揺らいでいます。香港は2020年の国家安全維持法以降、金融ハブとしての中立性を疑われるようになり、シンガポールはその代替地としてアジア資金の流入を吸収中。イギリスはBrexit後にEUとの金融パスポート制度を失い、フランクフルト・パリ・アムステルダムとの綱引きが続いています。Iris Instituteは、この3つの金融ハブを、それぞれ歴史・地理・文化・政治・経済の5つの視点で書き下ろしました。金融業界の駐在候補地選び、投資判断、資産管理拠点の検討にどうぞ。',
+        'sections': [
+            {'kind': 'books', 'title': '3つの金融ハブ', 'desc': '英語・法制度・時差・税制・専門人材が揃った、世界の金融取引の中枢。',
+             'slugs': ['uk', 'hongkong', 'singapore']},
+            {'kind': 'guide', 'title': '目的別の読み方', 'cards': [
+                {'title': 'シティ・オブ・ロンドンを理解する', 'html': '<a href="../../books/uk.html">イギリス</a>はロンドンのシティが世界最大級の外国為替取引・保険・国際債券市場を持つ金融ハブ。Brexit後の位置づけ変化と、フランクフルト等との競争関係を歴史・政治章から理解できます。'},
+                {'title': 'アジアのハブ争い', 'html': '<a href="../../books/hongkong.html">香港</a>と<a href="../../books/singapore.html">シンガポール</a>は長年アジア金融ハブの座を争ってきましたが、2020年以降シンガポール優位が明確に。両国を並べて読むと、なぜこの逆転が起きたかが構造から見えます。'},
+                {'title': '香港変質のインパクト', 'html': '<a href="../../books/hongkong.html">香港</a>は国家安全維持法（2020年）で法治国家としての中立性が疑われ、外資系金融機関の一部撤退・アジア本社機能のシンガポール移転が加速。「一国二制度」の現在地を1冊で。'},
+                {'title': 'プライベートバンキング拠点として', 'html': '<a href="../../books/singapore.html">シンガポール</a>は近年、中国・香港・インドネシア富裕層の資産の受け皿として急拡大。ファミリーオフィス制度と外為・秘密保持の枠組みは、資産管理拠点として検討する際の重要ポイント。'},
+            ]},
+            {'kind': 'related_series', 'links': [
+                ('immigration-nations', '移民国家シリーズを見る'),
+                ('overseas-entrepreneurship', '海外起業・スタートアップシリーズを見る'),
+                ('english-speaking', '英語圏4カ国シリーズを見る'),
             ]},
         ]
     },
