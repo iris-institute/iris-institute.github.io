@@ -149,104 +149,143 @@ def build_index():
     print(f'✓ index.html (新刊{len(top_books)}冊)')
 
 def build_all_books_pages():
-    """/books/index.html, /books/page-2.html etc. ページネーション付き一覧"""
-    PER_PAGE = 24
-    books_sorted = sorted(DATA, key=lambda b: b['date'], reverse=True)
-    total = len(books_sorted)
-    num_pages = (total + PER_PAGE - 1) // PER_PAGE
+    """/books/index.html — 地域別カテゴリーで一覧表示"""
+    # カテゴリー定義（表示順・タイトル・所属判定）
+    CATEGORIES = [
+        {
+            'id': 'southeast-asia',
+            'title': '東南アジア',
+            'desc': '9カ国とASEAN全体を扱う横串本のシリーズ。',
+            'match': lambda b: '東南アジア' in b.get('tags', []) and b['lang'] == 'ja',
+            'sub_split': True,  # 個別国 → ASEAN横串の順で分ける
+        },
+        {
+            'id': 'east-asia',
+            'title': '東アジア',
+            'desc': '中国・台湾・香港・韓国・北朝鮮。',
+            'match': lambda b: '東アジア' in b.get('tags', []) and b['lang'] == 'ja',
+        },
+        {
+            'id': 'south-asia',
+            'title': '南アジア',
+            'desc': 'インド亜大陸の国々。',
+            'match': lambda b: '南アジア' in b.get('tags', []) and b['lang'] == 'ja',
+        },
+        {
+            'id': 'europe',
+            'title': 'ヨーロッパ',
+            'desc': '欧州各国とロシア・旧ソ連圏。',
+            'match': lambda b: 'ヨーロッパ' in b.get('tags', []) and b['lang'] == 'ja',
+        },
+        {
+            'id': 'americas',
+            'title': '北米・中南米',
+            'desc': 'アメリカ大陸の国々。',
+            'match': lambda b: ('北米' in b.get('tags', []) or '中南米' in b.get('tags', [])) and b['lang'] == 'ja',
+        },
+        {
+            'id': 'oceania',
+            'title': 'オセアニア',
+            'desc': 'オセアニア地域。',
+            'match': lambda b: 'オセアニア' in b.get('tags', []) and b['lang'] == 'ja',
+        },
+        {
+            'id': 'themes',
+            'title': 'テーマ書',
+            'desc': '国境を越えたテーマを扱う書籍。',
+            'match': lambda b: (not any(t in b.get('tags', []) for t in ['東南アジア', '東アジア', '南アジア', 'ヨーロッパ', '北米', '中南米', 'オセアニア'])) and b['lang'] == 'ja',
+        },
+    ]
 
-    # フィルターボタン
-    filter_buttons = ['<button class="filter-btn active" data-filter="all">すべて</button>']
-    for c in ['世界', '企業', '投資・ビジネス', 'その他']:
-        if any(b['category'] == c for b in DATA):
-            filter_buttons.append(f'<button class="filter-btn" data-filter="cat-{c}">{c}</button>')
-    if any(b['lang'] == 'en' for b in DATA):
-        filter_buttons.append('<button class="filter-btn" data-filter="lang-en">English</button>')
-    if any(b['lang'] == 'de' for b in DATA):
-        filter_buttons.append('<button class="filter-btn" data-filter="lang-de">Deutsch</button>')
-    if any(b['lang'] == 'fr' for b in DATA):
-        filter_buttons.append('<button class="filter-btn" data-filter="lang-fr">Français</button>')
+    # カテゴリー別に書籍を振り分け（新刊順）
+    grouped = []
+    for cat in CATEGORIES:
+        books = sorted([b for b in DATA if cat['match'](b)], key=lambda b: b['date'], reverse=True)
+        if not books:
+            continue
+        grouped.append((cat, books))
 
-    for p in range(1, num_pages + 1):
-        start, end = (p - 1) * PER_PAGE, p * PER_PAGE
-        page_books = books_sorted[start:end]
-        cards = [render_card(b, '') for b in page_books]
+    total = sum(len(books) for _, books in grouped)
 
-        # ページネーション
-        pag = []
-        if p > 1:
-            prev = 'index.html' if p == 2 else f'page-{p-1}.html'
-            pag.append(f'<a href="{prev}" class="pag-link">← 前へ</a>')
+    # 目次（ジャンプナビ）
+    nav_items = ''.join(
+        f'<a href="#{cat["id"]}" class="cat-nav-item">{cat["title"]} <span>{len(books)}</span></a>'
+        for cat, books in grouped
+    )
+
+    # カテゴリごとのセクション
+    sections_html = []
+    for cat, books in grouped:
+        if cat.get('sub_split') and cat['id'] == 'southeast-asia':
+            # ASEAN横串と個別国を分けて表示
+            country_books = [b for b in books if 'ASEAN総合' not in b.get('tags', [])]
+            asean_books = [b for b in books if 'ASEAN総合' in b.get('tags', [])]
+
+            country_cards = ''.join(render_card(b, '') for b in country_books)
+            asean_cards = ''.join(render_card(b, '') for b in asean_books)
+
+            asean_block = f'''
+<h3 class="cat-subheading">9カ国を横串で扱うシリーズ</h3>
+<div class="books-grid">
+{asean_cards}
+</div>
+''' if asean_books else ''
+
+            sections_html.append(f'''
+<section class="cat-section" id="{cat['id']}">
+<div class="cat-header">
+<h2>{cat['title']} <span class="cat-count">{len(books)}冊</span></h2>
+<p class="cat-desc">{cat['desc']}</p>
+</div>
+<div class="books-grid">
+{country_cards}
+</div>
+{asean_block}
+</section>
+''')
         else:
-            pag.append('<span class="pag-link disabled">← 前へ</span>')
+            cards = ''.join(render_card(b, '') for b in books)
+            sections_html.append(f'''
+<section class="cat-section" id="{cat['id']}">
+<div class="cat-header">
+<h2>{cat['title']} <span class="cat-count">{len(books)}冊</span></h2>
+<p class="cat-desc">{cat['desc']}</p>
+</div>
+<div class="books-grid">
+{cards}
+</div>
+</section>
+''')
 
-        for pp in range(1, num_pages + 1):
-            url = 'index.html' if pp == 1 else f'page-{pp}.html'
-            if pp == p:
-                pag.append(f'<span class="pag-page current">{pp}</span>')
-            else:
-                pag.append(f'<a href="{url}" class="pag-page">{pp}</a>')
-
-        if p < num_pages:
-            pag.append(f'<a href="page-{p+1}.html" class="pag-link">次へ →</a>')
-        else:
-            pag.append('<span class="pag-link disabled">次へ →</span>')
-
-        pagination_html = f'<nav class="pagination">{" ".join(pag)}</nav>' if num_pages > 1 else ''
-
-        body = f'''
+    body = f'''
 <main>
 <section class="hero">
 <div class="container">
 <h1>すべての書籍</h1>
-<p>Iris Instituteが刊行する全書籍の一覧です。</p>
+<p>Iris Instituteが刊行する全{total}冊。地域・テーマ別に分類しています。</p>
 </div>
 </section>
 
-<section class="filters">
+<nav class="cat-nav">
 <div class="container">
-<div class="filter-group">
-<span class="filter-label">絞り込み：</span>
-{''.join(filter_buttons)}
+{nav_items}
 </div>
-</div>
-</section>
+</nav>
 
-<section class="books-section">
-<div class="container">
-<div class="book-count" id="book-count">{start+1}〜{min(end, total)} 冊目 ／ 全 {total} 冊</div>
-<div class="books-grid" id="books-grid">
-{''.join(cards)}
+<div class="container books-container">
+{''.join(sections_html)}
 </div>
-{pagination_html}
-</div>
-</section>
 </main>
-<script>
-document.querySelectorAll('.filter-btn').forEach(btn => {{
-  btn.addEventListener('click', () => {{
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const f = btn.dataset.filter;
-    const cards = document.querySelectorAll('.book-card');
-    let count = 0;
-    cards.forEach(c => {{
-      const show = (f === 'all') || c.classList.contains(f);
-      c.style.display = show ? '' : 'none';
-      if (show) count++;
-    }});
-    document.getElementById('book-count').textContent = 'このページ内: ' + count + ' 冊表示';
-  }});
-}});
-</script>
 '''
-        page_title = f'すべての書籍 (Page {p}/{num_pages}) | {SITE_NAME}' if num_pages > 1 else f'すべての書籍 | {SITE_NAME}'
-        page_desc = f'{SITE_NAME}が刊行する全{total}冊の書籍一覧。国・地域・企業・産業を多角的に分析。'
-        canonical = f'{SITE_URL}/books/' if p == 1 else f'{SITE_URL}/books/page-{p}.html'
-        page = head(page_title, page_desc, canonical) + body + footer()
-        fname = 'index.html' if p == 1 else f'page-{p}.html'
-        (ROOT / 'books' / fname).write_text(render(page, 1), encoding='utf-8')
-    print(f'✓ /books/ 一覧ページ {num_pages}ページ')
+    page_title = f'すべての書籍 | {SITE_NAME}'
+    page_desc = f'{SITE_NAME}が刊行する全{total}冊の書籍を地域別に整理。東南アジア・東アジア・南アジア・ヨーロッパ・北米・中南米・オセアニアと、テーマ書・英語版のカテゴリーで分類。'
+    canonical = f'{SITE_URL}/books/'
+    page = head(page_title, page_desc, canonical) + body + footer()
+    (ROOT / 'books' / 'index.html').write_text(render(page, 1), encoding='utf-8')
+    # 古いページネーションページを削除
+    for old in (ROOT / 'books').glob('page-*.html'):
+        old.unlink()
+    print(f'✓ /books/ カテゴリー別一覧（{len(grouped)}カテゴリー, {total}冊）')
 
 # -----------------------------------------------------------
 # 詳細ページ生成
@@ -655,10 +694,6 @@ def build_sitemap():
         (SITE_URL + '/en/about.html', '0.5'),
         (SITE_URL + '/privacy.html', '0.3'),
     ]
-    # /books/ ページネーション
-    num_pages = (len(DATA) + 23) // 24
-    for p in range(2, num_pages + 1):
-        urls.append((f'{SITE_URL}/books/page-{p}.html', '0.9'))
     for b in DATA:
         urls.append((f'{SITE_URL}/books/{b["slug"]}.html', '0.9'))
 
