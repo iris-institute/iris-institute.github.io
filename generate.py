@@ -114,28 +114,75 @@ def render_card(b, detail_prefix='books/'):
 </article>'''
 
 def build_index():
-    # 新刊順、トップは12冊
-    books_sorted = sorted(DATA, key=lambda b: b['date'], reverse=True)
-    top_books = books_sorted[:12]
-    cards = [render_card(b, 'books/') for b in top_books]
+    # 注目書籍（手動指定）
+    FEATURED_SLUGS = ['philippines', 'asean-history', 'google']
+    featured = [next(b for b in DATA if b['slug'] == s) for s in FEATURED_SLUGS]
+    featured_cards = ''.join(render_card(b, 'books/') for b in featured)
+
+    # 地域カテゴリー（/books/ と同じ定義を再現）
+    CATEGORIES = [
+        ('southeast-asia', '東南アジア', 'タイ・ベトナム・インドネシア他9カ国＋ASEAN横串', lambda b: '東南アジア' in b.get('tags', []) and b['lang'] == 'ja'),
+        ('east-asia', '東アジア', '中国・台湾・香港・韓国・北朝鮮', lambda b: '東アジア' in b.get('tags', []) and b['lang'] == 'ja'),
+        ('south-asia', '南アジア', 'インド・ネパール', lambda b: '南アジア' in b.get('tags', []) and b['lang'] == 'ja'),
+        ('europe', 'ヨーロッパ', 'ロシア・ウクライナ・ドイツ・イギリス他', lambda b: 'ヨーロッパ' in b.get('tags', []) and b['lang'] == 'ja'),
+        ('americas', '北米・中南米', 'アメリカ・カナダ・メキシコ・ベネズエラ', lambda b: ('北米' in b.get('tags', []) or '中南米' in b.get('tags', [])) and b['lang'] == 'ja'),
+        ('oceania', 'オセアニア', 'オーストラリア', lambda b: 'オセアニア' in b.get('tags', []) and b['lang'] == 'ja'),
+        ('themes', 'テーマ書', '仏教・世界遺産・太平洋戦争・生成AI・投資分野', lambda b: (not any(t in b.get('tags', []) for t in ['東南アジア', '東アジア', '南アジア', 'ヨーロッパ', '北米', '中南米', 'オセアニア'])) and b['lang'] == 'ja'),
+    ]
+
+    cat_cards = []
+    total_ja = 0
+    for cid, ctitle, cdesc, cmatch in CATEGORIES:
+        count = sum(1 for b in DATA if cmatch(b))
+        if count == 0:
+            continue
+        total_ja += count
+        cat_cards.append(f'''<a href="books/#{cid}" class="cat-card">
+<div class="cat-card-header">
+<span class="cat-card-title">{ctitle}</span>
+<span class="cat-card-count">{count}冊</span>
+</div>
+<p class="cat-card-desc">{cdesc}</p>
+</a>''')
 
     body = f'''
 <main>
-<section class="hero">
+<section class="hero hero-large">
 <div class="container">
 <h1>{SITE_TAGLINE}</h1>
-<p>{SITE_SUB}</p>
+<p class="hero-sub">{SITE_SUB}</p>
+<p class="hero-desc">Iris Instituteは、国・地域・産業を歴史・地理・文化・政治・経済といった複数の視点から体系的に読み解く書籍を制作している独立系の出版・研究プロジェクトです。政府統計・国際機関の資料・現地の一次資料を土台に、ニュースの断片や旅行ガイドでは見えてこない「構造」を提示することを目指しています。</p>
+<div class="hero-stats">
+<span class="hero-stat"><strong>{total_ja + 2}</strong> 冊刊行</span>
+<span class="hero-stat"><strong>7</strong> 地域・テーマ</span>
+<span class="hero-stat"><strong>3</strong> 言語対応</span>
+</div>
 </div>
 </section>
 
-<section class="books-section">
+<section class="section-featured">
 <div class="container">
-<div class="book-count">新刊 {len(top_books)} 冊</div>
+<div class="section-heading">
+<h2>注目の書籍</h2>
+<p>編集部が特にお勧めする3冊。</p>
+</div>
 <div class="books-grid">
-{''.join(cards)}
+{featured_cards}
+</div>
+</div>
+</section>
+
+<section class="section-categories">
+<div class="container">
+<div class="section-heading">
+<h2>地域・テーマから探す</h2>
+<p>刊行済みの書籍を地域とテーマで整理しています。</p>
+</div>
+<div class="cat-grid">
+{''.join(cat_cards)}
 </div>
 <div class="view-all-wrap">
-<a href="books/" class="view-all-link">すべての書籍を見る →</a>
+<a href="books/" class="view-all-link">すべての書籍を一覧で見る →</a>
 </div>
 </div>
 </section>
@@ -146,7 +193,7 @@ def build_index():
     desc = f'{SITE_TAGLINE} {SITE_SUB} 国・地域・企業を多角的に分析した書籍を出版しています。'
     page = head(title, desc, SITE_URL + '/') + body + footer()
     (ROOT / 'index.html').write_text(render(page, 0), encoding='utf-8')
-    print(f'✓ index.html (新刊{len(top_books)}冊)')
+    print(f'✓ index.html (注目3冊 + {len(cat_cards)}カテゴリー)')
 
 def build_all_books_pages():
     """/books/index.html — 地域別カテゴリーで一覧表示"""
