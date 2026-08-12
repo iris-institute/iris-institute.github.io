@@ -72,8 +72,16 @@ def head(title, description, canonical, og_image=None, extra_head='', lang='ja',
 </header>
 '''
 
-def footer():
+def footer(lang='ja'):
     year = datetime.now().year
+    if lang == 'en':
+        links = f'''<a href="{{ROOT}}/en/">Books</a>
+<a href="{{ROOT}}/en/about.html">About</a>
+<a href="{{ROOT}}/privacy.html">Privacy</a>'''
+    else:
+        links = f'''<a href="{{ROOT}}/">書籍一覧</a>
+<a href="{{ROOT}}/about.html">Irisについて</a>
+<a href="{{ROOT}}/privacy.html">プライバシーポリシー</a>'''
     return f'''
 <footer class="site-footer">
 <div class="container">
@@ -82,9 +90,7 @@ def footer():
 <div class="footer-copyright">© {year} {SITE_NAME}. All rights reserved.</div>
 </div>
 <div class="footer-links">
-<a href="{{ROOT}}/">書籍一覧</a>
-<a href="{{ROOT}}/about.html">Irisについて</a>
-<a href="{{ROOT}}/privacy.html">プライバシーポリシー</a>
+{links}
 </div>
 </div>
 </footer>
@@ -508,6 +514,37 @@ def build_detail(book):
     cover = cover_url(book['asin'])
     amazon = amazon_url(book['asin'])
 
+    # UI 言語切替（英語書籍は英語UIで表示）
+    is_en = book['lang'] == 'en'
+    L = {
+        'cover_alt_suffix': 'cover' if is_en else '表紙',
+        'buy_kindle': 'Buy on Kindle' if is_en else 'Kindleで購入',
+        'view_on_amazon': 'View on Amazon' if is_en else 'Amazonで見る',
+        'book_details': 'Book details' if is_en else '本の詳細を見る',
+        'what_learn': 'What you will learn' if is_en else 'この本で分かること',
+        'about_book': 'About this book' if is_en else '本の紹介',
+        'toc': 'Table of contents' if is_en else '主な目次',
+        'who_for': 'Who this book is for' if is_en else 'こんな人におすすめ',
+        'read_on_kindle': 'Read on Kindle' if is_en else 'Kindleで読む',
+        'related': 'Related books' if is_en else '関連書籍',
+        'ku_hint': (
+            'Kindle Unlimited includes over 2 million titles including our books. ¥980/month, free for the first 30 days.'
+            if is_en else
+            'Kindle Unlimited に登録すると、Iris Instituteの書籍を含む200万冊以上が読み放題。月額980円・初回30日間無料。'
+        ),
+        'ku_cta': 'Try Kindle Unlimited →' if is_en else 'Kindle Unlimitedを試す →',
+    }
+
+    # 地域・カテゴリー表示のローカライズ
+    if is_en:
+        cat_label = {'English': 'English', '世界': 'World', '企業': 'Companies',
+                     '投資・ビジネス': 'Investment & Business', 'その他': 'Other'}.get(book['category'], book['category'])
+        region_label = {'アジア': 'Asia', 'ヨーロッパ': 'Europe', '北米・中南米': 'Americas',
+                        'その他': 'Global'}.get(book['region'], book['region'])
+        meta_line = f'{cat_label} / {region_label}'
+    else:
+        meta_line = f"{book['category']} ／ {book['region']}"
+
     # 関連書籍：タグ重複数でスコアリング（同言語を優先、同一冊は除外）
     def score(other):
         if other['slug'] == slug:
@@ -527,8 +564,8 @@ def build_detail(book):
 </a>
 <p class="book-short">{html.escape(r['short'])}</p>
 <div class="book-actions">
-<a href="{amazon_url(r['asin'])}" class="btn-amazon" target="_blank" rel="noopener">Amazonで見る</a>
-<a href="{r['slug']}.html" class="link-detail">本の詳細を見る</a>
+<a href="{amazon_url(r['asin'])}" class="btn-amazon" target="_blank" rel="noopener">{L['view_on_amazon']}</a>
+<a href="{r['slug']}.html" class="link-detail">{L['book_details']}</a>
 </div>
 </article>''')
 
@@ -537,34 +574,34 @@ def build_detail(book):
 <div class="container">
 <div class="book-detail-inner">
 <aside class="book-detail-cover">
-<img src="{cover}" alt="{html.escape(title)} 表紙">
-<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">Kindleで購入</a>
+<img src="{cover}" alt="{html.escape(title)} {L['cover_alt_suffix']}">
+<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">{L['buy_kindle']}</a>
 </aside>
 <article>
-<div class="book-detail-meta">{book['category']} ／ {book['region']}</div>
+<div class="book-detail-meta">{meta_line}</div>
 <h1>{html.escape(title)}</h1>
 <p class="book-subtitle">{html.escape(subtitle)}</p>
 
-<h2>この本で分かること</h2>
+<h2>{L['what_learn']}</h2>
 {build_learn(book)}
 
-<h2>本の紹介</h2>
+<h2>{L['about_book']}</h2>
 {build_long_desc(book)}
 
-<h2>主な目次</h2>
+<h2>{L['toc']}</h2>
 {build_toc(book)}
 
-<h2>こんな人におすすめ</h2>
+<h2>{L['who_for']}</h2>
 {build_who(book)}
 
-<h2>Kindleで読む</h2>
-<p><a href="{amazon}" class="btn-amazon-large" target="_blank" rel="noopener">Amazonで見る</a></p>
-<p class="ku-hint">Kindle Unlimited に登録すると、Iris Instituteの書籍を含む200万冊以上が読み放題。月額980円・初回30日間無料。<a href="{KU_SIGNUP_URL}" target="_blank" rel="sponsored noopener">Kindle Unlimitedを試す →</a></p>
+<h2>{L['read_on_kindle']}</h2>
+<p><a href="{amazon}" class="btn-amazon-large" target="_blank" rel="noopener">{L['view_on_amazon']}</a></p>
+<p class="ku-hint">{L['ku_hint']}<a href="{KU_SIGNUP_URL}" target="_blank" rel="sponsored noopener">{L['ku_cta']}</a></p>
 </article>
 </div>
 
 <section class="related-books">
-<h2>関連書籍</h2>
+<h2>{L['related']}</h2>
 <div class="related-grid">
 {''.join(related_cards)}
 </div>
@@ -572,14 +609,15 @@ def build_detail(book):
 </div>
 </main>
 <div class="sticky-buy">
-<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">Amazonで見る</a>
+<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">{L['view_on_amazon']}</a>
 </div>
 '''
 
     # 詳細ページはメタ説明を出さず、本文冒頭からGoogleに自動抽出させる
     # OG（SNS共有）用にはbook['short']を渡す
     page = head(seo_title, book['short'], canonical, cover,
-                extra_head=json_ld(book), omit_meta_description=True) + body + footer()
+                extra_head=json_ld(book), omit_meta_description=True,
+                lang=book['lang']) + body + footer(lang=book['lang'])
     (ROOT / 'books' / f'{slug}.html').write_text(render(page, 1), encoding='utf-8')
 
 def build_all_details():
@@ -633,7 +671,7 @@ def build_en_index():
 
     title = f'{SITE_NAME} — Analytical books on countries, companies and industries'
     desc = f'{SITE_NAME} publishes structured, primary-source-based books on countries, companies and industries. The Decoding the World Series analyzes each subject through history, geography, culture, politics and economics.'
-    page = head(title, desc, SITE_URL + '/en/', lang='en') + body + footer()
+    page = head(title, desc, SITE_URL + '/en/', lang='en') + body + footer(lang='en')
     (ROOT / 'en').mkdir(exist_ok=True)
     (ROOT / 'en' / 'index.html').write_text(render(page, 1), encoding='utf-8')
     print(f'✓ en/index.html ({len(en_books)} books)')
@@ -668,7 +706,7 @@ def build_en_about():
 <p>For inquiries, please reach us via the Amazon author page.</p>
 </main>
 '''
-    page = head(f'About | {SITE_NAME}', f'About {SITE_NAME}: our activities, editorial principles and book series.', SITE_URL + '/en/about.html', lang='en') + body + footer()
+    page = head(f'About | {SITE_NAME}', f'About {SITE_NAME}: our activities, editorial principles and book series.', SITE_URL + '/en/about.html', lang='en') + body + footer(lang='en')
     (ROOT / 'en' / 'about.html').write_text(render(page, 1), encoding='utf-8')
     print('✓ en/about.html')
 
