@@ -200,7 +200,7 @@ git push origin main
 4. **`guide` セクションの `html`** は他書籍への内部リンクを積極的に貼る
 5. **`related_series`** で少なくとも2つの他シリーズへ回遊させる
 
-### 既存シリーズ一覧（18本）
+### 既存シリーズ一覧（19本）
 
 **地域軸**
 | slug | 内容 | 冊数 |
@@ -231,6 +231,7 @@ git push origin main
 | `expat-postings` | 海外駐在・赴任 | 10 |
 | `overseas-entrepreneurship` | 海外起業・スタートアップ | 11 |
 | `manufacturing` | 世界の製造業 | 11 |
+| `investment-business` | 投資・ビジネス書 | 4 |
 
 ### 次に作る候補（3冊以上そろえば作れる）
 - **総合商社5社比較**：三菱・三井・住友・伊藤忠・丸紅（執筆中の5冊揃ったら）
