@@ -384,6 +384,10 @@ def seo_keywords(book):
 
 def build_long_desc(book):
     """SEO最適化された長文説明"""
+    # 個別オーバーライドがあればそれを使う（list of paragraphs）
+    if book.get('long_desc'):
+        return '\n'.join(f'<p>{p}</p>' for p in book['long_desc'])
+
     keywords = seo_keywords(book)
     title = book['title']
     short = book['short']
@@ -409,6 +413,8 @@ def build_long_desc(book):
 
 def build_toc(book):
     """典型的な目次を提示（実際の目次はASIN別に差別化可能）"""
+    if book.get('toc'):
+        return '<ul>' + ''.join(f'<li>{x}</li>' for x in book['toc']) + '</ul>'
     if book['lang'] == 'en':
         topic = book['title'].replace('Decoding ', '')
         return f'''<ul>
@@ -429,6 +435,8 @@ def build_toc(book):
 </ul>'''
 
 def build_who(book):
+    if book.get('who'):
+        return '<ul>' + ''.join(f'<li>{x}</li>' for x in book['who']) + '</ul>'
     if book['lang'] == 'en':
         topic = book['title'].replace('Decoding ', '')
         return f'''<ul>
@@ -450,6 +458,8 @@ def build_who(book):
 </ul>'''
 
 def build_learn(book):
+    if book.get('learn'):
+        return '<ul>' + ''.join(f'<li>{x}</li>' for x in book['learn']) + '</ul>'
     if book['lang'] == 'en':
         topic = book['title'].replace('Decoding ', '')
         return f'''<ul>
@@ -499,16 +509,26 @@ def build_detail(book):
     title = book['title']
     subtitle = book['subtitle']
 
-    # SEO最適化タイトル・description
-    if book['lang'] == 'en':
+    # SEO最適化タイトル・description（bookに個別指定があればそれを優先）
+    if book.get('seo_title'):
+        seo_title = f'{book["seo_title"]} | {SITE_NAME}'
+    elif book['lang'] == 'en':
         topic = title.replace('Decoding ', '')
         seo_title = f'{title} | Understanding {topic} through 5 Lenses | {SITE_NAME}'
-        seo_desc = f'{title}: {book["short"]} A comprehensive analysis of {topic} through history, geography, culture, politics and economics. Kindle edition available.'
     else:
         m = re.match(r'^(.+?)を読み解く', title)
         topic = m.group(1) if m else title
         seo_title = f'{title} | {topic}の歴史・経済・文化を体系的に学ぶ | {SITE_NAME}'
-        seo_desc = f'{title}——{book["short"]} {topic}の歴史・地理・文化・政治・経済を5つの視点で分析。{topic} 経済 / {topic} 歴史 / {topic} 本 を探している方向けの入門書。Kindle Unlimited対応。'
+
+    if book.get('seo_desc'):
+        seo_desc = book['seo_desc']
+    elif book['lang'] == 'en':
+        topic = title.replace('Decoding ', '')
+        seo_desc = f'{title}: {book["short"]} A comprehensive analysis of {topic} through history, geography, culture, politics and economics. Kindle edition available.'
+    else:
+        m = re.match(r'^(.+?)を読み解く', title)
+        topic = m.group(1) if m else title
+        seo_desc = f'{title}——{book["short"]} {topic}の歴史・地理・文化・政治・経済を5つの視点で分析。Kindle Unlimited対応。'
 
     canonical = f'{SITE_URL}/books/{slug}.html'
     cover = cover_url(book['asin'])
