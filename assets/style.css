@@ -400,10 +400,18 @@ img { max-width: 100%; display: block; }
 }
 .cat-section {
   padding-top: 3rem;
-  margin-top: -2rem;  /* offset for sticky nav anchor */
-  scroll-margin-top: 8rem;
+  scroll-margin-top: 8rem;  /* デスクトップ：ヘッダー4rem + cat-nav 3rem 分を確保 */
 }
-.cat-section:first-child { padding-top: 1rem; }
+.cat-section:first-child { padding-top: 2rem; }
+@media (max-width: 768px) {
+  /* モバイル：cat-navは折り返しで高さが可変・stickyだと折り重なるため通常フローに戻す */
+  .cat-nav {
+    position: static;
+    padding: 0.75rem 0;
+  }
+  .cat-section { scroll-margin-top: 5rem; }
+  .cat-section:first-child { padding-top: 1.5rem; }
+}
 .cat-header {
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
@@ -755,6 +763,10 @@ img { max-width: 100%; display: block; }
   .books-grid { grid-template-columns: 1fr 1fr; gap: 1.25rem 0.75rem; }
   .book-title { font-size: 0.9rem; }
   .book-short { font-size: 0.78rem; }
+  /* 375px幅でナビが折り返しても崩れないよう調整 */
+  .site-header .container { flex-wrap: wrap; gap: 0.5rem 1rem; }
+  .site-nav { gap: 0.85rem; font-size: 0.8rem; flex-wrap: wrap; }
+  .site-title { font-size: 0.95rem; }
 }
 @media (max-width: 768px) {
   .book-detail { padding-bottom: 6rem; }
