@@ -55,6 +55,10 @@ def head(title, description, canonical, og_image=None, extra_head='', lang='ja',
 <meta name="twitter:title" content="{html.escape(title)}">
 <meta name="twitter:description" content="{html.escape(description)}">
 <meta name="twitter:image" content="{og_image}">
+<link rel="icon" href="{{ROOT}}/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ROOT}}/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ROOT}}/assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ROOT}}/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&display=swap">
@@ -200,7 +204,40 @@ def build_index():
 
     title = f'{SITE_NAME} — 世界を体系的に読み解く'
     desc = f'{SITE_TAGLINE} {SITE_SUB} 国・地域・企業を多角的に分析した書籍を出版しています。'
-    page = head(title, desc, SITE_URL + '/') + body + footer()
+
+    # サイト全体の識別のためのWebSite/Organization構造化データ（トップページのみ）
+    site_jsonld = '''<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://iris-institute.github.io/#website",
+      "url": "https://iris-institute.github.io/",
+      "name": "Iris Institute",
+      "alternateName": ["海外文化研究所Iris", "Iris", "iris-institute.github.io"],
+      "description": "国・地域・産業を、公開情報と一次資料から多角的に分析する独立系の出版・研究プロジェクト",
+      "publisher": { "@id": "https://iris-institute.github.io/#organization" },
+      "inLanguage": "ja"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://iris-institute.github.io/#organization",
+      "name": "Iris Institute",
+      "alternateName": ["海外文化研究所Iris", "Iris"],
+      "url": "https://iris-institute.github.io/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://iris-institute.github.io/assets/favicon-512.png",
+        "width": 512,
+        "height": 512
+      }
+    }
+  ]
+}
+</script>'''
+
+    page = head(title, desc, SITE_URL + '/', extra_head=site_jsonld) + body + footer()
     (ROOT / 'index.html').write_text(render(page, 0), encoding='utf-8')
     print(f'✓ index.html (注目3冊 + {len(cat_cards)}カテゴリー)')
 
