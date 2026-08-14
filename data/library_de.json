@@ -1,0 +1,101 @@
+[
+  {
+    "slug": "japan",
+    "title": "10 Bücher, um Japan zu verstehen",
+    "seo_title": "10 Bücher über Japan auf Deutsch | Iris Libraries",
+    "meta_desc": "Die besten deutschsprachigen Bücher über Japan — Geschichte, Gesellschaft, Kultur, Wirtschaft und Philosophie. Zusammengestellt vom Iris-Redaktionsteam.",
+    "intro": "Japan gehört zu den meistbeobachteten und dennoch am häufigsten missverstandenen Ländern der Welt. Hinter der Oberfläche aus Popkultur und technologischem Ruf liegt eine vielschichtige Gesellschaft, geformt durch Feudalismus, Kriegstrauma, wirtschaftliches Wunder und lange Stagnation. Diese zehn Bücher — alle auf Deutsch — durchleuchten die Klischees.",
+    "books": [
+      {
+        "title": "Geschichte Japans",
+        "author": "Wolfgang Schwentker",
+        "publisher": "C.H.Beck",
+        "pub_year": "2021",
+        "description": "Das neue Standardwerk: Schwentker begleitet Japan von der Steinzeit bis in die Gegenwart und verknüpft politische, wirtschaftliche, soziale und kulturelle Geschichte zu einem kohärenten Gesamtbild. Unverzichtbar für alle, die Japan wirklich verstehen wollen.",
+        "asin": "3406751598",
+        "isIris": false
+      },
+      {
+        "title": "Die kürzeste Geschichte Japans",
+        "author": "Christopher Harding",
+        "publisher": "Ullstein",
+        "pub_year": "2024",
+        "description": "Englischer Historiker Christopher Harding erklärt Japans Geschichte von den Anfängen bis zur Pop-Kultur — kurzweilig, präzise und ohne Vorwissen zugänglich. Das perfekte Einstiegsbuch für jeden, der wenig Zeit hat und trotzdem viel verstehen möchte.",
+        "asin": "3548074405",
+        "isIris": false
+      },
+      {
+        "title": "Die Kultur Japans: Tradition und Moderne",
+        "author": "Florian Coulmas",
+        "publisher": "C.H.Beck",
+        "pub_year": "2022",
+        "description": "Florian Coulmas, langjähriger Direktor des Deutschen Instituts für Japanstudien in Tokyo, analysiert soziale Beziehungen, Werte, Institutionen und Alltagskultur. Eine einzigartige Synthese, die zeigt, wie Tradition und Moderne in Japan koexistieren.",
+        "asin": "3406670970",
+        "isIris": false
+      },
+      {
+        "title": "Bushido: Die Seele Japans",
+        "author": "Inazo Nitobe",
+        "publisher": "Anaconda",
+        "pub_year": "2010",
+        "description": "Inazo Nitobes Klassiker von 1900 erklärt westlichen Lesern den japanischen Ehrenkodex der Samurai. Das meistgelesene Buch über japanische Ethik und Lebensphilosophie — auch über 120 Jahre nach seiner Entstehung unverzichtbar.",
+        "asin": "3868200967",
+        "isIris": false
+      },
+      {
+        "title": "Japan – Abstieg in Würde: Wie ein alterndes Land um seine Zukunft ringt",
+        "author": "Wieland Wagner",
+        "publisher": "DVA",
+        "pub_year": "2018",
+        "description": "SPIEGEL-Korrespondent Wieland Wagner beschreibt Japans Abstieg von der Wirtschaftssupermacht — und warum das alternde Land trotz allem seinen Charakter bewahrt. Ein nüchternes, klarsichtiges Porträt des gegenwärtigen Japan.",
+        "asin": "3421047944",
+        "isIris": false
+      },
+      {
+        "title": "Die 101 wichtigsten Fragen: Japan",
+        "author": "Florian Coulmas",
+        "publisher": "C.H.Beck",
+        "pub_year": "2016",
+        "description": "101 präzise Antworten auf die drängendsten Fragen zu Japan: Politik, Wirtschaft, Gesellschaft, Geschichte, Kultur. Das praktischste Nachschlagewerk für Japan-Einsteiger und -Kenner gleichermaßen.",
+        "asin": "3406665993",
+        "isIris": false
+      },
+      {
+        "title": "Die Gesellschaft Japans: Arbeit, Familie und demographische Krise",
+        "author": "Florian Coulmas",
+        "publisher": "C.H.Beck",
+        "pub_year": "2007",
+        "description": "Wie funktionieren Arbeit, Familie und demografischer Wandel im heutigen Japan? Coulmas analysiert die strukturellen Besonderheiten — von der Senioritätskultur im Betrieb bis zur dramatischen Überalterung der Gesellschaft.",
+        "asin": "3406547982",
+        "isIris": false
+      },
+      {
+        "title": "Geschichte Japans",
+        "author": "Josef Kreiner",
+        "publisher": "Reclam",
+        "pub_year": "2009",
+        "description": "Josef Kreiners kompakte Reclam-Einführung: Japan von der Jōmon-Zeit bis ins 21. Jahrhundert. Wissenschaftlich präzise und auf kleinem Raum erstaunlich vollständig — der ideale Einstieg für den akademisch interessierten Leser.",
+        "asin": "3150189616",
+        "isIris": false
+      },
+      {
+        "title": "Japan: Wirtschaft – Gesellschaft – Politik",
+        "author": "Paul Kevenhörster",
+        "publisher": "VS Verlag",
+        "pub_year": "2003",
+        "description": "Systemische Einführung in Japans politisches System, Wirtschaftsstrukturen und Gesellschaft aus sozialwissenschaftlicher Perspektive. Unverzichtbar für alle, die Japan als moderne Demokratie und globale Wirtschaftsmacht begreifen wollen.",
+        "asin": "3531152386",
+        "isIris": false
+      },
+      {
+        "title": "Neue Wirtschaftspolitik: Was Europa aus Japans Fehlern lernen kann",
+        "author": "Richard A. Werner",
+        "publisher": "Vahlen",
+        "pub_year": "2014",
+        "description": "Ökonomieprofessor Richard Werner, der Japans Kreditpolitik aus nächster Nähe beobachtete, analysiert den wirtschaftlichen Niedergang seit den 1990ern — und welche Lehren Europa aus dem Scheitern der japanischen Wirtschaftspolitik ziehen kann.",
+        "asin": "3800632470",
+        "isIris": false
+      }
+    ]
+  }
+]

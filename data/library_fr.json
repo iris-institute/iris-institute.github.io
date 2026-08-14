@@ -1,0 +1,101 @@
+[
+  {
+    "slug": "japan",
+    "title": "10 livres pour comprendre le Japon",
+    "seo_title": "10 livres sur le Japon en français | Iris Libraries",
+    "meta_desc": "Les meilleurs livres sur le Japon en français — histoire, société, culture, économie et politique. Sélection de l'équipe éditoriale d'Iris Institute.",
+    "intro": "Le Japon est à la fois l'un des pays les plus étudiés et les plus mal compris du monde. Derrière la surface de la culture pop et de la réputation technologique se cache une société profondément stratifiée, façonnée par le féodalisme, le traumatisme de la guerre, la réinvention d'après-guerre et des décennies de stagnation économique. Ces dix livres — tous en français — dissipent les clichés.",
+    "books": [
+      {
+        "title": "Nouvelle Histoire du Japon",
+        "author": "Pierre-François Souyri",
+        "publisher": "Perrin",
+        "pub_year": "2010",
+        "description": "La synthèse de référence en langue française, cosignée par le grand spécialiste Pierre-François Souyri avec le soutien de la Fondation du Japon. Des origines préhistoriques à l'ère contemporaine, une fresque complète et rigoureuse que tout lecteur sérieux se doit de connaître.",
+        "asin": "2262022461",
+        "isIris": false
+      },
+      {
+        "title": "L'Histoire du Japon: des origines à nos jours",
+        "author": "Francine Hérail",
+        "publisher": "Hermann",
+        "pub_year": "2009",
+        "description": "Le seul ouvrage en français couvrant l'intégralité de l'histoire japonaise de la préhistoire au XXIe siècle. Francine Hérail, japonologue et membre de l'Institut, offre 81 illustrations, 11 cartes originales et une érudition incomparable. Une référence absolue.",
+        "asin": "2705666400",
+        "isIris": false
+      },
+      {
+        "title": "Histoire du Japon et des Japonais — Tome 1: Des origines à 1945",
+        "author": "Edwin O. Reischauer",
+        "publisher": "Seuil",
+        "pub_year": "1973",
+        "description": "Le classique de l'ambassadeur américain et grand spécialiste Edwin O. Reischauer, dans sa traduction française de référence. Des origines à 1945, une introduction magistrale qui a formé des générations de lecteurs francophones à la compréhension du Japon.",
+        "asin": "275784217X",
+        "isIris": false
+      },
+      {
+        "title": "Introduction à la culture japonaise: Essai d'anthropologie réciproque",
+        "author": "Hisayasu Nakagawa",
+        "publisher": "PUF",
+        "pub_year": "2005",
+        "description": "L'anthropologue Hisayasu Nakagawa, professeur à l'Université de Kyoto et fin connaisseur de la culture française, propose une comparaison originale entre Japon et Occident. Une lecture indispensable pour saisir ce qui fait la singularité irréductible du Japon.",
+        "asin": "2130549527",
+        "isIris": false
+      },
+      {
+        "title": "Les Japonais",
+        "author": "Karyn Nishimura-Poupée",
+        "publisher": "Tallandier",
+        "pub_year": "2021",
+        "description": "La correspondante permanente de l'AFP à Tokyo depuis 2002 scrute le quotidien des Japonais et décrypte les ressorts historiques et socioculturels de cette société unique. Prix Shibusawa-Claudel 2009 — une référence incontournable pour tout lecteur francophone.",
+        "asin": "2847348581",
+        "isIris": false
+      },
+      {
+        "title": "Les leçons du Japon: Un pays très incorrect",
+        "author": "Jean-Marie Bouissou",
+        "publisher": "Fayard",
+        "pub_year": "2012",
+        "description": "Jean-Marie Bouissou, directeur de recherche à Sciences Po, livre un plaidoyer lucide pour que l'Occident prenne enfin au sérieux ce que le Japon a à lui apprendre — sur la démocratie, la longévité, la qualité de vie et la gestion du déclin.",
+        "asin": "2213678022",
+        "isIris": false
+      },
+      {
+        "title": "Le Japon contemporain",
+        "author": "Jean-Marie Bouissou (dir.)",
+        "publisher": "Fayard",
+        "pub_year": "2007",
+        "description": "Vingt-quatre spécialistes examinent la vie politique, économique, sociale, religieuse et culturelle du Japon contemporain : crime organisé, monde du travail, littérature, cinéma et culture populaire. La somme collective la plus complète disponible en français.",
+        "asin": "2213622167",
+        "isIris": false
+      },
+      {
+        "title": "L'économie du Japon",
+        "author": "Évelyne Dourille-Feer",
+        "publisher": "La Découverte",
+        "pub_year": "2012",
+        "description": "Synthèse complète sur l'histoire et les développements récents de l'économie japonaise : du féodalisme à la modernité en 1868, la montée en puissance industrielle, l'éclatement des bulles, et les chocs de 2008 et 2011. L'introduction économique de référence.",
+        "asin": "2707177628",
+        "isIris": false
+      },
+      {
+        "title": "Le Japon des Japonais",
+        "author": "Philippe Pons & Pierre-François Souyri",
+        "publisher": "Liana Lévi",
+        "pub_year": "1992",
+        "description": "Deux des meilleurs japonologues français conjuguent leurs regards pour brosser un portrait du Japon vu de l'intérieur — loin des stéréotypes, au plus près de la réalité quotidienne, politique et culturelle. Un classique qui a gardé toute sa fraîcheur.",
+        "asin": "2867462878",
+        "isIris": false
+      },
+      {
+        "title": "Japon, la face cachée de la perfection",
+        "author": "Karyn Nishimura-Poupée",
+        "publisher": "Tallandier",
+        "pub_year": "2023",
+        "description": "La correspondante AFP à Tokyo depuis plus de vingt ans lève le voile sur les contradictions d'une société fascinante : le perfectionnisme japonais, ses limites, ses paradoxes et les zones d'ombre soigneusement entretenues. Une lecture décapante et nuancée.",
+        "asin": "B0C85GTS1Q",
+        "isIris": false
+      }
+    ]
+  }
+]

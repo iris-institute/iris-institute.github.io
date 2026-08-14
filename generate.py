@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
 """Iris サイト生成スクリプト"""
-import json, os, re, html
+import json, os, re, html, urllib.parse
 from pathlib import Path
 from datetime import datetime
 
 ROOT = Path(__file__).parent
 DATA = json.loads((ROOT / 'data' / 'books.json').read_text(encoding='utf-8'))
+LIBRARY_DATA = json.loads((ROOT / 'data' / 'library.json').read_text(encoding='utf-8'))
+LIBRARY_EN_DATA = json.loads((ROOT / 'data' / 'library_en.json').read_text(encoding='utf-8'))
+LIBRARY_DE_DATA = json.loads((ROOT / 'data' / 'library_de.json').read_text(encoding='utf-8'))
+LIBRARY_ES_DATA = json.loads((ROOT / 'data' / 'library_es.json').read_text(encoding='utf-8'))
+LIBRARY_FR_DATA = json.loads((ROOT / 'data' / 'library_fr.json').read_text(encoding='utf-8'))
+LIBRARY_MULTILANG = {'de': LIBRARY_DE_DATA, 'es': LIBRARY_ES_DATA, 'fr': LIBRARY_FR_DATA}
+BOOKS_BY_SLUG = {b['slug']: b for b in DATA}
 
 SITE_NAME = 'Iris Institute'
 SITE_URL = 'https://iris-institute.github.io'
@@ -24,18 +31,62 @@ def cover_url(asin):
 def amazon_url(asin):
     return f'https://www.amazon.co.jp/dp/{asin}?tag={AFFILIATE_TAG}'
 
+AFFILIATE_TAG_COM = 'iris0c8-20'
+
+def amazon_url_com(asin):
+    return f'https://www.amazon.com/dp/{asin}?tag={AFFILIATE_TAG_COM}'
+
+AFFILIATE_TAG_UK = 'iris08de-21'
+
+def amazon_url_uk(asin):
+    return f'https://www.amazon.co.uk/dp/{asin}?tag={AFFILIATE_TAG_UK}'
+
+AFFILIATE_TAGS_MULTILANG = {'de': 'iris018-21', 'es': 'iris08de-21', 'fr': 'iris0302-21'}
+
+def amazon_url_lang(asin, lang):
+    tag = AFFILIATE_TAGS_MULTILANG[lang]
+    return f'https://www.amazon.{lang}/dp/{asin}?tag={tag}'
+
+def lang_switcher(current_lang):
+    """言語切替ドロップダウン（<details>ベース、CSSのみ）"""
+    labels = {'ja': '日本語', 'en': 'EN', 'es': 'ES', 'de': 'DE', 'fr': 'FR'}
+    names  = {'ja': '日本語', 'en': 'English', 'es': 'Español', 'de': 'Deutsch', 'fr': 'Français'}
+    roots  = {'ja': '{ROOT}/', 'en': '{ROOT}/en/', 'es': '{ROOT}/es/', 'de': '{ROOT}/de/', 'fr': '{ROOT}/fr/'}
+    items = ''
+    for code in ('ja', 'en', 'es', 'de', 'fr'):
+        cls = ' class="lang-active"' if code == current_lang else ''
+        items += f'<a href="{roots[code]}"{cls}>{names[code]}</a>'
+    return f'<div class="lang-switcher"><details><summary>{labels[current_lang]}</summary><div class="lang-dropdown">{items}</div></details></div>'
+
 def head(title, description, canonical, og_image=None, extra_head='', lang='ja', omit_meta_description=False):
     og_image = og_image or f'{SITE_URL}/assets/og-default.png'
+    sw = lang_switcher(lang)
     if lang == 'en':
-        nav = f'''<a href="{{ROOT}}/en/">Books</a>
-<a href="{{ROOT}}/en/about.html">About</a>
-<a href="{{ROOT}}/" style="opacity:0.6">日本語</a>'''
+        nav_links = '''<a href="{ROOT}/en/">Books</a>
+<a href="{ROOT}/en/library/">Library</a>
+<a href="{ROOT}/en/about.html">About</a>'''
         home_link = '{ROOT}/en/'
+    elif lang == 'es':
+        nav_links = '''<a href="{ROOT}/es/">Libros</a>
+<a href="{ROOT}/es/library/">Biblioteca</a>
+<a href="{ROOT}/es/about.html">Acerca de</a>'''
+        home_link = '{ROOT}/es/'
+    elif lang == 'de':
+        nav_links = '''<a href="{ROOT}/de/">Bücher</a>
+<a href="{ROOT}/de/library/">Bibliothek</a>
+<a href="{ROOT}/de/about.html">Über uns</a>'''
+        home_link = '{ROOT}/de/'
+    elif lang == 'fr':
+        nav_links = '''<a href="{ROOT}/fr/">Livres</a>
+<a href="{ROOT}/fr/library/">Bibliothèque</a>
+<a href="{ROOT}/fr/about.html">À propos</a>'''
+        home_link = '{ROOT}/fr/'
     else:
-        nav = f'''<a href="{{ROOT}}/">書籍一覧</a>
-<a href="{{ROOT}}/about.html">Irisについて</a>
-<a href="{{ROOT}}/en/" style="opacity:0.6">English</a>'''
+        nav_links = '''<a href="{ROOT}/">書籍一覧</a>
+<a href="{ROOT}/library/">Iris Libraries</a>
+<a href="{ROOT}/about.html">Irisについて</a>'''
         home_link = '{ROOT}/'
+    nav = nav_links + '\n' + sw
     meta_desc = '' if omit_meta_description else f'<meta name="description" content="{html.escape(description)}">\n'
     return f'''<!DOCTYPE html>
 <html lang="{lang}">
@@ -82,6 +133,18 @@ def footer(lang='ja'):
         links = f'''<a href="{{ROOT}}/en/">Books</a>
 <a href="{{ROOT}}/en/about.html">About</a>
 <a href="{{ROOT}}/privacy.html">Privacy</a>'''
+    elif lang == 'es':
+        links = f'''<a href="{{ROOT}}/es/">Libros</a>
+<a href="{{ROOT}}/es/about.html">Acerca de</a>
+<a href="{{ROOT}}/privacy.html">Privacidad</a>'''
+    elif lang == 'de':
+        links = f'''<a href="{{ROOT}}/de/">Bücher</a>
+<a href="{{ROOT}}/de/about.html">Über uns</a>
+<a href="{{ROOT}}/privacy.html">Datenschutz</a>'''
+    elif lang == 'fr':
+        links = f'''<a href="{{ROOT}}/fr/">Livres</a>
+<a href="{{ROOT}}/fr/about.html">À propos</a>
+<a href="{{ROOT}}/privacy.html">Confidentialité</a>'''
     else:
         links = f'''<a href="{{ROOT}}/">書籍一覧</a>
 <a href="{{ROOT}}/about.html">Irisについて</a>
@@ -168,7 +231,7 @@ def build_index():
 <div class="hero-stats">
 <span class="hero-stat"><strong>{total_ja + 2}</strong> 冊刊行</span>
 <span class="hero-stat"><strong>7</strong> 地域・テーマ</span>
-<span class="hero-stat"><strong>3</strong> 言語対応</span>
+<span class="hero-stat"><strong>5</strong> 言語対応</span>
 </div>
 </div>
 </section>
@@ -769,6 +832,254 @@ def build_en_about():
     page = head(f'About | {SITE_NAME}', f'About {SITE_NAME}: our activities, editorial principles and book series.', SITE_URL + '/en/about.html', lang='en') + body + footer(lang='en')
     (ROOT / 'en' / 'about.html').write_text(render(page, 1), encoding='utf-8')
     print('✓ en/about.html')
+
+# -----------------------------------------------------------
+# 多言語サイト（ES / DE / FR）
+# -----------------------------------------------------------
+_LANG_CONF = {
+    'es': {
+        'dir': 'es',
+        'hero': 'Decodifica el mundo, un país a la vez.',
+        'hero_sub': 'Libros analíticos sobre países, empresas e industrias — basados en fuentes primarias.',
+        'coming_h': 'Próximamente',
+        'coming_p': 'Estamos preparando nuestra colección en español. Mientras tanto, los libros en inglés están disponibles en la <a href="{ROOT}/en/">edición en inglés</a>.',
+        'site_title': f'{SITE_NAME} — Libros analíticos sobre países, empresas e industrias',
+        'site_desc': f'{SITE_NAME} publica libros estructurados basados en fuentes primarias sobre países, empresas e industrias.',
+        'lib_hero': 'Iris Libraries',
+        'lib_sub': '10 libros esenciales por tema',
+        'lib_coming': 'Próximamente — Estamos preparando nuestras bibliotecas temáticas en español.',
+        'lib_crumb': '← Iris Libraries',
+        'books_label': 'libros',
+        'affiliate_note': 'Como Asociado de Amazon, me beneficio de las compras adscritas.',
+        'amazon_btn': 'Amazon.es',
+        'about_h1': 'Acerca de Iris Institute',
+        'about_body': '''<p>Iris Institute es un proyecto editorial e investigación independiente que produce libros analíticos para decodificar países, empresas e industrias de manera estructurada.</p>
+<h2>Qué hacemos</h2>
+<p>Tomamos un tema — un país, una empresa, una industria — y lo analizamos a través de múltiples lentes: historia, geografía, cultura, política, economía, estrategia, finanzas. Cada libro responde las preguntas estructurales que los titulares de noticias y los informes de la industria dejan abiertas: <em>¿por qué es así y hacia dónde va?</em></p>
+<h2>Principios editoriales</h2>
+<ul>
+<li>Preferir fuentes primarias sobre comentarios secundarios</li>
+<li>Presentar estructura y lógica en lugar de elogios o condenas</li>
+<li>Explicar cada término técnico en su primer uso</li>
+<li>No solo números — siempre qué significan los números</li>
+</ul>
+<h2>Contacto</h2>
+<p>Para consultas, contáctenos a través de la página de autor de Amazon.</p>''',
+        'about_title': f'Acerca de | {SITE_NAME}',
+        'about_desc': f'Acerca de {SITE_NAME}: nuestras actividades, principios editoriales y series de libros.',
+    },
+    'de': {
+        'dir': 'de',
+        'hero': 'Entschlüsseln Sie die Welt, ein Land nach dem anderen.',
+        'hero_sub': 'Analytische Bücher über Länder, Unternehmen und Branchen — auf Primärquellen basierend.',
+        'coming_h': 'Demnächst',
+        'coming_p': 'Wir bereiten unsere deutschsprachige Kollektion vor. In der Zwischenzeit stehen englischsprachige Bücher in der <a href="{ROOT}/en/">englischen Ausgabe</a> zur Verfügung.',
+        'site_title': f'{SITE_NAME} — Analytische Bücher über Länder, Unternehmen und Branchen',
+        'site_desc': f'{SITE_NAME} veröffentlicht strukturierte, auf Primärquellen basierende Bücher über Länder, Unternehmen und Branchen.',
+        'lib_hero': 'Iris Libraries',
+        'lib_sub': '10 wesentliche Bücher pro Thema',
+        'lib_coming': 'Demnächst — Wir bereiten unsere thematischen Bibliotheken auf Deutsch vor.',
+        'lib_crumb': '← Iris Libraries',
+        'books_label': 'Bücher',
+        'affiliate_note': 'Als Amazon-Partner verdiene ich an qualifizierten Verkäufen.',
+        'amazon_btn': 'Amazon.de',
+        'about_h1': 'Über Iris Institute',
+        'about_body': '''<p>Iris Institute ist ein unabhängiges Verlags- und Forschungsprojekt, das analytische Bücher produziert, die Länder, Unternehmen und Branchen auf strukturierte Weise entschlüsseln.</p>
+<h2>Was wir tun</h2>
+<p>Wir nehmen ein Thema — ein Land, ein Unternehmen, eine Branche — und analysieren es durch mehrere Linsen: Geschichte, Geographie, Kultur, Politik, Wirtschaft, Strategie, Finanzen. Jedes Buch beantwortet die strukturellen Fragen, die Nachrichtenschlagzeilen und Branchenberichte offen lassen: <em>Warum ist es so, wie es ist, und wohin geht es?</em></p>
+<h2>Redaktionelle Grundsätze</h2>
+<ul>
+<li>Primärquellen gegenüber sekundären Kommentaren bevorzugen</li>
+<li>Struktur und Logik statt Lob oder Verurteilung präsentieren</li>
+<li>Jeden Fachbegriff bei der ersten Verwendung erklären</li>
+<li>Nicht nur Zahlen — immer auch deren Bedeutung</li>
+</ul>
+<h2>Kontakt</h2>
+<p>Für Anfragen wenden Sie sich bitte über die Amazon-Autorenseite an uns.</p>''',
+        'about_title': f'Über uns | {SITE_NAME}',
+        'about_desc': f'Über {SITE_NAME}: unsere Aktivitäten, redaktionellen Grundsätze und Buchreihen.',
+    },
+    'fr': {
+        'dir': 'fr',
+        'hero': 'Décryptez le monde, un pays à la fois.',
+        'hero_sub': 'Des livres analytiques sur les pays, les entreprises et les secteurs — fondés sur des sources primaires.',
+        'coming_h': 'Bientôt disponible',
+        'coming_p': 'Nous préparons notre collection en français. En attendant, les livres en anglais sont disponibles dans l\'<a href="{ROOT}/en/">édition anglaise</a>.',
+        'site_title': f'{SITE_NAME} — Livres analytiques sur les pays, les entreprises et les secteurs',
+        'site_desc': f'{SITE_NAME} publie des livres structurés, fondés sur des sources primaires, sur les pays, les entreprises et les secteurs.',
+        'lib_hero': 'Iris Libraries',
+        'lib_sub': '10 livres essentiels par thème',
+        'lib_coming': 'Bientôt disponible — Nous préparons nos bibliothèques thématiques en français.',
+        'lib_crumb': '← Iris Libraries',
+        'books_label': 'livres',
+        'affiliate_note': 'En tant que partenaire Amazon, je réalise un bénéfice sur les achats remplissant les conditions requises.',
+        'amazon_btn': 'Amazon.fr',
+        'about_h1': "À propos d'Iris Institute",
+        'about_body': '''<p>Iris Institute est un projet éditorial et de recherche indépendant qui produit des livres analytiques décodant les pays, les entreprises et les secteurs de manière structurée.</p>
+<h2>Ce que nous faisons</h2>
+<p>Nous prenons un sujet — un pays, une entreprise, un secteur — et l\'analysons à travers plusieurs prismes : histoire, géographie, culture, politique, économie, stratégie, finance. Chaque livre répond aux questions structurelles que les gros titres et les rapports sectoriels laissent sans réponse : <em>pourquoi est-ce ainsi, et où cela va-t-il ?</em></p>
+<h2>Principes éditoriaux</h2>
+<ul>
+<li>Préférer les sources primaires aux commentaires secondaires</li>
+<li>Présenter la structure et la logique plutôt que l\'éloge ou la condamnation</li>
+<li>Expliquer chaque terme technique à sa première utilisation</li>
+<li>Pas seulement des chiffres — toujours ce que signifient les chiffres</li>
+</ul>
+<h2>Contact</h2>
+<p>Pour toute demande, contactez-nous via la page auteur Amazon.</p>''',
+        'about_title': f'À propos | {SITE_NAME}',
+        'about_desc': f"À propos d'{SITE_NAME} : nos activités, principes éditoriaux et séries de livres.",
+    },
+}
+
+def build_lang_index(lang):
+    c = _LANG_CONF[lang]
+    body = f'''
+<main>
+<section class="hero">
+<div class="container">
+<h1>{c["hero"]}</h1>
+<p>{c["hero_sub"]}</p>
+</div>
+</section>
+<section class="books-section">
+<div class="container">
+<div class="lang-coming-soon">
+<h2>{c["coming_h"]}</h2>
+<p>{c["coming_p"]}</p>
+</div>
+</div>
+</section>
+</main>
+'''
+    page = head(c['site_title'], c['site_desc'], f'{SITE_URL}/{lang}/', lang=lang) + body + footer(lang=lang)
+    out_dir = ROOT / lang
+    out_dir.mkdir(exist_ok=True)
+    (out_dir / 'index.html').write_text(render(page, 1), encoding='utf-8')
+    print(f'✓ {lang}/index.html')
+
+def build_lang_about(lang):
+    c = _LANG_CONF[lang]
+    body = f'''
+<main class="page-content container">
+<h1>{c["about_h1"]}</h1>
+{c["about_body"]}
+</main>
+'''
+    page = head(c['about_title'], c['about_desc'], f'{SITE_URL}/{lang}/about.html', lang=lang) + body + footer(lang=lang)
+    (ROOT / lang / 'about.html').write_text(render(page, 1), encoding='utf-8')
+    print(f'✓ {lang}/about.html')
+
+def build_lang_library_index(lang, lib_data):
+    c = _LANG_CONF[lang]
+    if lib_data:
+        cards = []
+        for ldef in lib_data:
+            total = len(ldef['books'])
+            cards.append(f'''<a href="{{ROOT}}/{lang}/library/{ldef["slug"]}/" class="lib-index-card">
+<h3 class="lib-index-title">{html.escape(ldef["title"])}</h3>
+<p class="lib-index-meta">{total} {c["books_label"]}</p>
+<p class="lib-index-intro">{html.escape(ldef["intro"][:80])}…</p>
+</a>''')
+        content = f'<div class="lib-index-grid">{"".join(cards)}</div>'
+    else:
+        content = f'''<div class="lang-coming-soon">
+<h2>{c["coming_h"]}</h2>
+<p>{c["lib_coming"]}</p>
+</div>'''
+    body = f'''
+<main class="lib-index-page">
+<section class="hero hero-large">
+<div class="container">
+<h1>{c["lib_hero"]}</h1>
+<p class="hero-sub">{c["lib_sub"]}</p>
+</div>
+</section>
+<section class="lib-index-content">
+<div class="container">
+{content}
+</div>
+</section>
+</main>
+'''
+    canonical = f'{SITE_URL}/{lang}/library/'
+    page = head(f'{c["lib_hero"]} | {SITE_NAME}', c['lib_coming'], canonical, lang=lang) + body + footer(lang=lang)
+    out_dir = ROOT / lang / 'library'
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / 'index.html').write_text(render(page, 2), encoding='utf-8')
+    print(f'✓ {lang}/library/index.html')
+
+def build_multilang_library_page(ldef, lang):
+    c = _LANG_CONF[lang]
+    slug = ldef['slug']
+    books_html = []
+    for rank, entry in enumerate(ldef['books'], 1):
+        asin = entry.get('asin', '')
+        if asin:
+            local_url = amazon_url_lang(asin, lang)
+            com_url = amazon_url_com(asin)
+            btn_label = c['amazon_btn']
+            cover_html = f'''<div class="lib-book-cover">
+<a href="{local_url}" target="_blank" rel="noopener sponsored">
+<img src="{cover_url(asin)}" alt="{html.escape(entry['title'])} cover" loading="lazy" width="100">
+</a></div>'''
+        else:
+            local_url = ''
+            com_url = ''
+            btn_label = c['amazon_btn']
+            cover_html = '<div class="lib-cover-placeholder"><span class="lib-cover-icon">📖</span></div>'
+        meta = f'{html.escape(entry.get("pub_year",""))} · {html.escape(entry.get("publisher",""))}'
+        desc = html.escape(entry.get('description', ''))
+        if local_url:
+            action = (f'<a href="{local_url}" class="btn-amazon" target="_blank" rel="noopener sponsored">{btn_label}</a>'
+                      f'<a href="{com_url}" class="btn-amazon-intl" target="_blank" rel="noopener sponsored">Amazon.com</a>')
+        else:
+            action = ''
+        title_url = local_url or com_url
+        books_html.append(f'''<div class="lib-book-card lib-book-ext">
+<div class="lib-book-rank">{rank}</div>
+{cover_html}
+<div class="lib-book-body">
+<h3 class="lib-book-title"><a href="{title_url}" target="_blank" rel="noopener sponsored">{html.escape(entry["title"])}</a></h3>
+<p class="lib-book-author">{html.escape(entry.get("author",""))}</p>
+<p class="lib-book-meta">{meta}</p>
+<p class="lib-book-desc">{desc}</p>
+<div class="lib-book-actions">{action}</div>
+</div>
+</div>''')
+
+    body = f'''
+<main class="lib-page">
+<section class="hero">
+<div class="container">
+<div class="lib-crumb"><a href="{{ROOT}}/{lang}/library/">{c["lib_crumb"]}</a></div>
+<h1>{html.escape(ldef["title"])}</h1>
+<p class="lib-intro">{html.escape(ldef["intro"])}</p>
+</div>
+</section>
+<section class="lib-books-section">
+<div class="container">
+{"".join(books_html)}
+</div>
+</section>
+<p class="lib-affiliate-note">{c["affiliate_note"]}</p>
+</main>
+'''
+    canonical = f'{SITE_URL}/{lang}/library/{slug}/'
+    page = head(ldef['seo_title'], ldef['meta_desc'], canonical, lang=lang) + body + footer(lang=lang)
+    out_dir = ROOT / lang / 'library' / slug
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / 'index.html').write_text(render(page, 3), encoding='utf-8')
+    print(f'  ✓ {lang}/library/{slug}/ ({len(ldef["books"])} books)')
+
+def build_all_multilang():
+    for lang in ('es', 'de', 'fr'):
+        build_lang_index(lang)
+        build_lang_about(lang)
+        lib_data = LIBRARY_MULTILANG[lang]
+        build_lang_library_index(lang, lib_data)
+        for ldef in lib_data:
+            build_multilang_library_page(ldef, lang)
 
 # -----------------------------------------------------------
 # シリーズ・テーマページ（SEOハブ）
@@ -1423,6 +1734,393 @@ def build_privacy():
     print('✓ privacy.html')
 
 # -----------------------------------------------------------
+# Iris Libraries
+# -----------------------------------------------------------
+def amazon_search_url(title, author=''):
+    q = urllib.parse.quote_plus(f'{title} {author}'.strip())
+    return f'https://www.amazon.co.jp/s?k={q}&tag={AFFILIATE_TAG}'
+
+def render_lib_iris_card(b, rank, lang='ja'):
+    """Iris刊行書籍カード（カバー画像つき）"""
+    cover = cover_url(b['asin'])
+    if lang == 'en':
+        amz = amazon_url_com(b['asin'])
+        detail = f'../../../books/{b["slug"]}.html'
+        badge = 'Iris title'
+        btn_amazon = 'Amazon.com'
+        btn_detail = 'Details'
+        alt_suffix = 'cover'
+    else:
+        amz = amazon_url(b['asin'])
+        detail = f'../../books/{b["slug"]}.html'
+        badge = 'Iris刊行'
+        btn_amazon = 'Amazonで見る'
+        btn_detail = '本の詳細を見る'
+        alt_suffix = '表紙'
+    return f'''<div class="lib-book-card lib-book-iris">
+<div class="lib-book-rank">{rank}</div>
+<div class="lib-book-cover">
+<a href="{amz}" target="_blank" rel="noopener sponsored">
+<img src="{cover}" alt="{html.escape(b['title'])} {alt_suffix}" loading="lazy" width="100">
+</a>
+</div>
+<div class="lib-book-body">
+<div class="lib-book-header">
+<span class="iris-badge">{badge}</span>
+<h3 class="lib-book-title"><a href="{amz}" target="_blank" rel="noopener sponsored">{html.escape(b['title'])}</a></h3>
+</div>
+<p class="lib-book-subtitle">{html.escape(b.get('subtitle', ''))}</p>
+<p class="lib-book-desc">{html.escape(b['short'])}</p>
+<div class="lib-book-actions">
+<a href="{amz}" class="btn-amazon" target="_blank" rel="noopener sponsored">{btn_amazon}</a>
+<a href="{detail}" class="link-detail">{btn_detail}</a>
+</div>
+</div>
+</div>'''
+
+def render_lib_ext_card(book, rank):
+    """外部書籍カード。ASIN があればカバー画像を表示、なければプレースホルダ"""
+    has_asin = bool(book.get('asin'))
+    if has_asin:
+        amz = amazon_url(book['asin'])
+        cover_html = f'''<div class="lib-book-cover">
+<a href="{amz}" target="_blank" rel="noopener sponsored">
+<img src="{cover_url(book['asin'])}" alt="{html.escape(book['title'])} 表紙" loading="lazy" width="100">
+</a>
+</div>'''
+        btn_label = 'Amazonで見る'
+    else:
+        amz = amazon_search_url(book['title'], book.get('author', ''))
+        cover_html = '''<div class="lib-book-cover lib-cover-placeholder" aria-hidden="true">
+<span class="lib-cover-icon">📖</span>
+</div>'''
+        btn_label = 'Amazonで探す'
+    author_pub = html.escape(f"{book.get('author', '')}　{book.get('publisher', '')}".strip())
+    return f'''<div class="lib-book-card lib-book-ext">
+<div class="lib-book-rank">{rank}</div>
+{cover_html}
+<div class="lib-book-body">
+<div class="lib-book-header">
+<h3 class="lib-book-title"><a href="{amz}" target="_blank" rel="noopener sponsored">{html.escape(book['title'])}</a></h3>
+</div>
+<p class="lib-book-meta">{author_pub}</p>
+<p class="lib-book-desc">{html.escape(book['description'])}</p>
+<div class="lib-book-actions">
+<a href="{amz}" class="btn-amazon btn-amazon-sm" target="_blank" rel="noopener sponsored">{btn_label}</a>
+</div>
+</div>
+</div>'''
+
+def build_library_page(ldef):
+    slug = ldef['slug']
+    books_html_list = []
+    for i, book in enumerate(ldef['books'], 1):
+        if 'iris_slug' in book:
+            b = BOOKS_BY_SLUG.get(book['iris_slug'])
+            if b:
+                books_html_list.append(render_lib_iris_card(b, i))
+        else:
+            books_html_list.append(render_lib_ext_card(book, i))
+
+    total_books = len(ldef['books'])
+    noindex = total_books < 10
+    extra_head = '<meta name="robots" content="noindex">\n' if noindex else ''
+
+    iris_series_html = ''
+    if ldef.get('iris_series'):
+        links = ' '.join(
+            f'<a href="{{ROOT}}{s["url"]}" class="lib-series-link">{html.escape(s["label"])} →</a>'
+            for s in ldef['iris_series']
+        )
+        iris_series_html = f'<div class="lib-series-cta">{links}</div>'
+
+    affiliate_note = f'''<div class="lib-affiliate-note">
+本ページはAmazon.co.jpを宣伝しリンクすることによって紹介料を獲得できる手段を提供することを目的に設定された、Amazonアソシエイト・プログラムの参加者が運営しています。
+</div>'''
+
+    body = f'''
+<main class="lib-page">
+<section class="hero">
+<div class="container">
+<div class="lib-crumb"><a href="{{ROOT}}/library/">← Iris Libraries</a></div>
+<h1>{html.escape(ldef['title'])}</h1>
+<p class="hero-sub">{html.escape(ldef.get('category', ''))}</p>
+<p class="lib-intro">{html.escape(ldef['intro'])}</p>
+{iris_series_html}
+</div>
+</section>
+
+<section class="lib-books-section">
+<div class="container">
+<p class="lib-notice">掲載順は書籍の優劣を示すものではありません。編集部の選書基準については <a href="{{ROOT}}/library/policy/">選書ポリシー</a> をご覧ください。</p>
+<div class="lib-books-list">
+{''.join(books_html_list)}
+</div>
+{affiliate_note}
+</div>
+</section>
+</main>
+'''
+    canonical = f'{SITE_URL}/library/{slug}/'
+    page = head(ldef['seo_title'], ldef['meta_desc'], canonical,
+                extra_head=extra_head) + body + footer()
+    out_dir = ROOT / 'library' / slug
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / 'index.html').write_text(render(page, 2), encoding='utf-8')
+    print(f'  ✓ library/{slug}/ ({total_books}冊{"・noindex" if noindex else ""})')
+
+def build_library_index():
+    # Map raw categories to display tabs
+    TAB_MAP = {
+        '国・地域':      '国・地域',
+        '海外生活':      '海外生活',
+        '東南アジア特集': '東南アジア特集',
+        '企業・ビジネス': 'ビジネス',
+        '投資・ビジネス': 'ビジネス',
+        'テクノロジー':  'テーマ別',
+        '文化・宗教':    'テーマ別',
+        '文化':         'テーマ別',
+        '歴史':         'テーマ別',
+    }
+    TAB_ORDER = ['国・地域', '海外生活', '東南アジア特集', 'ビジネス', 'テーマ別']
+
+    cards_by_tab = {}
+    counts_by_tab = {}
+    for ldef in LIBRARY_DATA:
+        cat = ldef.get('category', 'その他')
+        tab = TAB_MAP.get(cat, 'テーマ別')
+        total = len(ldef['books'])
+        card = f'''<a href="{{ROOT}}/library/{ldef["slug"]}/" class="lib-index-card" data-tab="{tab}">
+<h3 class="lib-index-title">{html.escape(ldef["title"])}</h3>
+<p class="lib-index-meta">{html.escape(cat)}　{total}冊</p>
+<p class="lib-index-intro">{html.escape(ldef["intro"][:60])}…</p>
+</a>'''
+        cards_by_tab.setdefault(tab, []).append(card)
+        counts_by_tab[tab] = counts_by_tab.get(tab, 0) + 1
+
+    all_cards = []
+    for tab in TAB_ORDER:
+        all_cards.extend(cards_by_tab.get(tab, []))
+
+    tab_btns = '<button class="lib-tab active" data-filter="all">すべて <span class="lib-tab-count">{}</span></button>'.format(len(LIBRARY_DATA))
+    for tab in TAB_ORDER:
+        if tab in counts_by_tab:
+            tab_btns += f'<button class="lib-tab" data-filter="{tab}">{html.escape(tab)} <span class="lib-tab-count">{counts_by_tab[tab]}</span></button>'
+
+    body = f'''
+<main class="lib-index-page">
+<section class="hero hero-large">
+<div class="container">
+<h1>Iris Libraries</h1>
+<p class="hero-sub">テーマ別おすすめ本10選</p>
+<p class="hero-desc">Iris編集部が、国・地域・産業・テーマ別に「最初に読むべき10冊」を厳選して紹介します。Iris刊行書籍と、国内外の専門家・ジャーナリストによる書籍を組み合わせた選書です。</p>
+<div class="lib-index-links">
+<a href="{{ROOT}}/library/policy/" class="lib-policy-link">選書ポリシーを見る →</a>
+</div>
+</div>
+</section>
+
+<section class="lib-index-content">
+<div class="container">
+<div class="lib-tabs">
+{tab_btns}
+</div>
+<div class="lib-index-grid" id="lib-grid">
+{''.join(all_cards)}
+</div>
+</div>
+</section>
+</main>
+<script>
+(function(){{
+  var tabs = document.querySelectorAll('.lib-tab');
+  var cards = document.querySelectorAll('.lib-index-card');
+  tabs.forEach(function(btn){{
+    btn.addEventListener('click', function(){{
+      tabs.forEach(function(b){{ b.classList.remove('active'); }});
+      btn.classList.add('active');
+      var f = btn.getAttribute('data-filter');
+      cards.forEach(function(c){{
+        if (f === 'all' || c.getAttribute('data-tab') === f) {{
+          c.style.display = '';
+        }} else {{
+          c.style.display = 'none';
+        }}
+      }});
+    }});
+  }});
+}})();
+</script>
+'''
+    canonical = f'{SITE_URL}/library/'
+    page = head(f'Iris Libraries — テーマ別おすすめ本10選 | {SITE_NAME}',
+                'Iris編集部が厳選した国・地域・企業テーマ別のおすすめ本10選。東南アジア・ASEAN・インドネシア・ベトナム・海外移住・総合商社など。',
+                canonical) + body + footer()
+    out_dir = ROOT / 'library'
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / 'index.html').write_text(render(page, 1), encoding='utf-8')
+    print('  ✓ library/index.html')
+
+def build_library_policy():
+    body = '''
+<main class="lib-page lib-policy-page">
+<section class="hero">
+<div class="container">
+<div class="lib-crumb"><a href="{ROOT}/library/">← Iris Libraries</a></div>
+<h1>Iris Libraries 選書ポリシー</h1>
+<p class="lib-intro">Iris Libraries は、テーマ別に「最初に読むべき10冊」を提示する選書メディアです。編集部は下記の観点を大切にしながら書籍を選んでいます。</p>
+</div>
+</section>
+
+<section class="lib-policy-section">
+<div class="container">
+
+<h2>選書について</h2>
+<p>Iris Libraries は、各テーマに関心を持った方が「まず1冊」から段階的に深く学べるよう、性格の異なる書籍をバランスよく組み合わせて選書しています。編集部の判断と、公開されている書評や読者の反応などの参考情報を総合的に踏まえて選んでいます。</p>
+
+<h3>内容のバランス</h3>
+<p>入門書・通史・専門書・最新のビジネス書など、目的に応じて選べるよう性格の異なる書籍を組み合わせています。「まず1冊」から「さらに深く」まで、段階的に学べる構成を意識しています。</p>
+
+<h3>テーマとの適合性</h3>
+<p>各テーマの本質を掴むうえで役立つと編集部が判断した書籍を選んでいます。</p>
+
+<h3>情報の鮮度</h3>
+<p>最新の状況を反映した書籍を中心にしていますが、その分野の定番として読み継がれている書籍については刊行年を問わず選書に含めています。</p>
+
+<h2>掲載順について</h2>
+<p>各ページでは Iris刊行の書籍を先頭に配置していますが、それ以降の掲載順は書籍の優劣を示すものではありません。ご自身の関心と目的に応じてリストをご活用ください。</p>
+
+</div>
+</section>
+</main>
+'''
+    canonical = f'{SITE_URL}/library/policy/'
+    page = head(f'選書ポリシー | Iris Libraries — {SITE_NAME}',
+                'Iris Libraries の選書ポリシー。編集部が書籍を選定する際の除外基準・優先基準・掲載順・更新方針・アソシエイトプログラムに関する開示。',
+                canonical) + body + footer()
+    out_dir = ROOT / 'library' / 'policy'
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / 'index.html').write_text(render(page, 2), encoding='utf-8')
+    print('  ✓ library/policy/')
+
+def build_all_library():
+    print('Building Iris Libraries...')
+    build_library_index()
+    build_library_policy()
+    for ldef in LIBRARY_DATA:
+        build_library_page(ldef)
+
+# -----------------------------------------------------------
+# English library (/en/library/)
+# -----------------------------------------------------------
+def build_en_library_page(ldef):
+    slug = ldef['slug']
+    books_html = []
+    for rank, entry in enumerate(ldef['books'], 1):
+        if 'iris_slug' in entry:
+            b = BOOKS_BY_SLUG.get(entry['iris_slug'])
+            if not b:
+                continue
+            books_html.append(render_lib_iris_card(b, rank, lang='en'))
+        else:
+            # English external book — Amazon.com (primary) + Amazon.co.uk (secondary)
+            asin = entry.get('asin', '')
+            if asin:
+                com_url = amazon_url_com(asin)
+                uk_url = amazon_url_uk(asin)
+                cover_html = f'''<div class="lib-book-cover">
+<a href="{com_url}" target="_blank" rel="noopener sponsored">
+<img src="{cover_url(asin)}" alt="{html.escape(entry['title'])} cover" loading="lazy" width="100">
+</a></div>'''
+                action = (f'<a href="{com_url}" class="btn-amazon" target="_blank" rel="noopener sponsored">Amazon.com</a>'
+                          f'<a href="{uk_url}" class="btn-amazon-intl" target="_blank" rel="noopener sponsored">Amazon.co.uk</a>')
+                title_link = com_url
+            else:
+                title_link = f'https://www.amazon.com/s?k={urllib.parse.quote_plus(entry["title"])}'
+                cover_html = '<div class="lib-cover-placeholder"><span class="lib-cover-icon">📖</span></div>'
+                action = f'<a href="{title_link}" class="btn-amazon" target="_blank" rel="noopener sponsored">Search Amazon</a>'
+            meta = f'{html.escape(entry.get("pub_year",""))} · {html.escape(entry.get("publisher",""))}'
+            desc = html.escape(entry.get('description', ''))
+            books_html.append(f'''<div class="lib-book-card lib-book-ext">
+<div class="lib-book-rank">{rank}</div>
+{cover_html}
+<div class="lib-book-body">
+<h3 class="lib-book-title"><a href="{title_link}" target="_blank" rel="noopener sponsored">{html.escape(entry["title"])}</a></h3>
+<p class="lib-book-author">{html.escape(entry.get("author",""))}</p>
+<p class="lib-book-meta">{meta}</p>
+<p class="lib-book-desc">{desc}</p>
+<div class="lib-book-actions">{action}</div>
+</div>
+</div>''')
+
+    body = f'''
+<main class="lib-page">
+<section class="hero">
+<div class="container">
+<div class="lib-crumb"><a href="{{ROOT}}/en/library/">← Iris Libraries</a></div>
+<h1>{html.escape(ldef["title"])}</h1>
+<p class="lib-intro">{html.escape(ldef["intro"])}</p>
+</div>
+</section>
+<section class="lib-books-section">
+<div class="container">
+{''.join(books_html)}
+</div>
+</section>
+<p class="lib-affiliate-note">As an Amazon Associate I earn from qualifying purchases.</p>
+</main>
+'''
+    canonical = f'{SITE_URL}/en/library/{slug}/'
+    page = head(ldef['seo_title'], ldef['meta_desc'], canonical, lang='en') + body + footer(lang='en')
+    out_dir = ROOT / 'en' / 'library' / slug
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / 'index.html').write_text(render(page, 3), encoding='utf-8')
+    print(f'  ✓ en/library/{slug}/ ({len(ldef["books"])}冊)')
+
+def build_en_library_index():
+    cards = []
+    for ldef in LIBRARY_EN_DATA:
+        total = len(ldef['books'])
+        cards.append(f'''<a href="{{ROOT}}/en/library/{ldef["slug"]}/" class="lib-index-card">
+<h3 class="lib-index-title">{html.escape(ldef["title"])}</h3>
+<p class="lib-index-meta">{total} books</p>
+<p class="lib-index-intro">{html.escape(ldef["intro"][:80])}…</p>
+</a>''')
+
+    body = f'''
+<main class="lib-index-page">
+<section class="hero hero-large">
+<div class="container">
+<h1>Iris Libraries</h1>
+<p class="hero-sub">10 essential books, by theme</p>
+<p class="hero-desc">Iris editorial team curates 10 books on each country, company, and topic — combining Iris titles with the best external sources available.</p>
+</div>
+</section>
+<section class="lib-index-content">
+<div class="container">
+<div class="lib-index-grid">
+{''.join(cards)}
+</div>
+</div>
+</section>
+</main>
+'''
+    canonical = f'{SITE_URL}/en/library/'
+    page = head('Iris Libraries — 10 Essential Books by Theme | Iris Institute',
+                'Iris editorial curates 10 essential books on Japan, Mexico and more — history, politics, economy, culture.',
+                canonical, lang='en') + body + footer(lang='en')
+    out_dir = ROOT / 'en' / 'library'
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / 'index.html').write_text(render(page, 2), encoding='utf-8')
+    print('  ✓ en/library/index.html')
+
+def build_all_en_library():
+    print('Building English Libraries...')
+    build_en_library_index()
+    for ldef in LIBRARY_EN_DATA:
+        build_en_library_page(ldef)
+
+# -----------------------------------------------------------
 # sitemap.xml / robots.txt
 # -----------------------------------------------------------
 def build_sitemap():
@@ -1433,10 +2131,30 @@ def build_sitemap():
     # シリーズページ自動生成
     for sdef in SERIES:
         urls.append((f'{SITE_URL}/series/{sdef["slug"]}/', '0.9'))
+    # ライブラリページ
+    urls.append((SITE_URL + '/library/', '0.8'))
+    urls.append((SITE_URL + '/library/policy/', '0.5'))
+    for ldef in LIBRARY_DATA:
+        if len(ldef['books']) >= 10:
+            urls.append((f'{SITE_URL}/library/{ldef["slug"]}/', '0.8'))
     urls += [
         (SITE_URL + '/about.html', '0.7'),
         (SITE_URL + '/en/', '0.9'),
+        (SITE_URL + '/en/library/', '0.8'),
+        *[(f'{SITE_URL}/en/library/{ldef["slug"]}/', '0.8') for ldef in LIBRARY_EN_DATA],
         (SITE_URL + '/en/about.html', '0.5'),
+        (SITE_URL + '/es/', '0.8'),
+        (SITE_URL + '/es/library/', '0.6'),
+        *[(f'{SITE_URL}/es/library/{ldef["slug"]}/', '0.7') for ldef in LIBRARY_ES_DATA],
+        (SITE_URL + '/es/about.html', '0.4'),
+        (SITE_URL + '/de/', '0.8'),
+        (SITE_URL + '/de/library/', '0.6'),
+        *[(f'{SITE_URL}/de/library/{ldef["slug"]}/', '0.7') for ldef in LIBRARY_DE_DATA],
+        (SITE_URL + '/de/about.html', '0.4'),
+        (SITE_URL + '/fr/', '0.8'),
+        (SITE_URL + '/fr/library/', '0.6'),
+        *[(f'{SITE_URL}/fr/library/{ldef["slug"]}/', '0.7') for ldef in LIBRARY_FR_DATA],
+        (SITE_URL + '/fr/about.html', '0.4'),
         (SITE_URL + '/privacy.html', '0.3'),
     ]
     for b in DATA:
@@ -1466,9 +2184,12 @@ if __name__ == '__main__':
     build_all_series()
     build_en_index()
     build_en_about()
+    build_all_en_library()
+    build_all_multilang()
     build_all_details()
     build_about()
     build_privacy()
+    build_all_library()
     build_sitemap()
     build_robots()
     print('\n🎉 生成完了')
