@@ -1925,30 +1925,84 @@ def build_library_index():
 <div class="lib-tabs">
 {tab_btns}
 </div>
+<div class="lib-index-status" id="lib-status"></div>
 <div class="lib-index-grid" id="lib-grid">
 {''.join(all_cards)}
 </div>
+<div class="lib-pagination" id="lib-pagination"></div>
 </div>
 </section>
 </main>
 <script>
 (function(){{
+  var PER_PAGE = 12;
   var tabs = document.querySelectorAll('.lib-tab');
-  var cards = document.querySelectorAll('.lib-index-card');
-  tabs.forEach(function(btn){{
-    btn.addEventListener('click', function(){{
-      tabs.forEach(function(b){{ b.classList.remove('active'); }});
-      btn.classList.add('active');
-      var f = btn.getAttribute('data-filter');
-      cards.forEach(function(c){{
-        if (f === 'all' || c.getAttribute('data-tab') === f) {{
-          c.style.display = '';
-        }} else {{
-          c.style.display = 'none';
-        }}
+  var allCards = Array.prototype.slice.call(document.querySelectorAll('.lib-index-card'));
+  var status = document.getElementById('lib-status');
+  var pagination = document.getElementById('lib-pagination');
+  var currentFilter = 'all';
+  var currentPage = 1;
+
+  function getVisible() {{
+    return allCards.filter(function(c) {{
+      return currentFilter === 'all' || c.getAttribute('data-tab') === currentFilter;
+    }});
+  }}
+
+  function render() {{
+    var visible = getVisible();
+    var total = visible.length;
+    var totalPages = Math.ceil(total / PER_PAGE);
+    if (currentPage > totalPages) currentPage = 1;
+    var start = (currentPage - 1) * PER_PAGE;
+    var end = start + PER_PAGE;
+
+    allCards.forEach(function(c) {{ c.style.display = 'none'; }});
+    visible.slice(start, end).forEach(function(c) {{ c.style.display = ''; }});
+
+    // status
+    var showing = Math.min(end, total);
+    status.textContent = total + '件中 ' + (start + 1) + '〜' + showing + '件を表示';
+
+    // pagination
+    if (totalPages <= 1) {{
+      pagination.innerHTML = '';
+      return;
+    }}
+    var html = '';
+    html += currentPage > 1
+      ? '<button class="lib-page-btn" data-page="' + (currentPage - 1) + '">← 前へ</button>'
+      : '<button class="lib-page-btn" disabled>← 前へ</button>';
+    for (var p = 1; p <= totalPages; p++) {{
+      html += p === currentPage
+        ? '<span class="lib-page-num lib-page-current">' + p + '</span>'
+        : '<button class="lib-page-num" data-page="' + p + '">' + p + '</button>';
+    }}
+    html += currentPage < totalPages
+      ? '<button class="lib-page-btn" data-page="' + (currentPage + 1) + '">次へ →</button>'
+      : '<button class="lib-page-btn" disabled>次へ →</button>';
+    pagination.innerHTML = html;
+
+    pagination.querySelectorAll('[data-page]').forEach(function(btn) {{
+      btn.addEventListener('click', function() {{
+        currentPage = parseInt(btn.getAttribute('data-page'));
+        render();
+        document.querySelector('.lib-index-content').scrollIntoView({{behavior:'smooth', block:'start'}});
       }});
     }});
+  }}
+
+  tabs.forEach(function(btn) {{
+    btn.addEventListener('click', function() {{
+      tabs.forEach(function(b) {{ b.classList.remove('active'); }});
+      btn.classList.add('active');
+      currentFilter = btn.getAttribute('data-filter');
+      currentPage = 1;
+      render();
+    }});
   }});
+
+  render();
 }})();
 </script>
 '''
