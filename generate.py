@@ -47,6 +47,29 @@ def amazon_url_lang(asin, lang):
     tag = AFFILIATE_TAGS_MULTILANG[lang]
     return f'https://www.amazon.{lang}/dp/{asin}?tag={tag}'
 
+def hreflang_block(hmap):
+    """hreflang <link> タグ群を返す"""
+    return '\n'.join(f'<link rel="alternate" hreflang="{k}" href="{v}">' for k, v in hmap.items())
+
+# トップページ hreflang（全5言語）
+TOP_HREFLANG = {
+    'ja':        f'{SITE_URL}/',
+    'en':        f'{SITE_URL}/en/',
+    'es':        f'{SITE_URL}/es/',
+    'de':        f'{SITE_URL}/de/',
+    'fr':        f'{SITE_URL}/fr/',
+    'x-default': f'{SITE_URL}/en/',
+}
+
+# Japanライブラリ hreflang（EN/DE/ES/FR）
+JAPAN_LIB_HREFLANG = {
+    'en':        f'{SITE_URL}/en/library/japan/',
+    'de':        f'{SITE_URL}/de/library/japan/',
+    'es':        f'{SITE_URL}/es/library/japan/',
+    'fr':        f'{SITE_URL}/fr/library/japan/',
+    'x-default': f'{SITE_URL}/en/library/japan/',
+}
+
 def lang_switcher(current_lang):
     """言語切替ドロップダウン（<details>ベース、CSSのみ）"""
     labels = {'ja': '日本語', 'en': 'EN', 'es': 'ES', 'de': 'DE', 'fr': 'FR'}
@@ -300,7 +323,7 @@ def build_index():
 }
 </script>'''
 
-    page = head(title, desc, SITE_URL + '/', extra_head=site_jsonld) + body + footer()
+    page = head(title, desc, SITE_URL + '/', extra_head=site_jsonld + '\n' + hreflang_block(TOP_HREFLANG)) + body + footer()
     (ROOT / 'index.html').write_text(render(page, 0), encoding='utf-8')
     print(f'✓ index.html (注目3冊 + {len(cat_cards)}カテゴリー)')
 
@@ -794,7 +817,7 @@ def build_en_index():
 
     title = f'{SITE_NAME} — Analytical books on countries, companies and industries'
     desc = f'{SITE_NAME} publishes structured, primary-source-based books on countries, companies and industries. The Decoding the World Series analyzes each subject through history, geography, culture, politics and economics.'
-    page = head(title, desc, SITE_URL + '/en/', lang='en') + body + footer(lang='en')
+    page = head(title, desc, SITE_URL + '/en/', lang='en', extra_head=hreflang_block(TOP_HREFLANG)) + body + footer(lang='en')
     (ROOT / 'en').mkdir(exist_ok=True)
     (ROOT / 'en' / 'index.html').write_text(render(page, 1), encoding='utf-8')
     print(f'✓ en/index.html ({len(en_books)} books)')
@@ -952,7 +975,7 @@ def build_lang_index(lang):
 </section>
 </main>
 '''
-    page = head(c['site_title'], c['site_desc'], f'{SITE_URL}/{lang}/', lang=lang) + body + footer(lang=lang)
+    page = head(c['site_title'], c['site_desc'], f'{SITE_URL}/{lang}/', lang=lang, extra_head=hreflang_block(TOP_HREFLANG)) + body + footer(lang=lang)
     out_dir = ROOT / lang
     out_dir.mkdir(exist_ok=True)
     (out_dir / 'index.html').write_text(render(page, 1), encoding='utf-8')
@@ -1066,7 +1089,8 @@ def build_multilang_library_page(ldef, lang):
 </main>
 '''
     canonical = f'{SITE_URL}/{lang}/library/{slug}/'
-    page = head(ldef['seo_title'], ldef['meta_desc'], canonical, lang=lang) + body + footer(lang=lang)
+    extra = hreflang_block(JAPAN_LIB_HREFLANG) if slug == 'japan' else ''
+    page = head(ldef['seo_title'], ldef['meta_desc'], canonical, lang=lang, extra_head=extra) + body + footer(lang=lang)
     out_dir = ROOT / lang / 'library' / slug
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / 'index.html').write_text(render(page, 3), encoding='utf-8')
@@ -2125,7 +2149,8 @@ def build_en_library_page(ldef):
 </main>
 '''
     canonical = f'{SITE_URL}/en/library/{slug}/'
-    page = head(ldef['seo_title'], ldef['meta_desc'], canonical, lang='en') + body + footer(lang='en')
+    extra = hreflang_block(JAPAN_LIB_HREFLANG) if slug == 'japan' else ''
+    page = head(ldef['seo_title'], ldef['meta_desc'], canonical, lang='en', extra_head=extra) + body + footer(lang='en')
     out_dir = ROOT / 'en' / 'library' / slug
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / 'index.html').write_text(render(page, 3), encoding='utf-8')
