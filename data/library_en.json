@@ -1,0 +1,405 @@
+[
+  {
+    "slug": "japan",
+    "title": "10 Books to Understand Japan",
+    "seo_title": "10 Books to Understand Japan | Iris Libraries",
+    "meta_desc": "The Iris editorial team's curated list of 10 essential books on Japan — covering history, society, politics, economy, and culture from multiple analytical perspectives.",
+    "intro": "Japan is simultaneously one of the most studied and most misunderstood countries in the world. Behind the surface of pop culture and technological reputation lies a deeply layered society shaped by feudalism, wartime trauma, postwar reinvention, and a decades-long economic stagnation. These ten books cut through the clichés.",
+    "books": [
+      {"iris_slug": "decoding-japan"},
+      {
+        "title": "Embracing Defeat: Japan in the Wake of World War II",
+        "author": "John W. Dower",
+        "publisher": "W. W. Norton",
+        "pub_year": "2000",
+        "description": "Pulitzer Prize–winning masterwork on the U.S. occupation of Japan (1945–52). Dower shows how defeat and occupation reshaped every layer of Japanese society — from the constitution to popular culture — in ways that still define the country today.",
+        "asin": "0393320278",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "The Chrysanthemum and the Sword: Patterns of Japanese Culture",
+        "author": "Ruth Benedict",
+        "publisher": "Mariner Books",
+        "pub_year": "1946",
+        "description": "The foundational text for understanding Japanese social psychology. Written for the U.S. War Department in 1944, Benedict's analysis of Japan's 'shame culture' versus the Western 'guilt culture' remains essential — and productively controversial — reading.",
+        "asin": "0618619593",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Dogs and Demons: Tales from the Dark Side of Japan",
+        "author": "Alex Kerr",
+        "publisher": "Hill and Wang",
+        "pub_year": "2002",
+        "description": "A bracingly critical portrait of modern Japan by a long-time Western resident. Kerr dissects how bureaucratic inertia, concrete addiction, and resistance to reform strangled the world's second-largest economy — still painfully relevant two decades on.",
+        "asin": "0809039435",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Lost Japan: Last Glimpse of Beautiful Japan",
+        "author": "Alex Kerr",
+        "publisher": "Penguin Books",
+        "pub_year": "2015",
+        "description": "Kerr's lyrical counterpart to Dogs and Demons — a memoir of discovering traditional Japan in the 1970s. Noh theater, calligraphy, machiya townhouses: the cultural richness that modernization is steadily erasing. Winner of Japan's Shincho Literary Prize.",
+        "asin": "0141979747",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Bending Adversity: Japan and the Art of Survival",
+        "author": "David Pilling",
+        "publisher": "Penguin Press",
+        "pub_year": "2014",
+        "description": "The Financial Times Tokyo bureau chief for seven years, Pilling frames Japan's story through resilience — from postwar reconstruction to the 2011 tsunami. A humane and clear-eyed account that avoids both Japan-bashing and Japan-boosting.",
+        "asin": "1594205841",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Japan and the Shackles of the Past",
+        "author": "R. Taggart Murphy",
+        "publisher": "Oxford University Press",
+        "pub_year": "2014",
+        "description": "A sweeping political-economic history that explains why Japan cannot break free of its postwar institutional constraints. Murphy — a former investment banker turned academic — connects Meiji-era structures to 21st-century policy paralysis with unusual precision.",
+        "asin": "0190619589",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Hirohito and the Making of Modern Japan",
+        "author": "Herbert P. Bix",
+        "publisher": "HarperCollins",
+        "pub_year": "2001",
+        "description": "Pulitzer Prize biography that definitively reframes Emperor Hirohito's role in the Pacific War. Drawing on newly opened Japanese archives, Bix dismantles the 'passive emperor' myth and shows how the imperial institution actively shaped war policy.",
+        "asin": "006019314X",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Shutting Out the Sun: How Japan Created Its Own Lost Generation",
+        "author": "Michael Zielenziger",
+        "publisher": "Vintage",
+        "pub_year": "2007",
+        "description": "A journalist's investigation into hikikomori (social withdrawal) and Japan's broader failure to reform after the bubble burst. Zielenziger argues that Japan's social conformity, rather than economics, is the root cause of its prolonged stagnation.",
+        "asin": "1400077796",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Japan as Number One: Lessons for America",
+        "author": "Ezra F. Vogel",
+        "publisher": "Harvard University Press",
+        "pub_year": "1979",
+        "description": "The most influential book ever written about Japan's economic rise. Vogel's 1979 portrait of Japan's industrial organization, education system, and bureaucratic competence became a touchstone — and a cautionary tale — for understanding both Japan's peak and its subsequent decline.",
+        "asin": "0674472152",
+        "amazon_com": true,
+        "isIris": false
+      }
+    ]
+  },
+  {
+    "slug": "mexico",
+    "title": "10 Books to Understand Mexico",
+    "seo_title": "10 Books to Understand Mexico | Iris Libraries",
+    "meta_desc": "The Iris editorial team's curated list of 10 essential books on Mexico — covering history, politics, narco violence, economy, culture, and the U.S.-Mexico relationship.",
+    "intro": "Mexico is the United States' largest trading partner, the birthplace of one of humanity's great civilizations, and a country locked in a century-long struggle between democratic aspirations and entrenched power. These ten books — by journalists, historians, and political scientists — map that struggle from the Aztecs to the cartel wars.",
+    "books": [
+      {"iris_slug": "decoding-mexico"},
+      {
+        "title": "Distant Neighbors: A Portrait of the Mexicans",
+        "author": "Alan Riding",
+        "publisher": "Vintage",
+        "pub_year": "1985",
+        "description": "The classic portrait of Mexico by the New York Times Mexico City bureau chief. Riding's account of Mexican politics, culture, and society — written at the height of PRI dominance — remains the essential starting point four decades on. Sharp, fair, and extraordinarily well-observed.",
+        "asin": "0679724419",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "El Narco: Inside Mexico's Criminal Insurgency",
+        "author": "Ioan Grillo",
+        "publisher": "Bloomsbury Press",
+        "pub_year": "2011",
+        "description": "The definitive account of how Mexico's cartels evolved from smugglers into a paramilitary insurgency. Grillo, who has covered Mexico for twenty years, writes with street-level reporting and clear structural analysis — neither sensationalism nor euphemism.",
+        "asin": "1608194019",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Mañana Forever?: Mexico and the Mexicans",
+        "author": "Jorge G. Castañeda",
+        "publisher": "Vintage",
+        "pub_year": "2012",
+        "description": "Mexico's former foreign minister examines the cultural traits — individualism, distrust of institutions, aversion to conflict — that shape Mexican politics and society. A frank insider's account of why reform is so hard and what would need to change.",
+        "asin": "0375703942",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Mexico: Biography of Power",
+        "author": "Enrique Krauze",
+        "publisher": "HarperCollins",
+        "pub_year": "1997",
+        "description": "Leading Mexican historian Krauze narrates two centuries of Mexican history through the biographies of its key leaders — from independence priests to revolutionary caudillos. An unmatched portrait of how personality and power interact in Mexican politics.",
+        "asin": "0060929170",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Narconomics: How to Run a Drug Cartel",
+        "author": "Tom Wainwright",
+        "publisher": "PublicAffairs",
+        "pub_year": "2016",
+        "description": "The Economist's former Mexico bureau chief applies economic analysis to the drug trade. Wainwright shows how cartels function like franchises, why supply-side enforcement fails, and what alternative policies could work — rigorous and highly readable.",
+        "asin": "1610397703",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Blood Gun Money: How America Arms Gangs and Cartels",
+        "author": "Ioan Grillo",
+        "publisher": "Bloomsbury Publishing",
+        "pub_year": "2021",
+        "description": "Grillo's follow-up to El Narco traces the flow of U.S. firearms into Mexican cartel hands — from gun shows to straw purchases to Fast and Furious. A cross-border investigation that reframes the cartel crisis as an American problem as much as a Mexican one.",
+        "asin": "1635572789",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Open Veins of Latin America: Five Centuries of the Pillage of a Continent",
+        "author": "Eduardo Galeano",
+        "publisher": "Monthly Review Press",
+        "pub_year": "1971",
+        "description": "The canonical left-wing reading of Latin American history as five centuries of extraction — silver, rubber, oil — by colonial and neocolonial powers. Hugo Chávez famously gave a copy to Barack Obama. Essential for understanding how Mexico (and the region) frames its relationship with the North.",
+        "asin": "0853459916",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "The Mexico Reader: History, Culture, Politics",
+        "author": "Gilbert M. Joseph & Timothy J. Henderson (eds.)",
+        "publisher": "Duke University Press",
+        "pub_year": "2002",
+        "description": "The most comprehensive single-volume anthology on Mexico — primary sources, journalism, and scholarship from the pre-Columbian era to the post-PRI transition. Ideal for readers who want depth across all topics rather than a single argument.",
+        "asin": "0822330423",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "A Concise History of Mexico",
+        "author": "Brian R. Hamnett",
+        "publisher": "Cambridge University Press",
+        "pub_year": "2006",
+        "description": "Cambridge's authoritative single-volume history of Mexico, from the Olmecs to NAFTA and beyond. Hamnett balances political, economic, and social history with clarity and depth — the essential academic baseline before diving into more specialized works.",
+        "asin": "131662661X",
+        "amazon_com": true,
+        "isIris": false
+      }
+    ]
+  },
+  {
+    "slug": "us-foreign-policy",
+    "title": "Essential Books on U.S. Foreign Policy",
+    "seo_title": "Essential Books on U.S. Foreign Policy | Iris Libraries",
+    "meta_desc": "The Iris editorial team's curated reading list on American foreign policy — from Cold War interventions and CIA covert operations to the China challenge and the structural limits of U.S. power.",
+    "intro": "American foreign policy since 1945 has shaped — and frequently destabilized — every region covered by the Iris library. These books examine it without illusions: the strategic interests, the covert operations, the unintended consequences, and the structural pressures that define how the world's most powerful state relates to everyone else.",
+    "books": [
+      {"iris_slug": "decoding-mexico"},
+      {"iris_slug": "decoding-japan"},
+      {
+        "title": "Overthrow: America's Century of Regime Change from Hawaii to Iraq",
+        "author": "Stephen Kinzer",
+        "publisher": "Times Books",
+        "pub_year": "2006",
+        "description": "Stephen Kinzer documents fourteen U.S.-sponsored regime changes from 1893 to 2003 — Hawaii, Iran, Guatemala, Chile, Iraq. The pattern he finds is consistent: short-term strategic calculation, long-term blowback. The essential historical primer on American interventionism.",
+        "asin": "0805082409",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Blowback: The Costs and Consequences of American Empire",
+        "author": "Chalmers Johnson",
+        "publisher": "Metropolitan Books",
+        "pub_year": "2000",
+        "description": "CIA analyst turned critic Chalmers Johnson coined the term that defined post-9/11 security debates: the unintended consequences of covert U.S. operations abroad returning home as violence. Written in 2000, its predictive accuracy made it required reading after the Twin Towers fell.",
+        "asin": "0805075593",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Destined for War: Can America and China Escape Thucydides's Trap?",
+        "author": "Graham Allison",
+        "publisher": "Houghton Mifflin Harcourt",
+        "pub_year": "2017",
+        "description": "Harvard's Graham Allison examines the 'Thucydides Trap' — the structural tendency for rising powers to clash with established ones. Of 16 historical case studies, 12 ended in war. The China-U.S. framework this book introduced is now standard in foreign policy analysis.",
+        "asin": "1328915387",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "The Clash of Civilizations and the Remaking of World Order",
+        "author": "Samuel P. Huntington",
+        "publisher": "Simon & Schuster",
+        "pub_year": "1996",
+        "description": "The most argued-about foreign policy book of the past three decades. Huntington predicted post-Cold War conflict would be driven by civilizational identity rather than ideology — prescient in some ways, reductive in others, but the unavoidable reference point for any serious discussion of global order.",
+        "asin": "1451628978",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "The Limits of Power: The End of American Exceptionalism",
+        "author": "Andrew Bacevich",
+        "publisher": "Metropolitan Books",
+        "pub_year": "2008",
+        "description": "A conservative military historian and Vietnam veteran's indictment of American imperial overreach. Bacevich argues the crisis of U.S. foreign policy is rooted in domestic dysfunction — military, political, and economic — not external threats, and that only Americans can fix it.",
+        "asin": "0805090169",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Legacy of Ashes: The History of the CIA",
+        "author": "Tim Weiner",
+        "publisher": "Doubleday",
+        "pub_year": "2007",
+        "description": "National Book Award–winning history of the CIA from its 1947 founding through the Iraq War. Drawing on 50,000 declassified documents and hundreds of interviews, Weiner's account is a sustained institutional autopsy: lofty mission, chronic failure, enormous consequences.",
+        "asin": "0307389006",
+        "amazon_com": true,
+        "isIris": false
+      }
+    ]
+  },
+  {
+    "slug": "national-identity",
+    "title": "Essential Books on National Identity",
+    "seo_title": "Essential Books on National Identity | Iris Libraries",
+    "meta_desc": "The Iris editorial team's curated reading list on national identity — from Anderson's imagined communities and Said's critique of Orientalism to Fukuyama's politics of recognition and Huntington's civilizational clash.",
+    "intro": "What makes a nation? Who belongs, who is excluded, and how do those answers change over time? These books — by philosophers, sociologists, postcolonial theorists, and political scientists — map the intellectual terrain of national identity from its modern construction through the identity-politics crisis reshaping democracies today.",
+    "books": [
+      {"iris_slug": "decoding-japan"},
+      {"iris_slug": "decoding-mexico"},
+      {
+        "title": "Imagined Communities: Reflections on the Origin and Spread of Nationalism",
+        "author": "Benedict Anderson",
+        "publisher": "Verso",
+        "pub_year": "1983",
+        "description": "The foundational academic text on nationalism. Anderson's argument — that nations are 'imagined communities' constructed through print capitalism and shared historical narrative — has shaped every serious analysis of national identity and sovereignty for forty years.",
+        "asin": "1784786756",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Identity: The Demand for Dignity and the Politics of Resentment",
+        "author": "Francis Fukuyama",
+        "publisher": "Farrar, Straus and Giroux",
+        "pub_year": "2018",
+        "description": "Why has identity politics displaced economic anxiety as democracy's organizing force? Fukuyama traces the philosophical roots of the demand for recognition — from Plato's thymos to Hegel — and argues that liberal democracy must reclaim the politics of dignity before populism does.",
+        "asin": "1250234646",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Orientalism",
+        "author": "Edward W. Said",
+        "publisher": "Vintage Books",
+        "pub_year": "1978",
+        "description": "One of the most influential books of the twentieth century. Said argues that Western academic and cultural representations of 'the East' are instruments of colonial power rather than neutral observation — a framework that reshaped how we think about knowledge, identity, and who gets to define whom.",
+        "asin": "039474067X",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "The End of History and the Last Man",
+        "author": "Francis Fukuyama",
+        "publisher": "Free Press",
+        "pub_year": "1992",
+        "description": "The most optimistic — and most contested — argument for liberal democratic identity as civilization's final form. Essential reading not because Fukuyama was right, but because understanding why he seemed right in 1992 and wrong by 2016 maps the political arc of our era.",
+        "asin": "0743284550",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "The Clash of Civilizations and the Remaking of World Order",
+        "author": "Samuel P. Huntington",
+        "publisher": "Simon & Schuster",
+        "pub_year": "1996",
+        "description": "The direct counterargument to Fukuyama's universalism. Where Fukuyama saw convergence on a single liberal identity, Huntington saw irreducible civilizational difference — and predicted those differences would define 21st-century conflict. Still the unavoidable counterpoint.",
+        "asin": "1451628978",
+        "amazon_com": true,
+        "isIris": false
+      }
+    ]
+  },
+  {
+    "slug": "economic-miracles",
+    "title": "Essential Books on Economic Miracles and Crises",
+    "seo_title": "Essential Books on Economic Miracles and Crises | Iris Libraries",
+    "meta_desc": "The Iris editorial team's curated reading list on economic development and financial collapse — from Asia's postwar miracles and the secrets of rapid industrialization to the Great Depression and the 2008 crash.",
+    "intro": "Why do some economies grow spectacularly while others collapse? These books examine both sides: the Asian development miracles that rewrote economic theory, and the financial crises — the Great Depression, the 2008 crash, Latin America's lost decades — that revealed the system's fragility. Read together, they form the essential economic history of the past century.",
+    "books": [
+      {"iris_slug": "decoding-japan"},
+      {"iris_slug": "decoding-mexico"},
+      {
+        "title": "How Asia Works: Success and Failure in the World's Most Dynamic Region",
+        "author": "Joe Studwell",
+        "publisher": "Grove Press",
+        "pub_year": "2013",
+        "description": "Why did Japan, South Korea, and Taiwan industrialize so fast while the Philippines, Indonesia, and Thailand did not? Studwell's answer — land reform, industrial policy, export discipline — is the most persuasive account of development economics written in a generation.",
+        "asin": "0802121322",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Lords of Finance: The Bankers Who Broke the World",
+        "author": "Liaquat Ahamed",
+        "publisher": "Penguin Press",
+        "pub_year": "2009",
+        "description": "Pulitzer Prize–winning history of the four central bankers — Fed, Bank of England, Banque de France, Reichsbank — whose decisions in the 1920s caused the Great Depression. A masterclass in how monetary policy and individual psychology interact to shape history.",
+        "asin": "0143116800",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Crashed: How a Decade of Financial Crises Changed the World",
+        "author": "Adam Tooze",
+        "publisher": "Viking",
+        "pub_year": "2018",
+        "description": "The definitive global history of the 2008 financial crisis and its decade-long aftermath — from Wall Street to Beijing, Frankfurt to Athens. More comprehensive than any other account, and essential for understanding why the crisis remade the political order as well as the economic one.",
+        "asin": "0143110357",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "The Big Short: Inside the Doomsday Machine",
+        "author": "Michael Lewis",
+        "publisher": "W. W. Norton",
+        "pub_year": "2010",
+        "description": "How a handful of contrarians saw the 2008 housing bubble collapse coming and bet against it. Lewis makes the mechanics of credit default swaps accessible — and his moral outrage at the system's institutionalized dishonesty gives the book its urgency. Basis for the Academy Award–winning film.",
+        "asin": "0393338827",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Bad Samaritans: The Myth of Free Trade and the Secret History of Capitalism",
+        "author": "Ha-Joon Chang",
+        "publisher": "Bloomsbury Press",
+        "pub_year": "2007",
+        "description": "Cambridge economist Ha-Joon Chang argues the free-trade prescriptions rich nations impose on developing countries are the opposite of what those nations did to get rich. Uses Japan, South Korea, Finland, and the U.S. as counter-evidence to Washington Consensus orthodoxy.",
+        "asin": "1596915986",
+        "amazon_com": true,
+        "isIris": false
+      },
+      {
+        "title": "Why Nations Fail: The Origins of Power, Prosperity, and Poverty",
+        "author": "Daron Acemoglu & James A. Robinson",
+        "publisher": "Currency",
+        "pub_year": "2012",
+        "description": "Why are some nations rich and others poor? Acemoglu and Robinson argue the answer lies in political and economic institutions — inclusive versus extractive — not geography or culture. One of the most influential economics books of the 21st century, drawing on cases from Japan and Mexico to sub-Saharan Africa.",
+        "asin": "0307719227",
+        "amazon_com": true,
+        "isIris": false
+      }
+    ]
+  }
+]

@@ -1,0 +1,101 @@
+[
+  {
+    "slug": "japan",
+    "title": "10 libros para entender Japón",
+    "seo_title": "10 libros sobre Japón en español | Iris Libraries",
+    "meta_desc": "Los mejores libros sobre Japón en español — historia, cultura, sociedad, política y economía. Selección del equipo editorial de Iris Institute.",
+    "intro": "Japón es uno de los países más estudiados y, al mismo tiempo, más incomprendidos del mundo. Detrás de la superficie de la cultura pop y la reputación tecnológica se esconde una sociedad profundamente estratificada, moldeada por el feudalismo, el trauma de la guerra, la reinvención de posguerra y décadas de estancamiento económico. Estos diez libros — todos en español — desmontan los clichés.",
+    "books": [
+      {
+        "title": "Historia de Japón",
+        "author": "Brett L. Walker",
+        "publisher": "Akal",
+        "pub_year": "2017",
+        "description": "Considerada por los especialistas la mejor historia general del Japón disponible en español. Walker narra el archipiélago desde las primeras culturas Jōmon hasta el Japón contemporáneo, integrando política, economía, medio ambiente y vida cotidiana en un relato coherente.",
+        "asin": "8446043513",
+        "isIris": false
+      },
+      {
+        "title": "Breve historia de Japón",
+        "author": "Mikiso Hane",
+        "publisher": "Alianza Editorial",
+        "pub_year": "2011",
+        "description": "El clásico de Mikiso Hane: un recorrido completo desde la prehistoria hasta finales del siglo XX. Riguroso y accesible a la vez, es el punto de partida perfecto para cualquier lector hispanohablante interesado en Japón.",
+        "asin": "8420653675",
+        "isIris": false
+      },
+      {
+        "title": "Introducción a la Cultura Japonesa: Pensamiento y Religión",
+        "author": "Federico Lanzaco Salafranca",
+        "publisher": "Universidad de Valladolid",
+        "pub_year": "2011",
+        "description": "Panorámica completa del pensamiento y la religión japonesa: sintoísmo, confucianismo, budismo y zen. Lanzaco Salafranca, hispanista y japanólogo, ofrece la síntesis más completa en español sobre la identidad cultural nipona.",
+        "asin": "8484486508",
+        "isIris": false
+      },
+      {
+        "title": "Historia de Japón: Una Fascinante Guía de la Historia Japonesa",
+        "author": "Captivating History",
+        "publisher": "Captivating History",
+        "pub_year": "2020",
+        "description": "Una guía que recorre los grandes hitos de la historia japonesa: la guerra Genpei, las invasiones mongolas, la batalla de Tsushima, Hiroshima y Nagasaki. Ideal para el lector general que busca un acceso ágil y ameno a los momentos clave de Japón.",
+        "asin": "1647485037",
+        "isIris": false
+      },
+      {
+        "title": "Eso No Estaba En Mi Libro de Historia del Japón",
+        "author": "Beatriz Lizana López",
+        "publisher": "Almuzara",
+        "pub_year": "2021",
+        "description": "Un Japón diferente al de los libros de texto: cultura, tradición, gastronomía, manga, filosofía de vida y relaciones sociales. Beatriz Lizana revela los aspectos más sorprendentes y desconocidos de la sociedad japonesa contemporánea.",
+        "asin": "8418346833",
+        "isIris": false
+      },
+      {
+        "title": "Japón en su Historia: De los primeros pobladores a la era Reiwa",
+        "author": "Andrés Pérez Riobó & Gonzalo San Emeterio",
+        "publisher": "Satori",
+        "pub_year": "2020",
+        "description": "Recorrido riguroso por la evolución de la sociedad, la religión y la cultura japonesas desde sus orígenes hasta la era Reiwa. Una obra escrita desde el hispanismo japonesista con acceso directo a fuentes primarias en japonés.",
+        "asin": "8417419594",
+        "isIris": false
+      },
+      {
+        "title": "Japón, Manga, Traducción y Vivencias de un Apasionado del País",
+        "author": "Marc Bernabé",
+        "publisher": "Norma Editorial",
+        "pub_year": "2018",
+        "description": "Marc Bernabé, traductor de manga y residente en Japón durante años, comparte sus vivencias e impresiones del país desde dentro. El mejor libro en español para entender la relación entre Japón y su poderosa industria cultural global.",
+        "asin": "8467933941",
+        "isIris": false
+      },
+      {
+        "title": "Breve Historia del Japón Feudal",
+        "author": "Rubén Almarza González",
+        "publisher": "Nowtilus",
+        "pub_year": "2019",
+        "description": "Un recorrido por uno de los períodos más fascinantes de Japón: el shogunato, los samuráis, las guerras civiles y la cultura del guerrero. Accesible y completo, es la introducción ideal al Japón premoderno para el lector en español.",
+        "asin": "8499679552",
+        "isIris": false
+      },
+      {
+        "title": "Historia de Japón. Economía, política y sociedad",
+        "author": "Oriol Junqueras",
+        "publisher": "Editorial UOC",
+        "pub_year": "2012",
+        "description": "Manual universitario elaborado por Oriol Junqueras y colaboradores en la Universitat Oberta de Catalunya. Analiza el desarrollo histórico de Japón a través de sus estructuras económicas, su evolución política y su organización social, desde la era Meiji hasta el Japón contemporáneo. La referencia académica más completa en español para comprender el Japón moderno desde una perspectiva de ciencias sociales.",
+        "asin": "8490290296",
+        "isIris": false
+      },
+      {
+        "title": "El Antiguo Japón: Una Fascinante Guía de la Historia, la Cultura y la Civilización Japonesa",
+        "author": "Captivating History",
+        "publisher": "Captivating History",
+        "pub_year": "2020",
+        "description": "Historias de los samurái, los shogunes y los maestros zen: una introducción vívida al mundo que modeló el Japón moderno. Perfecto para quienes quieren entender las raíces culturales que siguen definiendo la identidad japonesa actual.",
+        "asin": "1647489385",
+        "isIris": false
+      }
+    ]
+  }
+]
