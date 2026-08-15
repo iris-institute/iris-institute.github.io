@@ -114,6 +114,15 @@ def head(title, description, canonical, og_image=None, extra_head='', lang='ja',
     return f'''<!DOCTYPE html>
 <html lang="{lang}">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KW6PM4RJMW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KW6PM4RJMW');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-site-verification" content="uqFJXxp03hN8A0h1ZLQQzcdm6wi5rEI5cBX0iU28K8U" />
