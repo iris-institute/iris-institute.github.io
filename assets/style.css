@@ -739,9 +739,20 @@ img { max-width: 100%; display: block; }
   display: flex;
   gap: 1.5rem;
   font-size: 0.85rem;
+  flex-wrap: wrap;
 }
 .footer-links a { color: var(--text-muted); }
 .footer-links a:hover { color: var(--text); }
+
+/* HTML sitemap */
+.sitemap-section { margin-top: 2.5rem; }
+.sitemap-section ul {
+  columns: 2 18rem;
+  column-gap: 3rem;
+  margin-left: 0;
+  list-style: none;
+}
+.sitemap-section li { break-inside: avoid; }
 
 /* ==========================================
    Iris Libraries
