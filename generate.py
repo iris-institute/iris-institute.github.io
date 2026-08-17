@@ -164,23 +164,28 @@ def footer(lang='ja'):
     if lang == 'en':
         links = f'''<a href="{{ROOT}}/en/">Books</a>
 <a href="{{ROOT}}/en/about.html">About</a>
-<a href="{{ROOT}}/privacy.html">Privacy</a>'''
+<a href="{{ROOT}}/privacy.html">Privacy</a>
+<a href="{{ROOT}}/sitemap.html">Sitemap</a>'''
     elif lang == 'es':
         links = f'''<a href="{{ROOT}}/es/">Libros</a>
 <a href="{{ROOT}}/es/about.html">Acerca de</a>
-<a href="{{ROOT}}/privacy.html">Privacidad</a>'''
+<a href="{{ROOT}}/privacy.html">Privacidad</a>
+<a href="{{ROOT}}/sitemap.html">Mapa del sitio</a>'''
     elif lang == 'de':
         links = f'''<a href="{{ROOT}}/de/">Bücher</a>
 <a href="{{ROOT}}/de/about.html">Über uns</a>
-<a href="{{ROOT}}/privacy.html">Datenschutz</a>'''
+<a href="{{ROOT}}/privacy.html">Datenschutz</a>
+<a href="{{ROOT}}/sitemap.html">Sitemap</a>'''
     elif lang == 'fr':
         links = f'''<a href="{{ROOT}}/fr/">Livres</a>
 <a href="{{ROOT}}/fr/about.html">À propos</a>
-<a href="{{ROOT}}/privacy.html">Confidentialité</a>'''
+<a href="{{ROOT}}/privacy.html">Confidentialité</a>
+<a href="{{ROOT}}/sitemap.html">Plan du site</a>'''
     else:
         links = f'''<a href="{{ROOT}}/">書籍一覧</a>
 <a href="{{ROOT}}/about.html">Irisについて</a>
-<a href="{{ROOT}}/privacy.html">プライバシーポリシー</a>'''
+<a href="{{ROOT}}/privacy.html">プライバシーポリシー</a>
+<a href="{{ROOT}}/sitemap.html">サイトマップ</a>'''
     return f'''
 <footer class="site-footer">
 <div class="container">
@@ -2209,8 +2214,78 @@ def build_all_en_library():
         build_en_library_page(ldef)
 
 # -----------------------------------------------------------
-# sitemap.xml / robots.txt
+# HTML サイトマップ / sitemap.xml / robots.txt
 # -----------------------------------------------------------
+def build_html_sitemap():
+    """利用者とクローラーの両方が辿れる、全公開ページへのリンク集を生成する。"""
+    def link_list(items):
+        return '\n'.join(
+            f'<li><a href="{url}">{html.escape(label)}</a></li>'
+            for url, label in items
+        )
+
+    japanese_pages = [
+        ('./', '書籍一覧'),
+        ('./about.html', 'Iris Instituteについて'),
+        ('./privacy.html', 'プライバシーポリシー'),
+        ('./library/', 'Iris Libraries'),
+        ('./library/policy/', 'Iris Libraries 選書ポリシー'),
+    ]
+    series_pages = [
+        (f'./series/{sdef["slug"]}/', sdef['h1'])
+        for sdef in SERIES
+    ]
+    library_pages = [
+        (f'./library/{ldef["slug"]}/', ldef['title'])
+        for ldef in LIBRARY_DATA
+    ]
+    book_pages = [
+        (f'./books/{book["slug"]}.html', book['title'])
+        for book in DATA
+    ]
+
+    language_labels = {'en': 'English', 'es': 'Español', 'de': 'Deutsch', 'fr': 'Français'}
+    localized_sections = []
+    for lang, datasets in (('en', LIBRARY_EN_DATA), ('es', LIBRARY_ES_DATA),
+                           ('de', LIBRARY_DE_DATA), ('fr', LIBRARY_FR_DATA)):
+        pages = [
+            (f'./{lang}/', f'{language_labels[lang]} トップページ'),
+            (f'./{lang}/about.html', f'{language_labels[lang]} About'),
+            (f'./{lang}/library/', f'{language_labels[lang]} Library'),
+        ]
+        pages += [(f'./{lang}/library/{ldef["slug"]}/', ldef['title']) for ldef in datasets]
+        localized_sections.append(
+            f'<section class="sitemap-section"><h2>{language_labels[lang]}</h2><ul>{link_list(pages)}</ul></section>'
+        )
+
+    body = f'''
+<main class="page-content container sitemap-page">
+<h1>サイトマップ</h1>
+<p>当サイト内の主要ページへのリンク一覧です。</p>
+<section class="sitemap-section">
+<h2>基本ページ</h2>
+<ul>{link_list(japanese_pages)}</ul>
+</section>
+<section class="sitemap-section">
+<h2>書籍シリーズ</h2>
+<ul>{link_list(series_pages)}</ul>
+</section>
+<section class="sitemap-section">
+<h2>Iris Libraries</h2>
+<ul>{link_list(library_pages)}</ul>
+</section>
+<section class="sitemap-section">
+<h2>書籍詳細</h2>
+<ul>{link_list(book_pages)}</ul>
+</section>
+{''.join(localized_sections)}
+</main>
+'''
+    page = head(f'サイトマップ | {SITE_NAME}', 'Iris Instituteの全公開ページへのリンク一覧。',
+                SITE_URL + '/sitemap.html') + body + footer()
+    (ROOT / 'sitemap.html').write_text(render(page, 0), encoding='utf-8')
+    print('✓ sitemap.html')
+
 def build_sitemap():
     urls = [
         (SITE_URL + '/', '1.0'),
@@ -2244,6 +2319,7 @@ def build_sitemap():
         *[(f'{SITE_URL}/fr/library/{ldef["slug"]}/', '0.7') for ldef in LIBRARY_FR_DATA],
         (SITE_URL + '/fr/about.html', '0.4'),
         (SITE_URL + '/privacy.html', '0.3'),
+        (SITE_URL + '/sitemap.html', '0.3'),
     ]
     for b in DATA:
         urls.append((f'{SITE_URL}/books/{b["slug"]}.html', '0.9'))
@@ -2278,6 +2354,7 @@ if __name__ == '__main__':
     build_about()
     build_privacy()
     build_all_library()
+    build_html_sitemap()
     build_sitemap()
     build_robots()
     print('\n🎉 生成完了')
