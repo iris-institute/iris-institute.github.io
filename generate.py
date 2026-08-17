@@ -2245,13 +2245,19 @@ def build_html_sitemap():
     ]
 
     language_labels = {'en': 'English', 'es': 'Español', 'de': 'Deutsch', 'fr': 'Français'}
+    localized_page_labels = {
+        'en': {'home': 'Home', 'about': 'About', 'library': 'Library'},
+        'es': {'home': 'Inicio', 'about': 'Acerca de', 'library': 'Biblioteca'},
+        'de': {'home': 'Startseite', 'about': 'Über uns', 'library': 'Bibliothek'},
+        'fr': {'home': 'Accueil', 'about': 'À propos', 'library': 'Bibliothèque'},
+    }
     localized_sections = []
     for lang, datasets in (('en', LIBRARY_EN_DATA), ('es', LIBRARY_ES_DATA),
                            ('de', LIBRARY_DE_DATA), ('fr', LIBRARY_FR_DATA)):
         pages = [
-            (f'./{lang}/', f'{language_labels[lang]} トップページ'),
-            (f'./{lang}/about.html', f'{language_labels[lang]} About'),
-            (f'./{lang}/library/', f'{language_labels[lang]} Library'),
+            (f'./{lang}/', localized_page_labels[lang]['home']),
+            (f'./{lang}/about.html', localized_page_labels[lang]['about']),
+            (f'./{lang}/library/', localized_page_labels[lang]['library']),
         ]
         pages += [(f'./{lang}/library/{ldef["slug"]}/', ldef['title']) for ldef in datasets]
         localized_sections.append(

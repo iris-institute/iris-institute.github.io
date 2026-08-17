@@ -18,6 +18,7 @@ iris-site/
 ├── index.html             ← トップ（ランディング）
 ├── about.html             ← Irisについて
 ├── privacy.html           ← プライバシーポリシー
+├── sitemap.html           ← HTMLサイトマップ（全公開ページへのリンク集）
 ├── sitemap.xml            ← 自動生成
 ├── robots.txt             ← 自動生成
 ├── books/
@@ -42,6 +43,22 @@ git add -A && git commit -m "..." && git push origin main
 ```
 
 pushすれば GitHub Pages が自動デプロイ（通常1〜3分）。
+
+---
+
+## サイトマップ方針
+
+### HTMLサイトマップを必ず維持する
+
+`/sitemap.html` は、利用者とクローラーが全公開ページを内部リンク経由で辿るためのリンク集。
+`generate.py` の `build_html_sitemap()` で自動生成し、次を必ず満たす。
+
+- 日本語・英語・スペイン語・ドイツ語・フランス語を含む全公開ページへのリンクを載せる
+- 全ページのフッターから `/sitemap.html` へリンクする
+- 新しいページ種別や言語ページを追加したら、HTMLサイトマップにも追加されることを確認する
+- 変更後は `python3 generate.py` を実行し、リンク切れがないことを確認してから公開する
+
+`sitemap.xml` と `robots.txt` は既存の自動生成設定として維持する。HTMLサイトマップの追加・更新を理由に、これらの設定を変更・削除しない。
 
 ---
 
