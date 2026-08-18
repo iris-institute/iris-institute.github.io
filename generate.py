@@ -682,7 +682,7 @@ def build_detail(book):
     is_en = book['lang'] == 'en'
     L = {
         'cover_alt_suffix': 'cover' if is_en else '表紙',
-        'buy_kindle': 'Buy on Kindle' if is_en else 'Kindleで購入',
+        'buy_kindle': 'Buy on Kindle' if is_en else 'Amazonで見る',
         'view_on_amazon': 'View on Amazon' if is_en else 'Amazonで見る',
         'book_details': 'Book details' if is_en else '本の詳細を見る',
         'what_learn': 'What you will learn' if is_en else 'この本で分かること',
