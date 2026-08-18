@@ -682,7 +682,7 @@ def build_detail(book):
     is_en = book['lang'] == 'en'
     L = {
         'cover_alt_suffix': 'cover' if is_en else '表紙',
-        'buy_kindle': 'Buy on Kindle' if is_en else 'Amazonで見る',
+        'buy_kindle': 'Buy on Kindle' if is_en else 'Kindleで買う',
         'view_on_amazon': 'View on Amazon' if is_en else 'Amazonで見る',
         'book_details': 'Book details' if is_en else '本の詳細を見る',
         'what_learn': 'What you will learn' if is_en else 'この本で分かること',
@@ -769,7 +769,7 @@ def build_detail(book):
 {build_who(book)}
 
 <h2>{L['read_on_kindle']}</h2>
-<p><a href="{amazon}" class="btn-amazon-large" target="_blank" rel="noopener">{L['view_on_amazon']}</a></p>
+<p><a href="{amazon}" class="btn-amazon-large" target="_blank" rel="noopener">{L['buy_kindle']}</a></p>
 <p class="ku-hint">{L['ku_hint']}<a href="{KU_SIGNUP_URL}" target="_blank" rel="sponsored noopener">{L['ku_cta']}</a></p>
 </article>
 </div>
