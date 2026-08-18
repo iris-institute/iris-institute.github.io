@@ -239,7 +239,7 @@ def build_index():
         ('south-asia', '南アジア', 'インド・ネパール', lambda b: '南アジア' in b.get('tags', []) and b['lang'] == 'ja'),
         ('europe', 'ヨーロッパ', 'ロシア・ウクライナ・ドイツ・イギリス他', lambda b: 'ヨーロッパ' in b.get('tags', []) and b['lang'] == 'ja'),
         ('americas', '北米・中南米', 'アメリカ・カナダ・メキシコ・ベネズエラ', lambda b: ('北米' in b.get('tags', []) or '中南米' in b.get('tags', [])) and b['lang'] == 'ja'),
-        ('oceania', 'オセアニア', 'オーストラリア', lambda b: 'オセアニア' in b.get('tags', []) and b['lang'] == 'ja'),
+        ('oceania', 'オセアニア', 'オーストラリア・ニュージーランド', lambda b: 'オセアニア' in b.get('tags', []) and b['lang'] == 'ja'),
         ('middle-east-africa', '中東・アフリカ', 'UAE・ドバイ他', lambda b: '中東・アフリカ' in b.get('tags', []) and b['lang'] == 'ja'),
         ('themes', 'テーマ書', '仏教・世界遺産・太平洋戦争・生成AI・投資分野', lambda b: (not any(t in b.get('tags', []) for t in ['東南アジア', '東アジア', '南アジア', 'ヨーロッパ', '北米', '中南米', 'オセアニア', '中東・アフリカ'])) and b['lang'] == 'ja'),
     ]
@@ -746,7 +746,9 @@ def build_detail(book):
 <div class="container">
 <div class="book-detail-inner">
 <aside class="book-detail-cover">
+<a href="{amazon}" class="book-detail-cover-link" target="_blank" rel="noopener sponsored" aria-label="{html.escape(title)}をAmazonで見る">
 <img src="{cover}" alt="{html.escape(title)} {L['cover_alt_suffix']}">
+</a>
 <a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">{L['buy_kindle']}</a>
 </aside>
 <article>

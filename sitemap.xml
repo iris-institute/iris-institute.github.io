@@ -52,6 +52,7 @@
   <url><loc>https://iris-institute.github.io/library/canada/</loc><priority>0.8</priority></url>
   <url><loc>https://iris-institute.github.io/library/mexico/</loc><priority>0.8</priority></url>
   <url><loc>https://iris-institute.github.io/library/venezuela/</loc><priority>0.8</priority></url>
+  <url><loc>https://iris-institute.github.io/library/new-zealand/</loc><priority>0.8</priority></url>
   <url><loc>https://iris-institute.github.io/library/australia/</loc><priority>0.8</priority></url>
   <url><loc>https://iris-institute.github.io/library/generative-ai/</loc><priority>0.8</priority></url>
   <url><loc>https://iris-institute.github.io/library/google/</loc><priority>0.8</priority></url>
@@ -89,6 +90,7 @@
   <url><loc>https://iris-institute.github.io/fr/about.html</loc><priority>0.4</priority></url>
   <url><loc>https://iris-institute.github.io/privacy.html</loc><priority>0.3</priority></url>
   <url><loc>https://iris-institute.github.io/sitemap.html</loc><priority>0.3</priority></url>
+  <url><loc>https://iris-institute.github.io/books/new-zealand.html</loc><priority>0.9</priority></url>
   <url><loc>https://iris-institute.github.io/books/singapore.html</loc><priority>0.9</priority></url>
   <url><loc>https://iris-institute.github.io/books/thailand.html</loc><priority>0.9</priority></url>
   <url><loc>https://iris-institute.github.io/books/laos.html</loc><priority>0.9</priority></url>

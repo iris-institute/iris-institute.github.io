@@ -556,6 +556,9 @@ img { max-width: 100%; display: block; }
   position: sticky;
   top: 6rem;
 }
+.book-detail-cover-link {
+  display: block;
+}
 .book-detail-cover img {
   width: 100%;
   border-radius: 4px;
