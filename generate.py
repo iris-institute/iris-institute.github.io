@@ -240,7 +240,8 @@ def build_index():
         ('europe', 'ヨーロッパ', 'ロシア・ウクライナ・ドイツ・イギリス他', lambda b: 'ヨーロッパ' in b.get('tags', []) and b['lang'] == 'ja'),
         ('americas', '北米・中南米', 'アメリカ・カナダ・メキシコ・ベネズエラ', lambda b: ('北米' in b.get('tags', []) or '中南米' in b.get('tags', [])) and b['lang'] == 'ja'),
         ('oceania', 'オセアニア', 'オーストラリア', lambda b: 'オセアニア' in b.get('tags', []) and b['lang'] == 'ja'),
-        ('themes', 'テーマ書', '仏教・世界遺産・太平洋戦争・生成AI・投資分野', lambda b: (not any(t in b.get('tags', []) for t in ['東南アジア', '東アジア', '南アジア', 'ヨーロッパ', '北米', '中南米', 'オセアニア'])) and b['lang'] == 'ja'),
+        ('middle-east-africa', '中東・アフリカ', 'UAE・ドバイ他', lambda b: '中東・アフリカ' in b.get('tags', []) and b['lang'] == 'ja'),
+        ('themes', 'テーマ書', '仏教・世界遺産・太平洋戦争・生成AI・投資分野', lambda b: (not any(t in b.get('tags', []) for t in ['東南アジア', '東アジア', '南アジア', 'ヨーロッパ', '北米', '中南米', 'オセアニア', '中東・アフリカ'])) and b['lang'] == 'ja'),
     ]
 
     cat_cards = []
@@ -267,7 +268,7 @@ def build_index():
 <p class="hero-desc">Iris Instituteは、国・地域・産業を歴史・地理・文化・政治・経済といった複数の視点から体系的に読み解く書籍を制作している独立系の出版・研究プロジェクトです。政府統計・国際機関の資料・現地の一次資料を土台に、ニュースの断片や旅行ガイドでは見えてこない「構造」を提示することを目指しています。</p>
 <div class="hero-stats">
 <span class="hero-stat"><strong>{total_ja + 2}</strong> 冊刊行</span>
-<span class="hero-stat"><strong>7</strong> 地域・テーマ</span>
+<span class="hero-stat"><strong>8</strong> 地域・テーマ</span>
 <span class="hero-stat"><strong>5</strong> 言語対応</span>
 </div>
 </div>
@@ -383,10 +384,16 @@ def build_all_books_pages():
             'match': lambda b: 'オセアニア' in b.get('tags', []) and b['lang'] == 'ja',
         },
         {
+            'id': 'middle-east-africa',
+            'title': '中東・アフリカ',
+            'desc': '中東・アフリカ諸国。',
+            'match': lambda b: '中東・アフリカ' in b.get('tags', []) and b['lang'] == 'ja',
+        },
+        {
             'id': 'themes',
             'title': 'テーマ書',
             'desc': '国境を越えたテーマを扱う書籍。',
-            'match': lambda b: (not any(t in b.get('tags', []) for t in ['東南アジア', '東アジア', '南アジア', 'ヨーロッパ', '北米', '中南米', 'オセアニア'])) and b['lang'] == 'ja',
+            'match': lambda b: (not any(t in b.get('tags', []) for t in ['東南アジア', '東アジア', '南アジア', 'ヨーロッパ', '北米', '中南米', 'オセアニア', '中東・アフリカ'])) and b['lang'] == 'ja',
         },
     ]
 
@@ -479,7 +486,7 @@ def build_all_books_pages():
 </main>
 '''
     page_title = f'すべての書籍 | {SITE_NAME}'
-    page_desc = f'{SITE_NAME}が刊行する全{total}冊の書籍を地域・テーマ別に整理。東南アジア・東アジア・南アジア・ヨーロッパ・北米・中南米・オセアニア、そしてテーマ書のカテゴリーで分類。'
+    page_desc = f'{SITE_NAME}が刊行する全{total}冊の書籍を地域・テーマ別に整理。東南アジア・東アジア・南アジア・ヨーロッパ・北米・中南米・オセアニア・中東アフリカ、そしてテーマ書のカテゴリーで分類。'
     canonical = f'{SITE_URL}/books/'
     page = head(page_title, page_desc, canonical) + body + footer()
     (ROOT / 'books' / 'index.html').write_text(render(page, 1), encoding='utf-8')

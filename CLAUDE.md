@@ -96,7 +96,18 @@ pushすれば GitHub Pages が自動デプロイ（通常1〜3分）。
 
 `https://m.media-amazon.com/images/P/{ASIN}._SL500_.jpg` を自動で参照するので、手動アップロード不要。
 
-### 3. サイトを再生成してpush
+### 3. `data/library.json` の対応ライブラリページも更新する
+
+新刊を追加したら、関連するライブラリページの `books` 配列にも `iris_slug` を追記する。
+
+**対応表（例）：**
+- 国別書籍（例：`indonesia`）→ 同国のライブラリ（`slug: "indonesia"`）の先頭付近に追加
+- ビジネス書（例：`indonesia-business`）→ 同国ライブラリに追加 + `asean-business` など関連ライブラリにも検討
+- テーマ書（例：`buddhism`）→ 対応テーマライブラリに追加
+
+**注意：** ライブラリページは10冊以上ないとnoindex扱い。追加して10冊未満にならないか確認する。
+
+### 4. サイトを再生成してpush
 
 ```bash
 python3 generate.py
@@ -109,6 +120,7 @@ git push origin main
 - `/books/` 一覧に追加
 - 該当シリーズページ（`/series/*/`）に自動反映（タグベースなので）
 - 関連本ロジックが再計算されて、他ページの「関連書籍」枠にも表示
+- 対応ライブラリページ（`/library/{slug}/`）に反映
 - sitemap.xml に追加
 
 ---
@@ -350,6 +362,74 @@ FEATURED_SLUGS = ['pacific-war', 'asean-history', 'asean-culture', 'asean-econom
   - `/books/` ページ末尾に大きめのKU登録セクション
 - **開示**：privacy.htmlに「Amazonアソシエイト・プログラム参加」を明記済み
 - **タグ変更する場合**：`generate.py` の `AFFILIATE_TAG = 'leonjornal-22'` を書き換えて `python3 generate.py` すれば全リンクに一括反映
+
+---
+
+## ライブラリページ（Iris Libraries）の管理
+
+### 概要
+
+`/library/{slug}/` は「○○を知るおすすめ本10選」形式のキュレーションページ。
+`data/library.json` に1エントリ追加するだけで自動生成される。
+
+**重要：書籍が10冊未満だと `<meta name="robots" content="noindex">` が自動付与される。**  
+SEOインデックスさせるには必ず10冊揃えること。
+
+### library.json のフォーマット
+
+```json
+{
+  "slug": "uae-dubai",
+  "title": "ドバイ・UAEを知るおすすめ本10選",
+  "seo_title": "ドバイ・UAEを知るおすすめ本10選｜Iris Libraries",
+  "meta_desc": "120〜160字の説明文",
+  "category": "国・地域",
+  "intro": "ページ上部のリード文（200〜400字）",
+  "iris_series": [
+    { "label": "シリーズページへのリンクラベル", "url": "/series/xxx/" }
+  ],
+  "books": [
+    { "iris_slug": "uae-dubai" },
+    {
+      "title": "外部書籍タイトル",
+      "author": "著者名",
+      "publisher": "出版社",
+      "description": "100〜200字の紹介文",
+      "asin": "B0XXXXXXXXX",
+      "isIris": false
+    }
+  ]
+}
+```
+
+**ASINなしでも動作する**（カバー画像がプレースホルダーになり「Amazonで探す」ボタンに変わる）。
+
+### 既存ライブラリ一覧（2026-08-18 時点・43ページ）
+
+| slug | タイトル |
+|---|---|
+| southeast-asia / asean / indonesia / vietnam など | 国別・地域別 |
+| working-holiday / overseas-living など | 目的別 |
+| sogo-shosha / generative-ai / google など | テーマ別 |
+| **uae-dubai** | **2026-08-18 追加** |
+
+### Amazon API によるASIN取得（現状・要改善）
+
+`.env` に以下の認証情報が設定されている：
+
+```
+AMAZON_CREATOR_CLIENT_ID=amzn1.application-oa2-client.*   # LWA OAuth2
+AMAZON_CREATOR_CLIENT_SECRET=amzn1.oa2-cs.v1.*
+AMAZON_ASSOCIATE_TAG=leonjornal-22
+AMAZON_MARKETPLACE=www.amazon.co.jp
+```
+
+**PA-API v5（Product Advertising API）について：**
+- PA-API はLWA OAuth2ではなく、**Amazonアソシエイト管理画面から発行する専用のAccess Key + Secret Key（AWS SigV4）**が必要
+- `~/.aws/credentials` にある汎用IAMキーは PA-API では使えない
+- PA-API キーの取得：Amazonアソシエイト → ツール → Product Advertising API → 認証情報の管理
+
+**現在の運用：** ASINは手動でAmazonで調べるか、アソシエイト画面から取得する。
 
 ---
 
