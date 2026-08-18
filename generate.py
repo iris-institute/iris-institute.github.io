@@ -769,7 +769,7 @@ def build_detail(book):
 {build_who(book)}
 
 <h2>{L['read_on_kindle']}</h2>
-<p><a href="{amazon}" class="btn-amazon-large" target="_blank" rel="noopener">{L['buy_kindle']}</a></p>
+<p><a href="{amazon}" class="btn-amazon-large" target="_blank" rel="noopener">{L['view_on_amazon']}</a></p>
 <p class="ku-hint">{L['ku_hint']}<a href="{KU_SIGNUP_URL}" target="_blank" rel="sponsored noopener">{L['ku_cta']}</a></p>
 </article>
 </div>
