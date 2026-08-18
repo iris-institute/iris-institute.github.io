@@ -22,7 +22,7 @@ SITE_SUB = '国・企業・産業を、公開情報と一次資料から多角�
 # -----------------------------------------------------------
 # 共通テンプレート
 # -----------------------------------------------------------
-AFFILIATE_TAG = 'leonjornal-22'
+AFFILIATE_TAG = 'iris012-22'
 KU_SIGNUP_URL = f'https://www.amazon.co.jp/kindle-dbs/hz/signup?tag={AFFILIATE_TAG}'
 
 def cover_url(asin):

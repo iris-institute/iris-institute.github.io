@@ -352,16 +352,16 @@ FEATURED_SLUGS = ['pacific-war', 'asean-history', 'asean-culture', 'asean-econom
 
 ## Amazonアソシエイト・アフィリエイト
 
-- **トラッキングID**：`leonjornal-22`
+- **トラッキングID**：`iris012-22`
 - **設定場所**：`generate.py` 冒頭の `AFFILIATE_TAG` 定数
 - **反映方式**：
-  - 全書籍のAmazonリンク（`/dp/{ASIN}`）に自動で `?tag=leonjornal-22` が付く
+  - 全書籍のAmazonリンク（`/dp/{ASIN}`）に自動で `?tag=iris012-22` が付く
   - Kindle Unlimited登録リンクも同タグ付きで生成（`KU_SIGNUP_URL`）
 - **配置場所**：
   - 各書籍詳細ページの「Kindleで読む」直下にKU登録CTA
   - `/books/` ページ末尾に大きめのKU登録セクション
 - **開示**：privacy.htmlに「Amazonアソシエイト・プログラム参加」を明記済み
-- **タグ変更する場合**：`generate.py` の `AFFILIATE_TAG = 'leonjornal-22'` を書き換えて `python3 generate.py` すれば全リンクに一括反映
+- **タグ変更する場合**：`generate.py` の `AFFILIATE_TAG = 'iris012-22'` を書き換えて `python3 generate.py` すれば全リンクに一括反映
 
 ---
 
@@ -420,7 +420,7 @@ SEOインデックスさせるには必ず10冊揃えること。
 ```
 AMAZON_CREATOR_CLIENT_ID=amzn1.application-oa2-client.*   # LWA OAuth2
 AMAZON_CREATOR_CLIENT_SECRET=amzn1.oa2-cs.v1.*
-AMAZON_ASSOCIATE_TAG=leonjornal-22
+AMAZON_ASSOCIATE_TAG=iris012-22
 AMAZON_MARKETPLACE=www.amazon.co.jp
 ```
 
