@@ -221,7 +221,7 @@ def render_card(b, detail_prefix='books/'):
 </a>
 <p class="book-short">{html.escape(b['short'])}</p>
 <div class="book-actions">
-<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">Amazonで見る</a>
+<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">Kindle・書籍で購入</a>
 <a href="{detail_url}" class="link-detail">本の詳細を見る</a>
 </div>
 </article>'''
@@ -682,14 +682,14 @@ def build_detail(book):
     is_en = book['lang'] == 'en'
     L = {
         'cover_alt_suffix': 'cover' if is_en else '表紙',
-        'buy_kindle': 'Buy on Kindle' if is_en else 'Kindleで買う',
-        'view_on_amazon': 'View on Amazon' if is_en else 'Amazonで見る',
+        'buy_kindle': 'Kindle / Paperback' if is_en else 'Kindle・書籍で購入',
+        'view_on_amazon': 'Kindle / Paperback' if is_en else 'Kindle・書籍で購入',
         'book_details': 'Book details' if is_en else '本の詳細を見る',
         'what_learn': 'What you will learn' if is_en else 'この本で分かること',
         'about_book': 'About this book' if is_en else '本の紹介',
         'toc': 'Table of contents' if is_en else '主な目次',
         'who_for': 'Who this book is for' if is_en else 'こんな人におすすめ',
-        'read_on_kindle': 'Read on Kindle' if is_en else 'Kindleで読む',
+        'read_on_kindle': 'Buy on Kindle or Paperback' if is_en else 'Kindle・書籍で購入',
         'related': 'Related books' if is_en else '関連書籍',
         'ku_hint': (
             'Kindle Unlimited includes over 2 million titles including our books. ¥980/month, free for the first 30 days.'
@@ -814,7 +814,7 @@ def build_en_index():
 <p class="book-short">{html.escape(b['short'])}</p>
 <div class="book-actions">
 <a href="{detail_url}" class="btn-detail">Details</a>
-<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">Amazon</a>
+<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">Kindle / Paperback</a>
 </div>
 </article>''')
 
@@ -1143,7 +1143,7 @@ def render_series_card(b, path_prefix='../../books/'):
 </a>
 <p class="book-short">{html.escape(b['short'])}</p>
 <div class="book-actions">
-<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">Amazonで見る</a>
+<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">Kindle・書籍で購入</a>
 <a href="{detail_url}" class="link-detail">本の詳細を見る</a>
 </div>
 </article>'''
@@ -1801,7 +1801,7 @@ def render_lib_iris_card(b, rank, lang='ja'):
         amz = amazon_url(b['asin'])
         detail = f'../../books/{b["slug"]}.html'
         badge = 'Iris刊行'
-        btn_amazon = 'Amazonで見る'
+        btn_amazon = 'Kindle・書籍で購入'
         btn_detail = '本の詳細を見る'
         alt_suffix = '表紙'
     return f'''<div class="lib-book-card lib-book-iris">
