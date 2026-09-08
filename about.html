@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="./assets/style.css">
 <style>
-.note-link-card {
+.note-card {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -48,81 +48,14 @@
   transition: background 0.15s, border-color 0.15s;
   margin: 1.5rem 0;
 }
-.note-link-card:hover {
+.note-card:hover {
   background: #f0f0f0;
   border-color: #bbb;
 }
-.note-link-card-icon {
-  font-size: 2rem;
-  flex-shrink: 0;
-}
-.note-link-card-body {
-  min-width: 0;
-}
-.note-link-card-label {
-  font-size: 0.75rem;
-  color: #888;
-  margin-bottom: 0.2rem;
-}
-.note-link-card-title {
-  font-size: 0.95rem;
-  font-weight: 600;
-  line-height: 1.4;
-}
-.note-link-card-sub {
-  font-size: 0.8rem;
-  color: #666;
-  margin-top: 0.2rem;
-}
-.book-categories {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1rem;
-  margin: 1rem 0 1.5rem;
-}
-.book-category {
-  background: #f7f7f7;
-  border-left: 3px solid #555;
-  border-radius: 4px;
-  padding: 0.75rem 1rem;
-}
-.book-category h3 {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #333;
-  margin: 0 0 0.4rem;
-}
-.book-category p {
-  font-size: 0.82rem;
-  color: #555;
-  margin: 0;
-  line-height: 1.6;
-}
-.use-cases {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 0.75rem;
-  margin: 1rem 0 1.5rem;
-}
-.use-case {
-  background: #f7f7f7;
-  border-radius: 6px;
-  padding: 0.75rem 1rem;
-  font-size: 0.85rem;
-  color: #444;
-  line-height: 1.5;
-}
-.use-case::before {
-  content: "▸ ";
-  color: #888;
-}
-.founding-story {
-  border-left: 3px solid #ddd;
-  padding-left: 1.25rem;
-  margin: 1.5rem 0;
-  color: #444;
-  line-height: 1.9;
-}
+.note-card-icon { font-size: 2rem; flex-shrink: 0; }
+.note-card-label { font-size: 0.75rem; color: #888; margin-bottom: 0.2rem; }
+.note-card-title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; }
+.note-card-sub { font-size: 0.8rem; color: #666; margin-top: 0.2rem; }
 </style>
 </head>
 <body>
@@ -141,86 +74,42 @@
 <main class="page-content container">
 <h1>Iris Instituteについて</h1>
 
-<h2>発足のきっかけ</h2>
+<p>Iris Instituteは、国・地域・企業・産業といったテーマを体系的に読み解くための書籍を制作・出版している独立系の出版・研究プロジェクトです。</p>
 
-<div class="founding-story">
-<p>「タイのことを知りたい」と思って本屋に行くと、旅行ガイドと現地在住者のエッセイ、あとは軍事政権を批判する新書が並んでいる。悪くはないのだけれど、私がずっと欲しかったのはそういう本ではなかった。</p>
-<p>タイという国が、なぜ今の姿になっているのか。王室と仏教と軍と華人経済圏が、どう絡み合ってこの社会を成り立たせているのか。それを歴史・地理・文化・政治・経済という順番で、一冊で構造から理解できる本。</p>
-<p>国を色々な側面から見て本当に理解したい。既存の本が無いなら書けばいい。そう思って、Iris Instituteという出版プロジェクトを立ち上げました。</p>
-</div>
-
-<h2>Iris Instituteとは</h2>
-<p>国・地域・産業を体系的に読み解くための書籍を制作している独立系の出版プロジェクトです。コンサルタントとして培った徹底的なリサーチ力と、エンジニアとして磨いた数字・統計への執着を軸に、東南アジアビジネスで実際に感じた文化・商習慣を交えながら執筆しています。これまでに35冊を刊行し、2026〜27年度中に南米・アフリカまで網羅して全世界地域を完成させることを目指しています。</p>
+<h2>活動内容</h2>
+<p>ひとつのテーマを、歴史・地理・文化・政治・経済・戦略・財務など複数の視点から多角的に分析し、一冊の本として体系化することを活動の中心に据えています。ニュースや業界レポート、断片的な情報だけでは見えてこない「なぜ今そうなっているのか」「これからどこへ向かうのか」という構造的な問いに、公開情報と一次資料に基づいて答えることを目指しています。</p>
 
 <h2>編集方針</h2>
 <ul>
-<li>一つのテーマを、<strong>歴史・地理・文化・政治・経済</strong>という5つの視点から多角的に分析する</li>
-<li>政府統計・国際機関の公表資料・現地の一次資料を土台にする</li>
-<li>特定の立場を賞賛したり批判したりせず、構造と論理を提示する</li>
-<li>数字を並べるだけでなく、その数字が何を意味するかを言語化する</li>
-<li>成功事例だけでなく、失敗や矛盾も同じ比重で扱う</li>
+<li>政府統計・国際機関の公表資料・企業の有価証券報告書・査読論文などの一次資料を優先的に使用します</li>
+<li>特定の立場を賞賛・批判するのではなく、構造と論理を提示することを重視します</li>
+<li>専門用語や固有名詞には、初出時に必ず説明を加え、就活生や大学生でも読み進められる文章にします</li>
+<li>数字を並べるだけでなく、その数字が何を意味するかを言語化します</li>
+<li>成功事例だけでなく、失敗・矛盾・課題も同じ比重で扱います</li>
 </ul>
 
-<h2>刊行ラインナップ（全35冊）</h2>
+<h2>刊行シリーズ</h2>
+<ul>
+<li><strong>世界を読み解くシリーズ</strong>：各国・地域を歴史・地理・文化・政治・経済の5視点で分析</li>
+<li><strong>企業を読み解くシリーズ</strong>（順次刊行）：主要企業を歴史・事業・戦略・組織・財務・未来の6視点で分析</li>
+<li><strong>投資・ビジネスシリーズ</strong>（順次刊行）：不動産・仮想通貨・生成AIなど、実務に直結するテーマを体系化</li>
+<li><strong>Decoding the World Series</strong>：世界シリーズの英語版・多言語版</li>
+</ul>
 
-<div class="book-categories">
-<div class="book-category">
-<h3>東南アジア</h3>
-<p>タイ／ラオス／ベトナム／カンボジア／フィリピン／ミャンマー／マレーシア／インドネシア／シンガポール<br>＋ASEAN横断4冊（歴史・経済・文化・製造業）</p>
-</div>
-<div class="book-category">
-<h3>東アジア</h3>
-<p>中国／台湾／香港／韓国／北朝鮮</p>
-</div>
-<div class="book-category">
-<h3>南アジア</h3>
-<p>インド／ネパール</p>
-</div>
-<div class="book-category">
-<h3>ヨーロッパ</h3>
-<p>ロシア／ウクライナ／ドイツ／イギリス／ジョージア</p>
-</div>
-<div class="book-category">
-<h3>北米・中南米</h3>
-<p>カナダ／アメリカ／メキシコ／ベネズエラ</p>
-</div>
-<div class="book-category">
-<h3>オセアニア</h3>
-<p>オーストラリア／ニュージーランド</p>
-</div>
-<div class="book-category">
-<h3>テーマ書</h3>
-<p>太平洋戦争を読み解く／世界遺産を読み解く／仏教を読み解く</p>
-</div>
-</div>
+<h2>発足の経緯・詳しい紹介</h2>
+<p>Iris Instituteをなぜ立ち上げたか、どんな読者に届けたいかを詳しく書いたnote記事があります。</p>
 
-<p>すべてKindleで読めます（Kindle Unlimited対応）。「1国1冊、5つの視点で体系化」というシンプルなルールで書いているので、どの本から読んでも同じ手触りで比較できます。カナダとオーストラリアを続けて読めば英語圏先進国の違いが見えるし、タイとミャンマーを続けて読めば同じ仏教文化圏の中の対比が見えてくる、という具合です。</p>
-
-<h2>こんな方に読んでほしい</h2>
-
-<div class="use-cases">
-<div class="use-case">ビジネスパーソンが、進出先の国を会議前にざっと掴む</div>
-<div class="use-case">学生が、レポートや卒論の出発点として使う</div>
-<div class="use-case">記者や研究者が、専門外の地域を素早くキャッチアップする</div>
-<div class="use-case">旅行や移住を控えた人が、その国の"内側"を知る</div>
-<div class="use-case">ニュースの背景をちゃんと理解したい社会人が、教養として読む</div>
-</div>
-
-<h2>noteで詳しく読む</h2>
-<p>Iris Instituteの発足経緯や活動の背景を、より詳しく書いたnote記事があります。</p>
-
-<a class="note-link-card" href="https://note.com/iris_world/n/n731bcc4ec6ee" target="_blank" rel="noopener noreferrer">
-  <div class="note-link-card-icon">📝</div>
-  <div class="note-link-card-body">
-    <div class="note-link-card-label">note — Iris Institute</div>
-    <div class="note-link-card-title">Iris Instituteとは？ ── 歴史・地理・文化・政治・経済で国を体系的に読み解く</div>
-    <div class="note-link-card-sub">note.com/iris_world</div>
+<a class="note-card" href="https://note.com/iris_world/n/n731bcc4ec6ee" target="_blank" rel="noopener noreferrer">
+  <div class="note-card-icon">📝</div>
+  <div>
+    <div class="note-card-label">note — Iris Institute</div>
+    <div class="note-card-title">Iris Instituteとは？ ── 歴史・地理・文化・政治・経済で国を体系的に読み解く</div>
+    <div class="note-card-sub">note.com/iris_world</div>
   </div>
 </a>
 
 <h2>お問い合わせ</h2>
-<p>書籍に関するご質問、講演・執筆・監修のご相談等は、Amazonの著者ページ経由でご連絡いただけます。読んで気に入ってくれた本があれば、Amazonのレビューを1行だけでも書いていただけると、次の一冊のモチベーションになります。</p>
-
+<p>書籍に関するご質問、講演・執筆・監修のご相談等は、Amazonの著者ページ経由でご連絡いただけます。</p>
 </main>
 
 <footer class="site-footer">
