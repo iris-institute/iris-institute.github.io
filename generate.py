@@ -1716,6 +1716,26 @@ def build_all_series():
 # About ページ
 # -----------------------------------------------------------
 def build_about():
+    note_css = '''<style>
+.note-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  background: #fafafa;
+  transition: background 0.15s, border-color 0.15s;
+  margin: 1.5rem 0;
+}
+.note-card:hover { background: #f0f0f0; border-color: #bbb; }
+.note-card-icon { font-size: 2rem; flex-shrink: 0; }
+.note-card-label { font-size: 0.75rem; color: #888; margin-bottom: 0.2rem; }
+.note-card-title { font-size: 0.95rem; font-weight: 600; line-height: 1.4; }
+.note-card-sub { font-size: 0.8rem; color: #666; margin-top: 0.2rem; }
+</style>'''
     body = '''
 <main class="page-content container">
 <h1>Iris Instituteについて</h1>
@@ -1742,13 +1762,24 @@ def build_about():
 <li><strong>Decoding the World Series</strong>：世界シリーズの英語版・多言語版</li>
 </ul>
 
+<h2>発足の経緯・詳しい紹介</h2>
+<p>Iris Instituteをなぜ立ち上げたか、どんな読者に届けたいかを詳しく書いたnote記事があります。</p>
+<a class="note-card" href="https://note.com/iris_world/n/n731bcc4ec6ee" target="_blank" rel="noopener noreferrer">
+  <div class="note-card-icon">📝</div>
+  <div>
+    <div class="note-card-label">note — Iris Institute</div>
+    <div class="note-card-title">Iris Instituteとは？ ── 歴史・地理・文化・政治・経済で国を体系的に読み解く</div>
+    <div class="note-card-sub">note.com/iris_world</div>
+  </div>
+</a>
+
 <h2>お問い合わせ</h2>
 <p>書籍に関するご質問、講演・執筆・監修のご相談等は、Amazonの著者ページ経由でご連絡いただけます。</p>
 </main>
 '''
     page = head(f'Irisについて | {SITE_NAME}',
                 f'{SITE_NAME}の活動内容と編集方針。世界を体系的に読み解くための書籍を制作しています。',
-                SITE_URL + '/about.html') + body + footer()
+                SITE_URL + '/about.html', extra_head=note_css) + body + footer()
     (ROOT / 'about.html').write_text(render(page, 0), encoding='utf-8')
     print('✓ about.html')
 
