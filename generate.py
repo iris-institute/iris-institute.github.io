@@ -679,30 +679,60 @@ def build_detail(book):
     cover = cover_url(book['asin'])
     amazon = amazon_url(book['asin'])
 
-    # UI 言語切替（英語書籍は英語UIで表示）
-    is_en = book['lang'] == 'en'
-    L = {
-        'cover_alt_suffix': 'cover' if is_en else '表紙',
-        'buy_kindle': 'Kindle / Paperback' if is_en else 'Kindle・書籍で購入',
-        'view_on_amazon': 'Kindle / Paperback' if is_en else 'Kindle・書籍で購入',
-        'book_details': 'Book details' if is_en else '本の詳細を見る',
-        'what_learn': 'What you will learn' if is_en else 'この本で分かること',
-        'about_book': 'About this book' if is_en else '本の紹介',
-        'toc': 'Table of contents' if is_en else '主な目次',
-        'who_for': 'Who this book is for' if is_en else 'こんな人におすすめ',
-        'read_on_kindle': 'Buy on Kindle or Paperback' if is_en else 'Kindle・書籍で購入',
-        'related': 'Related books' if is_en else '関連書籍',
-        'ku_hint': (
-            'Kindle Unlimited includes over 2 million titles including our books. ¥980/month, free for the first 30 days.'
-            if is_en else
-            'Kindle Unlimited に登録すると、Iris Instituteの書籍を含む200万冊以上が読み放題。月額980円・初回30日間無料。'
-        ),
-        'ku_cta': 'Try Kindle Unlimited →' if is_en else 'Kindle Unlimitedを試す →',
+    # UI 言語切替（言語別ラベル）
+    _BOOK_UI = {
+        'ja': {
+            'cover_alt_suffix': '表紙', 'buy_kindle': 'Kindle・書籍で購入',
+            'view_on_amazon': 'Kindle・書籍で購入', 'book_details': '本の詳細を見る',
+            'what_learn': 'この本で分かること', 'about_book': '本の紹介', 'toc': '主な目次',
+            'who_for': 'こんな人におすすめ', 'read_on_kindle': 'Kindle・書籍で購入',
+            'related': '関連書籍',
+            'ku_hint': 'Kindle Unlimited に登録すると、Iris Instituteの書籍を含む200万冊以上が読み放題。月額980円・初回30日間無料。',
+            'ku_cta': 'Kindle Unlimitedを試す →',
+        },
+        'en': {
+            'cover_alt_suffix': 'cover', 'buy_kindle': 'Kindle / Paperback',
+            'view_on_amazon': 'Kindle / Paperback', 'book_details': 'Book details',
+            'what_learn': 'What you will learn', 'about_book': 'About this book',
+            'toc': 'Table of contents', 'who_for': 'Who this book is for',
+            'read_on_kindle': 'Buy on Kindle or Paperback', 'related': 'Related books',
+            'ku_hint': 'Kindle Unlimited includes over 2 million titles including our books. ¥980/month, free for the first 30 days.',
+            'ku_cta': 'Try Kindle Unlimited →',
+        },
+        'de': {
+            'cover_alt_suffix': 'Cover', 'buy_kindle': 'Kindle / Taschenbuch',
+            'view_on_amazon': 'Kindle / Taschenbuch', 'book_details': 'Buchdetails',
+            'what_learn': 'Was Sie in diesem Buch lernen', 'about_book': 'Über dieses Buch',
+            'toc': 'Inhaltsverzeichnis', 'who_for': 'Für wen ist dieses Buch',
+            'read_on_kindle': 'Auf Kindle kaufen', 'related': 'Ähnliche Bücher',
+            'ku_hint': 'Kindle Unlimited umfasst über 2 Millionen Titel einschließlich unserer Bücher. ¥980/Monat, erste 30 Tage kostenlos.',
+            'ku_cta': 'Kindle Unlimited testen →',
+        },
+        'es': {
+            'cover_alt_suffix': 'portada', 'buy_kindle': 'Kindle / Tapa blanda',
+            'view_on_amazon': 'Kindle / Tapa blanda', 'book_details': 'Detalles del libro',
+            'what_learn': 'Qué aprenderás', 'about_book': 'Sobre este libro',
+            'toc': 'Tabla de contenidos', 'who_for': 'Para quién es este libro',
+            'read_on_kindle': 'Comprar en Kindle', 'related': 'Libros relacionados',
+            'ku_hint': 'Kindle Unlimited incluye más de 2 millones de títulos, incluidos nuestros libros. ¥980/mes, primeros 30 días gratis.',
+            'ku_cta': 'Probar Kindle Unlimited →',
+        },
+        'fr': {
+            'cover_alt_suffix': 'couverture', 'buy_kindle': 'Kindle / Broché',
+            'view_on_amazon': 'Kindle / Broché', 'book_details': 'Détails du livre',
+            'what_learn': 'Ce que vous apprendrez', 'about_book': 'À propos de ce livre',
+            'toc': 'Table des matières', 'who_for': 'Pour qui est ce livre',
+            'read_on_kindle': 'Acheter sur Kindle', 'related': 'Livres similaires',
+            'ku_hint': 'Kindle Unlimited comprend plus de 2 millions de titres, dont nos livres. ¥980/mois, 30 premiers jours gratuits.',
+            'ku_cta': 'Essayer Kindle Unlimited →',
+        },
     }
+    L = _BOOK_UI.get(book['lang'], _BOOK_UI['en'])
+    is_en = book['lang'] != 'ja'  # 日本語以外はすべて非日本語扱い
 
     # 地域・カテゴリー表示のローカライズ
     if is_en:
-        cat_label = {'English': 'English', '世界': 'World', '企業': 'Companies',
+        cat_label = {'English': 'International', '世界': 'World', '企業': 'Companies',
                      '投資・ビジネス': 'Investment & Business', 'その他': 'Other'}.get(book['category'], book['category'])
         region_label = {'アジア': 'Asia', 'ヨーロッパ': 'Europe', '北米・中南米': 'Americas',
                         'その他': 'Global'}.get(book['region'], book['region'])
@@ -981,6 +1011,30 @@ _LANG_CONF = {
 
 def build_lang_index(lang):
     c = _LANG_CONF[lang]
+    lang_books = sorted([b for b in DATA if b['lang'] == lang], key=lambda b: b['date'], reverse=True)
+
+    if lang_books:
+        _amazon_btn = {'de': 'Kindle / Taschenbuch', 'es': 'Kindle / Tapa blanda', 'fr': 'Kindle / Broché'}
+        _detail_btn = {'de': 'Details', 'es': 'Detalles', 'fr': 'Détails'}
+        _count_lbl  = {'de': f'Alle {len(lang_books)} Bücher', 'es': f'Los {len(lang_books)} libros', 'fr': f'Les {len(lang_books)} livres'}
+        cards = []
+        for b in lang_books:
+            detail_url = f'../books/{b["slug"]}.html'
+            cards.append(f'''<article class="book-card">
+<a href="{detail_url}" class="book-title-link">
+<div class="book-cover"><img src="{cover_url(b["asin"])}" alt="{html.escape(b["title"])} cover" loading="lazy"></div>
+<h2 class="book-title">{html.escape(b["title"])}</h2>
+</a>
+<p class="book-short">{html.escape(b["short"])}</p>
+<div class="book-actions">
+<a href="{detail_url}" class="btn-detail">{_detail_btn.get(lang, "Details")}</a>
+<a href="{amazon_url(b["asin"])}" class="btn-amazon" target="_blank" rel="noopener">{_amazon_btn.get(lang, "Kindle / Paperback")}</a>
+</div>
+</article>''')
+        books_section = f'<div class="book-count">{_count_lbl.get(lang, str(len(lang_books)))}</div><div class="books-grid">{"".join(cards)}</div>'
+    else:
+        books_section = f'<div class="lang-coming-soon"><h2>{c["coming_h"]}</h2><p>{c["coming_p"]}</p></div>'
+
     body = f'''
 <main>
 <section class="hero">
@@ -991,10 +1045,7 @@ def build_lang_index(lang):
 </section>
 <section class="books-section">
 <div class="container">
-<div class="lang-coming-soon">
-<h2>{c["coming_h"]}</h2>
-<p>{c["coming_p"]}</p>
-</div>
+{books_section}
 </div>
 </section>
 </main>
@@ -1003,7 +1054,7 @@ def build_lang_index(lang):
     out_dir = ROOT / lang
     out_dir.mkdir(exist_ok=True)
     (out_dir / 'index.html').write_text(render(page, 1), encoding='utf-8')
-    print(f'✓ {lang}/index.html')
+    print(f'✓ {lang}/index.html ({len(lang_books)} books)')
 
 def build_lang_about(lang):
     c = _LANG_CONF[lang]
