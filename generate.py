@@ -25,6 +25,13 @@ SITE_SUB = '国・企業・産業を、公開情報と一次資料から多角�
 # -----------------------------------------------------------
 AFFILIATE_TAG = 'iris012-22'
 KU_SIGNUP_URL = f'https://www.amazon.co.jp/kindle-dbs/hz/signup?tag={AFFILIATE_TAG}'
+KU_SIGNUP_URLS = {
+    'ja': KU_SIGNUP_URL,
+    'en': 'https://www.amazon.com/kindle-dbs/hz/signup?tag=iris0c8-20',
+    'de': 'https://www.amazon.de/kindle-dbs/hz/signup?tag=iris018-21',
+    'es': 'https://www.amazon.es/kindle-dbs/hz/signup?tag=iris08de-21',
+    'fr': 'https://www.amazon.fr/kindle-dbs/hz/signup?tag=iris0302-21',
+}
 
 def cover_url(asin):
     return f'https://m.media-amazon.com/images/P/{asin}._SL500_.jpg'
@@ -711,7 +718,7 @@ def build_detail(book):
             'what_learn': 'Was Sie in diesem Buch lernen', 'about_book': 'Über dieses Buch',
             'toc': 'Inhaltsverzeichnis', 'who_for': 'Für wen ist dieses Buch',
             'read_on_kindle': 'Auf Kindle kaufen', 'related': 'Ähnliche Bücher',
-            'ku_hint': 'Kindle Unlimited umfasst über 2 Millionen Titel einschließlich unserer Bücher. ¥980/Monat, erste 30 Tage kostenlos.',
+            'ku_hint': 'Kindle Unlimited umfasst über 2 Millionen Titel einschließlich unserer Bücher. 9,99 €/Monat, erste 30 Tage kostenlos. ',
             'ku_cta': 'Kindle Unlimited testen →',
         },
         'es': {
@@ -720,7 +727,7 @@ def build_detail(book):
             'what_learn': 'Qué aprenderás', 'about_book': 'Sobre este libro',
             'toc': 'Tabla de contenidos', 'who_for': 'Para quién es este libro',
             'read_on_kindle': 'Comprar en Kindle', 'related': 'Libros relacionados',
-            'ku_hint': 'Kindle Unlimited incluye más de 2 millones de títulos, incluidos nuestros libros. ¥980/mes, primeros 30 días gratis.',
+            'ku_hint': 'Kindle Unlimited incluye más de 2 millones de títulos, incluidos nuestros libros. 9,99 €/mes, primeros 30 días gratis. ',
             'ku_cta': 'Probar Kindle Unlimited →',
         },
         'fr': {
@@ -729,7 +736,7 @@ def build_detail(book):
             'what_learn': 'Ce que vous apprendrez', 'about_book': 'À propos de ce livre',
             'toc': 'Table des matières', 'who_for': 'Pour qui est ce livre',
             'read_on_kindle': 'Acheter sur Kindle', 'related': 'Livres similaires',
-            'ku_hint': 'Kindle Unlimited comprend plus de 2 millions de titres, dont nos livres. ¥980/mois, 30 premiers jours gratuits.',
+            'ku_hint': 'Kindle Unlimited comprend plus de 2 millions de titres, dont nos livres. 9,99 €/mois, 30 premiers jours gratuits. ',
             'ku_cta': 'Essayer Kindle Unlimited →',
         },
     }
@@ -808,7 +815,7 @@ def build_detail(book):
 
 <h2>{L['read_on_kindle']}</h2>
 <div class="buy-btns"><a href="{amazon}" class="btn-amazon-large" target="_blank" rel="noopener">{L['view_on_amazon']}</a>{_btn2}</div>
-<p class="ku-hint">{L['ku_hint']}<a href="{KU_SIGNUP_URL}" target="_blank" rel="sponsored noopener">{L['ku_cta']}</a></p>
+<p class="ku-hint">{L['ku_hint']}<a href="{KU_SIGNUP_URLS.get(book['lang'], KU_SIGNUP_URL)}" target="_blank" rel="sponsored noopener">{L['ku_cta']}</a></p>
 </article>
 </div>
 
