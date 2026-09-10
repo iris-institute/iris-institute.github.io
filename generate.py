@@ -709,7 +709,7 @@ def build_detail(book):
             'what_learn': 'What you will learn', 'about_book': 'About this book',
             'toc': 'Table of contents', 'who_for': 'Who this book is for',
             'read_on_kindle': 'Buy on Kindle or Paperback', 'related': 'Related books',
-            'ku_hint': 'Kindle Unlimited includes over 2 million titles including our books. ¥980/month, free for the first 30 days.',
+            'ku_hint': 'Kindle Unlimited includes over 2 million titles including our books. $11.99/month, free for the first 30 days. ',
             'ku_cta': 'Try Kindle Unlimited →',
         },
         'de': {
@@ -718,7 +718,7 @@ def build_detail(book):
             'what_learn': 'Was Sie in diesem Buch lernen', 'about_book': 'Über dieses Buch',
             'toc': 'Inhaltsverzeichnis', 'who_for': 'Für wen ist dieses Buch',
             'read_on_kindle': 'Auf Kindle kaufen', 'related': 'Ähnliche Bücher',
-            'ku_hint': 'Kindle Unlimited umfasst über 2 Millionen Titel einschließlich unserer Bücher. 9,99 €/Monat, erste 30 Tage kostenlos. ',
+            'ku_hint': 'Kindle Unlimited umfasst über 2 Millionen Titel einschließlich unserer Bücher. 11,75 €/Monat, erste 30 Tage kostenlos. ',
             'ku_cta': 'Kindle Unlimited testen →',
         },
         'es': {
