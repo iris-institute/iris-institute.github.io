@@ -960,25 +960,33 @@ img { max-width: 100%; display: block; }
 }
 .btn-amazon-intl:hover { background: #374151; color: #fff; }
 
-/* "or" separator between two Amazon store buttons */
+/* "or" separator between two Amazon store buttons — centered on its own line */
 .btn-or {
-  display: inline-block;
-  color: #999;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 0 0.15rem;
-}
-
-/* Library card: buttons sit side-by-side inline */
-.lib-book-actions .btn-or { align-self: center; }
-
-/* Detail page sidebar: buttons stack vertically with "or" between */
-.book-detail-cover .btn-or {
   display: block;
   text-align: center;
-  margin: 0.5rem 0;
+  color: #999;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0.4rem 0;
+  line-height: 1;
+  position: relative;
 }
+.btn-or::before,
+.btn-or::after {
+  content: '';
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background: #ddd;
+  vertical-align: middle;
+  margin: 0 0.5rem;
+}
+
+/* Library card: keep buttons in a flex row, hide or-separator inline */
+.lib-book-actions .btn-or { display: none; }
+
+/* Detail page sidebar: buttons stack vertically full-width with "or" between */
 .book-detail-cover .btn-amazon-intl {
   display: block;
   width: 100%;
@@ -987,30 +995,29 @@ img { max-width: 100%; display: block; }
   text-align: center;
 }
 
-/* Detail page main-body "Buy on Kindle" section: side-by-side with gap */
+/* Detail page main-body "Buy on Kindle" section: stacked full-width both */
 .buy-btns {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  flex-wrap: wrap;
+  max-width: 380px;
   margin: 1rem 0 1.5rem;
 }
+.buy-btns .btn-amazon-large {
+  display: block;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  text-align: center;
+  box-sizing: border-box;
+}
 .buy-btns .btn-amazon-intl {
-  display: inline-block;
-  padding: 0.85rem 1.5rem;
-  font-size: 0.95rem;
+  display: block;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
-/* Sticky mobile buy bar: side-by-side compact */
-.sticky-buy .btn-or {
-  font-size: 0.75rem;
-  padding: 0 0.35rem;
-}
-.sticky-buy .btn-amazon-intl {
-  display: inline-block;
-  padding: 0.6rem 0.85rem;
-  font-size: 0.85rem;
-}
+/* Sticky mobile buy bar: single primary button only (hide secondary + or) */
+.sticky-buy .btn-or,
+.sticky-buy .btn-amazon-intl { display: none; }
 .btn-amazon-sm {
   font-size: 0.82rem;
   padding: 0.4rem 0.9rem;
@@ -1270,10 +1277,6 @@ img { max-width: 100%; display: block; }
 }
 @media (max-width: 768px) {
   .book-detail { padding-bottom: 6rem; }
-  .sticky-buy { display: flex; gap: 0.5rem; align-items: center; justify-content: center; }
-  .sticky-buy .btn-amazon { display: inline-block; flex: 1; text-align: center; }
-  .sticky-buy .btn-amazon-intl { flex: 1; }
-  .buy-btns .btn-amazon-large { width: 100%; text-align: center; }
-  .buy-btns .btn-amazon-intl { width: 100%; }
-  .buy-btns .btn-or { width: 100%; text-align: center; }
+  .sticky-buy { display: block; }
+  .buy-btns { max-width: none; }
 }
