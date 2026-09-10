@@ -679,7 +679,8 @@ def build_detail(book):
     cover = cover_url(book['asin'])
     if book['lang'] in ('de', 'es', 'fr'):
         amazon = amazon_url_lang(book['asin'], book['lang'])
-        _btn2 = f'<a href="{amazon_url_com(book["asin"])}" class="btn-amazon-intl" target="_blank" rel="noopener">Amazon.com</a>'
+        _or = {'de': 'oder', 'es': 'o', 'fr': 'ou'}[book['lang']]
+        _btn2 = f'<span class="btn-or">{_or}</span><a href="{amazon_url_com(book["asin"])}" class="btn-amazon-intl" target="_blank" rel="noopener">Amazon.com</a>'
     else:
         amazon = amazon_url(book['asin'])
         _btn2 = ''
@@ -806,7 +807,7 @@ def build_detail(book):
 {build_who(book)}
 
 <h2>{L['read_on_kindle']}</h2>
-<p><a href="{amazon}" class="btn-amazon-large" target="_blank" rel="noopener">{L['view_on_amazon']}</a>{_btn2}</p>
+<div class="buy-btns"><a href="{amazon}" class="btn-amazon-large" target="_blank" rel="noopener">{L['view_on_amazon']}</a>{_btn2}</div>
 <p class="ku-hint">{L['ku_hint']}<a href="{KU_SIGNUP_URL}" target="_blank" rel="sponsored noopener">{L['ku_cta']}</a></p>
 </article>
 </div>
