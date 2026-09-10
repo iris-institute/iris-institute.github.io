@@ -6,6 +6,7 @@
     "meta_desc": "Los mejores libros sobre Japón en español — historia, cultura, sociedad, política y economía. Selección del equipo editorial de Iris Institute.",
     "intro": "Japón es uno de los países más estudiados y, al mismo tiempo, más incomprendidos del mundo. Detrás de la superficie de la cultura pop y la reputación tecnológica se esconde una sociedad profundamente estratificada, moldeada por el feudalismo, el trauma de la guerra, la reinvención de posguerra y décadas de estancamiento económico. Estos diez libros — todos en español — desmontan los clichés.",
     "books": [
+      { "iris_slug": "descifrando-japon" },
       {
         "title": "Historia de Japón",
         "author": "Brett L. Walker",

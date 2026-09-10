@@ -6,6 +6,7 @@
     "meta_desc": "Die besten deutschsprachigen Bücher über Japan — Geschichte, Gesellschaft, Kultur, Wirtschaft und Philosophie. Zusammengestellt vom Iris-Redaktionsteam.",
     "intro": "Japan gehört zu den meistbeobachteten und dennoch am häufigsten missverstandenen Ländern der Welt. Hinter der Oberfläche aus Popkultur und technologischem Ruf liegt eine vielschichtige Gesellschaft, geformt durch Feudalismus, Kriegstrauma, wirtschaftliches Wunder und lange Stagnation. Diese zehn Bücher — alle auf Deutsch — durchleuchten die Klischees.",
     "books": [
+      { "iris_slug": "japan-entschluesseln" },
       {
         "title": "Geschichte Japans",
         "author": "Wolfgang Schwentker",

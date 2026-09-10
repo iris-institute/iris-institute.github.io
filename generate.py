@@ -677,7 +677,12 @@ def build_detail(book):
 
     canonical = f'{SITE_URL}/books/{slug}.html'
     cover = cover_url(book['asin'])
-    amazon = amazon_url(book['asin'])
+    if book['lang'] in ('de', 'es', 'fr'):
+        amazon = amazon_url_lang(book['asin'], book['lang'])
+        _btn2 = f'<a href="{amazon_url_com(book["asin"])}" class="btn-amazon-intl" target="_blank" rel="noopener">Amazon.com</a>'
+    else:
+        amazon = amazon_url(book['asin'])
+        _btn2 = ''
 
     # UI 言語切替（言語別ラベル）
     _BOOK_UI = {
@@ -748,6 +753,7 @@ def build_detail(book):
     related = ranked[:4]
     related_cards = []
     for r in related:
+        r_amazon = amazon_url_lang(r['asin'], book['lang']) if book['lang'] in ('de', 'es', 'fr') else amazon_url(r['asin'])
         related_cards.append(f'''<article class="book-card">
 <a href="{r['slug']}.html" class="book-title-link">
 <div class="book-cover"><img src="{cover_url(r['asin'])}" alt="{html.escape(r['title'])}" loading="lazy"></div>
@@ -755,7 +761,7 @@ def build_detail(book):
 </a>
 <p class="book-short">{html.escape(r['short'])}</p>
 <div class="book-actions">
-<a href="{amazon_url(r['asin'])}" class="btn-amazon" target="_blank" rel="noopener">{L['view_on_amazon']}</a>
+<a href="{r_amazon}" class="btn-amazon" target="_blank" rel="noopener">{L['view_on_amazon']}</a>
 <a href="{r['slug']}.html" class="link-detail">{L['book_details']}</a>
 </div>
 </article>''')
@@ -780,7 +786,7 @@ def build_detail(book):
 <a href="{amazon}" class="book-detail-cover-link" target="_blank" rel="noopener sponsored" aria-label="{html.escape(title)}をAmazonで見る">
 <img src="{cover}" alt="{html.escape(title)} {L['cover_alt_suffix']}">
 </a>
-<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">{L['buy_kindle']}</a>
+<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">{L['buy_kindle']}</a>{_btn2}
 </aside>
 <article>
 <div class="book-detail-meta">{meta_line}</div>
@@ -800,7 +806,7 @@ def build_detail(book):
 {build_who(book)}
 
 <h2>{L['read_on_kindle']}</h2>
-<p><a href="{amazon}" class="btn-amazon-large" target="_blank" rel="noopener">{L['view_on_amazon']}</a></p>
+<p><a href="{amazon}" class="btn-amazon-large" target="_blank" rel="noopener">{L['view_on_amazon']}</a>{_btn2}</p>
 <p class="ku-hint">{L['ku_hint']}<a href="{KU_SIGNUP_URL}" target="_blank" rel="sponsored noopener">{L['ku_cta']}</a></p>
 </article>
 </div>
@@ -809,7 +815,7 @@ def build_detail(book):
 </div>
 </main>
 <div class="sticky-buy">
-<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">{L['view_on_amazon']}</a>
+<a href="{amazon}" class="btn-amazon" target="_blank" rel="noopener">{L['view_on_amazon']}</a>{_btn2}
 </div>
 '''
 
@@ -1028,7 +1034,7 @@ def build_lang_index(lang):
 <p class="book-short">{html.escape(b["short"])}</p>
 <div class="book-actions">
 <a href="{detail_url}" class="btn-detail">{_detail_btn.get(lang, "Details")}</a>
-<a href="{amazon_url(b["asin"])}" class="btn-amazon" target="_blank" rel="noopener">{_amazon_btn.get(lang, "Kindle / Paperback")}</a>
+<a href="{amazon_url_lang(b["asin"], lang)}" class="btn-amazon" target="_blank" rel="noopener">{_amazon_btn.get(lang, "Kindle / Paperback")}</a>
 </div>
 </article>''')
         books_section = f'<div class="book-count">{_count_lbl.get(lang, str(len(lang_books)))}</div><div class="books-grid">{"".join(cards)}</div>'
@@ -1112,6 +1118,11 @@ def build_multilang_library_page(ldef, lang):
     slug = ldef['slug']
     books_html = []
     for rank, entry in enumerate(ldef['books'], 1):
+        if 'iris_slug' in entry:
+            b = BOOKS_BY_SLUG.get(entry['iris_slug'])
+            if b:
+                books_html.append(render_lib_iris_card(b, rank, lang=lang))
+            continue
         asin = entry.get('asin', '')
         if asin:
             local_url = amazon_url_lang(asin, lang)
@@ -1875,18 +1886,32 @@ def render_lib_iris_card(b, rank, lang='ja'):
     cover = cover_url(b['asin'])
     if lang == 'en':
         amz = amazon_url_com(b['asin'])
+        amz2 = ''
         detail = f'../../../books/{b["slug"]}.html'
         badge = 'Iris title'
         btn_amazon = 'Amazon.com'
         btn_detail = 'Details'
         alt_suffix = 'cover'
+    elif lang in ('de', 'es', 'fr'):
+        amz = amazon_url_lang(b['asin'], lang)
+        amz2 = amazon_url_com(b['asin'])
+        detail = f'../../../books/{b["slug"]}.html'
+        badge_map = {'de': 'Iris Titel', 'es': 'Iris título', 'fr': 'Titre Iris'}
+        btn_map = {'de': 'Kindle / Taschenbuch', 'es': 'Kindle / Tapa blanda', 'fr': 'Kindle / Broché'}
+        detail_map = {'de': 'Details', 'es': 'Detalles', 'fr': 'Détails'}
+        badge = badge_map[lang]
+        btn_amazon = btn_map[lang]
+        btn_detail = detail_map[lang]
+        alt_suffix = 'cover'
     else:
         amz = amazon_url(b['asin'])
+        amz2 = ''
         detail = f'../../books/{b["slug"]}.html'
         badge = 'Iris刊行'
         btn_amazon = 'Kindle・書籍で購入'
         btn_detail = '本の詳細を見る'
         alt_suffix = '表紙'
+    btn2_html = f'<a href="{amz2}" class="btn-amazon-intl" target="_blank" rel="noopener sponsored">Amazon.com</a>' if amz2 else ''
     return f'''<div class="lib-book-card lib-book-iris">
 <div class="lib-book-rank">{rank}</div>
 <div class="lib-book-cover">
@@ -1903,7 +1928,7 @@ def render_lib_iris_card(b, rank, lang='ja'):
 <p class="lib-book-desc">{html.escape(b['short'])}</p>
 <div class="lib-book-actions">
 <a href="{amz}" class="btn-amazon" target="_blank" rel="noopener sponsored">{btn_amazon}</a>
-<a href="{detail}" class="link-detail">{btn_detail}</a>
+{btn2_html}<a href="{detail}" class="link-detail">{btn_detail}</a>
 </div>
 </div>
 </div>'''

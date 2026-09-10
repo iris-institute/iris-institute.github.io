@@ -6,6 +6,7 @@
     "meta_desc": "Les meilleurs livres sur le Japon en français — histoire, société, culture, économie et politique. Sélection de l'équipe éditoriale d'Iris Institute.",
     "intro": "Le Japon est à la fois l'un des pays les plus étudiés et les plus mal compris du monde. Derrière la surface de la culture pop et de la réputation technologique se cache une société profondément stratifiée, façonnée par le féodalisme, le traumatisme de la guerre, la réinvention d'après-guerre et des décennies de stagnation économique. Ces dix livres — tous en français — dissipent les clichés.",
     "books": [
+      { "iris_slug": "decryptez-le-japon" },
       {
         "title": "Nouvelle Histoire du Japon",
         "author": "Pierre-François Souyri",
