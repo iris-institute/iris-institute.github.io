@@ -66,6 +66,74 @@ img { max-width: 100%; display: block; }
 .site-nav a { color: var(--text-muted); }
 .site-nav a:hover { color: var(--text); }
 
+/* Search widget */
+.search-widget { position: relative; display: flex; align-items: center; }
+.search-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+}
+.search-toggle:hover { color: var(--text); background: var(--bg-alt); }
+.search-widget.search-open .search-toggle { color: var(--text); background: var(--bg-alt); }
+.search-panel {
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  right: 0;
+  width: min(360px, 88vw);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-hover);
+  padding: 0.75rem;
+  z-index: 200;
+}
+.search-widget.search-open .search-panel { display: block; }
+.search-input {
+  width: 100%;
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+.search-input:focus { outline: none; border-color: var(--accent); }
+.search-results { margin-top: 0.5rem; max-height: 60vh; overflow-y: auto; }
+.search-results:not(:empty) { border-top: 1px solid var(--border); padding-top: 0.5rem; }
+.search-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.search-result:hover { background: var(--bg-alt); color: var(--text); }
+.search-result-title { flex: 1; }
+.search-result-type {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--bg-alt);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+.search-empty { padding: 0.75rem 0.5rem; font-size: 0.85rem; color: var(--text-muted); }
+@media (max-width: 640px) {
+  .search-panel { position: fixed; top: 4.25rem; left: 1rem; right: 1rem; width: auto; }
+}
+
 .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
 
 /* Hero */

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Iris サイト生成スクリプト"""
 
-import json, os, re, html, urllib.parse
+import json, os, re, html, urllib.parse, urllib.request
+import concurrent.futures
 from pathlib import Path
 from datetime import datetime
 
@@ -35,6 +36,51 @@ KU_SIGNUP_URLS = {
 
 def cover_url(asin):
     return f'https://m.media-amazon.com/images/P/{asin}._SL500_.jpg'
+
+# -----------------------------------------------------------
+# 外部書籍のカバー画像チェック
+# ASINのdp画像は未登録でもHTTP 200＋1x1透明GIFを返すため、
+# content-typeを見て実在するカバーかどうかを判定する。
+# 結果はキャッシュして、次回以降の generate.py 実行を高速に保つ。
+# -----------------------------------------------------------
+COVER_CACHE_PATH = ROOT / 'data' / '.cover_cache.json'
+
+def _load_cover_cache():
+    if COVER_CACHE_PATH.exists():
+        try:
+            return json.loads(COVER_CACHE_PATH.read_text(encoding='utf-8'))
+        except (json.JSONDecodeError, OSError):
+            return {}
+    return {}
+
+def _check_cover(asin):
+    try:
+        req = urllib.request.Request(cover_url(asin), method='HEAD', headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=6) as resp:
+            return 'image/gif' not in resp.headers.get('Content-Type', '')
+    except Exception:
+        return True  # ネットワーク不通時は既存表示を維持（誤ってプレースホルダー化しない）
+
+def verify_external_covers():
+    """外部書籍（Iris刊行以外）のASINカバー画像有無を確認し、グローバルキャッシュに格納する。"""
+    asins = set()
+    for dataset in (LIBRARY_DATA, LIBRARY_EN_DATA, *LIBRARY_MULTILANG.values()):
+        for ldef in dataset:
+            for b in ldef.get('books', []):
+                if b.get('asin'):
+                    asins.add(b['asin'])
+
+    cache = _load_cover_cache()
+    to_check = [a for a in asins if a not in cache]
+    if to_check:
+        print(f'  外部書籍カバー画像を確認中... ({len(to_check)}件)')
+        with concurrent.futures.ThreadPoolExecutor(max_workers=12) as ex:
+            for asin, ok in zip(to_check, ex.map(_check_cover, to_check)):
+                cache[asin] = ok
+        COVER_CACHE_PATH.write_text(json.dumps(cache, ensure_ascii=False, indent=0), encoding='utf-8')
+    return cache
+
+COVER_CACHE = verify_external_covers()
 
 def amazon_url(asin):
     return f'https://www.amazon.co.jp/dp/{asin}?tag={AFFILIATE_TAG}'
@@ -117,7 +163,16 @@ def head(title, description, canonical, og_image=None, extra_head='', lang='ja',
 <a href="{ROOT}/library/">Iris Libraries</a>
 <a href="{ROOT}/about.html">Irisについて</a>'''
         home_link = '{ROOT}/'
-    nav = nav_links + '\n' + sw
+    search_widget = '''<div class="search-widget">
+<button type="button" class="search-toggle" aria-label="Search" aria-expanded="false">
+<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+</button>
+<div class="search-panel">
+<input type="text" class="search-input" autocomplete="off" spellcheck="false">
+<div class="search-results"></div>
+</div>
+</div>'''
+    nav = nav_links + '\n' + search_widget + '\n' + sw
     meta_desc = '' if omit_meta_description else f'<meta name="description" content="{html.escape(description)}">\n'
     return f'''<!DOCTYPE html>
 <html lang="{lang}">
@@ -155,6 +210,7 @@ def head(title, description, canonical, og_image=None, extra_head='', lang='ja',
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="{{ROOT}}/assets/style.css">
 {extra_head}
+<script defer src="{{ROOT}}/assets/search.js"></script>
 </head>
 <body>
 <header class="site-header">
@@ -1132,7 +1188,7 @@ def build_multilang_library_page(ldef, lang):
                 books_html.append(render_lib_iris_card(b, rank, lang=lang))
             continue
         asin = entry.get('asin', '')
-        if asin:
+        if asin and COVER_CACHE.get(asin, True):
             local_url = amazon_url_lang(asin, lang)
             com_url = amazon_url_com(asin)
             btn_label = c['amazon_btn']
@@ -1944,8 +2000,8 @@ def render_lib_iris_card(b, rank, lang='ja'):
 </div>'''
 
 def render_lib_ext_card(book, rank):
-    """外部書籍カード。ASIN があればカバー画像を表示、なければプレースホルダ"""
-    has_asin = bool(book.get('asin'))
+    """外部書籍カード。ASIN があり、かつカバー画像が実在すれば表示、なければプレースホルダ"""
+    has_asin = bool(book.get('asin')) and COVER_CACHE.get(book['asin'], True)
     if has_asin:
         amz = amazon_url(book['asin'])
         cover_html = f'''<div class="lib-book-cover">
@@ -2244,7 +2300,7 @@ def build_en_library_page(ldef):
         else:
             # English external book — Amazon.com (primary) + Amazon.co.uk (secondary)
             asin = entry.get('asin', '')
-            if asin:
+            if asin and COVER_CACHE.get(asin, True):
                 com_url = amazon_url_com(asin)
                 uk_url = amazon_url_uk(asin)
                 cover_html = f'''<div class="lib-book-cover">
@@ -2343,6 +2399,46 @@ def build_all_en_library():
 # -----------------------------------------------------------
 # HTML サイトマップ / sitemap.xml / robots.txt
 # -----------------------------------------------------------
+def build_search_index():
+    """ヘッダー検索窓用の軽量JSON索引を生成する（書籍・シリーズ・ライブラリ・主要ページ全言語）。"""
+    entries = []
+
+    def add(t, u, y, desc='', kw=''):
+        h = ' '.join(x for x in (desc, kw) if x)
+        entries.append({'t': t, 'u': u, 'y': y, 'h': h[:160]})
+
+    for book in DATA:
+        add(book['title'], f'/books/{book["slug"]}.html', 'book',
+            book.get('short', ''), ' '.join(book.get('tags', [])) + ' ' + book.get('subtitle', ''))
+
+    for sdef in SERIES:
+        add(sdef['h1'], f'/series/{sdef["slug"]}/', 'series',
+            sdef.get('hero_sub', ''), sdef.get('seo_title', ''))
+
+    for ldef in LIBRARY_DATA:
+        add(ldef['title'], f'/library/{ldef["slug"]}/', 'library', ldef.get('meta_desc', ''))
+    for ldef in LIBRARY_EN_DATA:
+        add(ldef['title'], f'/en/library/{ldef["slug"]}/', 'library', ldef.get('meta_desc', ''))
+    for lang, dataset in LIBRARY_MULTILANG.items():
+        for ldef in dataset:
+            add(ldef['title'], f'/{lang}/library/{ldef["slug"]}/', 'library', ldef.get('meta_desc', ''))
+
+    static_pages = [
+        ('書籍一覧', '/', 'page'), ('Irisについて', '/about.html', 'page'),
+        ('プライバシーポリシー', '/privacy.html', 'page'), ('Iris Libraries', '/library/', 'page'),
+        ('サイトマップ', '/sitemap.html', 'page'),
+        ('Home', '/en/', 'page'), ('About', '/en/about.html', 'page'), ('Library', '/en/library/', 'page'),
+        ('Inicio', '/es/', 'page'), ('Acerca de', '/es/about.html', 'page'), ('Biblioteca', '/es/library/', 'page'),
+        ('Startseite', '/de/', 'page'), ('Über uns', '/de/about.html', 'page'), ('Bibliothek', '/de/library/', 'page'),
+        ('Accueil', '/fr/', 'page'), ('À propos', '/fr/about.html', 'page'), ('Bibliothèque', '/fr/library/', 'page'),
+    ]
+    for t, u, y in static_pages:
+        add(t, u, y)
+
+    out = json.dumps(entries, ensure_ascii=False, separators=(',', ':'))
+    (ROOT / 'assets' / 'search-index.json').write_text(out, encoding='utf-8')
+    print(f'✓ search-index.json ({len(entries)} entries)')
+
 def build_html_sitemap():
     """利用者とクローラーの両方が辿れる、全公開ページへのリンク集を生成する。"""
     def link_list(items):
@@ -2487,6 +2583,7 @@ if __name__ == '__main__':
     build_about()
     build_privacy()
     build_all_library()
+    build_search_index()
     build_html_sitemap()
     build_sitemap()
     build_robots()
