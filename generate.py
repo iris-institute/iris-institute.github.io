@@ -300,7 +300,7 @@ def build_index():
     CATEGORIES = [
         ('southeast-asia', '東南アジア', 'タイ・ベトナム・インドネシア他9カ国＋ASEAN横串', lambda b: '東南アジア' in b.get('tags', []) and b['lang'] == 'ja'),
         ('east-asia', '東アジア', '中国・台湾・香港・韓国・北朝鮮', lambda b: '東アジア' in b.get('tags', []) and b['lang'] == 'ja'),
-        ('south-asia', '南アジア', 'インド・ネパール', lambda b: '南アジア' in b.get('tags', []) and b['lang'] == 'ja'),
+        ('south-asia', '南アジア', 'インド・ネパール・バングラデシュ', lambda b: '南アジア' in b.get('tags', []) and b['lang'] == 'ja'),
         ('europe', 'ヨーロッパ', 'ロシア・ウクライナ・ドイツ・イギリス他', lambda b: 'ヨーロッパ' in b.get('tags', []) and b['lang'] == 'ja'),
         ('americas', '北米・中南米', 'アメリカ・カナダ・メキシコ・ベネズエラ', lambda b: ('北米' in b.get('tags', []) or '中南米' in b.get('tags', [])) and b['lang'] == 'ja'),
         ('oceania', 'オセアニア', 'オーストラリア・ニュージーランド', lambda b: 'オセアニア' in b.get('tags', []) and b['lang'] == 'ja'),
