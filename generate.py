@@ -2515,7 +2515,32 @@ def build_html_sitemap():
     (ROOT / 'sitemap.html').write_text(render(page, 0), encoding='utf-8')
     print('✓ sitemap.html')
 
+def git_lastmod_map():
+    """各ファイルの最終変更日(YYYY-MM-DD)。コミット済みはコミット日、未コミットの変更・新規は今日。"""
+    import subprocess
+    today = datetime.now().strftime('%Y-%m-%d')
+    def run(*args):
+        return subprocess.run(['git', *args], cwd=ROOT, capture_output=True, text=True, check=True).stdout
+    try:
+        mp, date = {}, None
+        for line in run('log', '--name-only', '--format=@%cs').splitlines():
+            if line.startswith('@'):
+                date = line[1:]
+            elif line and line not in mp:
+                mp[line] = date
+        for line in run('status', '--porcelain', '-uall').splitlines():
+            mp[line[3:].strip('"')] = today
+        return mp
+    except Exception:
+        return {}
+
 def build_sitemap():
+    lastmods = git_lastmod_map()
+    def lastmod_of(url):
+        path = url[len(SITE_URL):].lstrip('/')
+        if path == '' or path.endswith('/'):
+            path += 'index.html'
+        return lastmods.get(path)
     urls = [
         (SITE_URL + '/', '1.0'),
         (SITE_URL + '/books/', '1.0'),
@@ -2556,7 +2581,9 @@ def build_sitemap():
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/0.9">\n'
     for url, prio in urls:
-        xml += f'  <url><loc>{url}</loc><priority>{prio}</priority></url>\n'
+        lm = lastmod_of(url)
+        lm_tag = f'<lastmod>{lm}</lastmod>' if lm else ''
+        xml += f'  <url><loc>{url}</loc>{lm_tag}<priority>{prio}</priority></url>\n'
     xml += '</urlset>\n'
     (ROOT / 'sitemap.xml').write_text(xml, encoding='utf-8')
     print(f'✓ sitemap.xml ({len(urls)} URLs)')
